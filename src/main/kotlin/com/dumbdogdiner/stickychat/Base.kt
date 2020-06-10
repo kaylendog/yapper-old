@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat
 
-import org.bukkit.Bukkit
-
 /**
  * this is hot~
  * will always love jcx for this idea
