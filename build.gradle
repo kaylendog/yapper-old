@@ -21,6 +21,8 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7'
 
+    implementation 'net.luckperms:api:5.0'
+
     compileOnly paper("1.15.2")
 }
 
