@@ -1,0 +1,58 @@
+import kr.entree.spigradle.attribute.*
+
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.3.72'
+    id 'kr.entree.spigradle' version '1.2.4'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+}
+
+group 'com.dumbdogdiner'
+version '1.0.0'
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+repositories {
+    mavenCentral()
+    spigot()
+}
+
+dependencies {
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7'
+
+    compileOnly paper("1.15.2")
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = '1.8'
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = '1.8'
+}
+
+tasks.build.dependsOn tasks.shadowJar
+shadowJar {
+    classifier = ''
+    project.configurations.implementation.canBeResolved = true
+    configurations = [project.configurations.implementation]
+}
+
+spigot {
+    authors = List.of("")
+    softDepends = List.of("")
+    apiVersion = "1.15"
+    load = Load.STARTUP
+    commands {}
+    permissions {}
+}
+
+// Bugfix for no referenced libraries when using Eclipse.
+apply plugin: 'eclipse'
+
+// Eclipse classpath bugfix
+eclipse {
+   classpath {
+        containers 'org.eclipse.buildship.core.gradleclasspathcontainer'
+   }
+}
