@@ -1,4 +1,4 @@
-package com.dumbdogdiner.stickychat.utils
+package com.dumbdogdiner.stickychat.spigot.utils
 
 import org.bukkit.Material
 
@@ -23,11 +23,6 @@ object BlockUtils {
             Material.OAK_WALL_SIGN -> true
             Material.SPRUCE_SIGN -> true
             Material.SPRUCE_WALL_SIGN -> true
-
-            // Deprecated, but here for good measure.
-            Material.LEGACY_SIGN_POST -> true
-            Material.LEGACY_SIGN -> true
-            Material.LEGACY_WALL_SIGN -> true
 
             else -> false
         }

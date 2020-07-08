@@ -1,6 +1,6 @@
-package com.dumbdogdiner.stickychat.chat
+package com.dumbdogdiner.stickychat.spigot.chat
 
-import com.dumbdogdiner.stickychat.Base
+import com.dumbdogdiner.stickychat.spigot.Base
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent

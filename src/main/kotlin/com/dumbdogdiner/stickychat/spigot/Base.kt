@@ -1,4 +1,6 @@
-package com.dumbdogdiner.stickychat
+package com.dumbdogdiner.stickychat.spigot
+
+import org.bukkit.Bukkit
 
 /**
  * this is hot~
@@ -7,6 +9,9 @@ package com.dumbdogdiner.stickychat
 interface Base {
     val plugin
         get() = StickyChatPlugin.instance
+
+    val server
+        get() = Bukkit.getServer()
 
     val config
         get() = plugin.config

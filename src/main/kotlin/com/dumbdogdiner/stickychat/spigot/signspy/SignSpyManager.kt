@@ -1,9 +1,9 @@
-package com.dumbdogdiner.stickychat.signspy
+package com.dumbdogdiner.stickychat.spigot.signspy
 
-import com.dumbdogdiner.stickychat.Base
-import com.dumbdogdiner.stickychat.utils.BlockUtils
-import com.dumbdogdiner.stickychat.utils.Language
-import com.dumbdogdiner.stickychat.utils.ServerUtils
+import com.dumbdogdiner.stickychat.spigot.Base
+import com.dumbdogdiner.stickychat.spigot.utils.BlockUtils
+import com.dumbdogdiner.stickychat.spigot.utils.Language
+import com.dumbdogdiner.stickychat.spigot.utils.ServerUtils
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -14,7 +14,7 @@ import org.bukkit.event.block.SignChangeEvent
 /**
  * Class for dealing with Sign changes.
  */
-class SignSpyManager : Listener, Base  {
+class SignSpyManager : Listener, Base {
     init {
         ServerUtils.log("Initializing SignSpy...")
         plugin.server.pluginManager.registerEvents(this, plugin)

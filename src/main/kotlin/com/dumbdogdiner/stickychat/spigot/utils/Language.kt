@@ -1,7 +1,12 @@
-package com.dumbdogdiner.stickychat.utils
+package com.dumbdogdiner.stickychat.spigot.utils
 
-import com.dumbdogdiner.stickychat.StickyChatPlugin
+import com.dumbdogdiner.stickychat.spigot.StickyChatPlugin
 
+
+
+/**
+ * Language utilities.
+ */
 object Language {
     private const val path = "language"
     private val plugin = StickyChatPlugin.instance
