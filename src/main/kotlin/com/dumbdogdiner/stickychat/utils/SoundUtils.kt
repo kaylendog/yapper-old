@@ -1,6 +1,6 @@
-package com.dumbdogdiner.stickychat.spigot.utils
+package com.dumbdogdiner.stickychat.utils
 
-import com.dumbdogdiner.stickychat.spigot.Base
+import com.dumbdogdiner.stickychat.Base
 import com.okkero.skedule.BukkitDispatcher
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay

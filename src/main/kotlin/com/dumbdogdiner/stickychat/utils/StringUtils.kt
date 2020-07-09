@@ -1,8 +1,9 @@
-package com.dumbdogdiner.stickychat.bungee.utils
+package com.dumbdogdiner.stickychat.utils
 
-import net.md_5.bungee.api.ChatColor
+import com.dumbdogdiner.stickychat.Base
+import org.bukkit.ChatColor
 
-object StringUtils {
+object StringUtils : Base {
     /**
      * Convert bukkit colour codes into their true values.
      */
@@ -12,4 +13,11 @@ object StringUtils {
      * Convert a list of strings containing bukkit colour codes into their true values.
      */
     fun colorize(list: List<String>) = list.map { colorize(it); }
+
+    /**
+     * Format an SQL table name.
+     */
+    fun formatTableName(name: String): String {
+        return "${config.getString("postgres.tableprefix", "stickychat_")}$name"
+    }
 }

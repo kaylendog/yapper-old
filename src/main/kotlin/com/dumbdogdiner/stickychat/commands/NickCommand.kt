@@ -1,13 +1,12 @@
-package com.dumbdogdiner.stickychat.spigot.commands
+package com.dumbdogdiner.stickychat.commands
 
-import com.dumbdogdiner.stickychat.spigot.utils.PluginMessenger
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
 
-class TestCommand : TabExecutor {
+class NickCommand : TabExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
-        PluginMessenger.sendPluginMessage()
+        TODO("Not yet implemented")
         return true
     }
 
@@ -18,5 +17,6 @@ class TestCommand : TabExecutor {
         args: Array<out String>
     ): MutableList<String> {
         TODO("Not yet implemented")
+        return mutableListOf()
     }
 }

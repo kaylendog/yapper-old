@@ -1,4 +1,4 @@
-package com.dumbdogdiner.stickychat.spigot
+package com.dumbdogdiner.stickychat
 
 import org.bukkit.Bukkit
 

@@ -1,8 +1,7 @@
-package com.dumbdogdiner.stickychat.spigot.utils
+package com.dumbdogdiner.stickychat.utils
 
-import com.dumbdogdiner.stickychat.Constants
-import com.dumbdogdiner.stickychat.spigot.utils.StringUtils.colorize
-import com.dumbdogdiner.stickychat.spigot.Base
+import com.dumbdogdiner.stickychat.Base
+import com.dumbdogdiner.stickychat.utils.StringUtils.colorize
 
 /**
  * Utility methods in relation to the server.

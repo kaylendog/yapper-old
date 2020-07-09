@@ -1,9 +1,9 @@
-package com.dumbdogdiner.stickychat.spigot.signspy
+package com.dumbdogdiner.stickychat.signspy
 
-import com.dumbdogdiner.stickychat.spigot.Base
-import com.dumbdogdiner.stickychat.spigot.utils.BlockUtils
-import com.dumbdogdiner.stickychat.spigot.utils.Language
-import com.dumbdogdiner.stickychat.spigot.utils.ServerUtils
+import com.dumbdogdiner.stickychat.Base
+import com.dumbdogdiner.stickychat.files.Language
+import com.dumbdogdiner.stickychat.utils.BlockUtils
+import com.dumbdogdiner.stickychat.utils.ServerUtils
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler

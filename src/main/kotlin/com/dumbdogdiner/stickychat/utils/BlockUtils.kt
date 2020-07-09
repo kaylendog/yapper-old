@@ -1,4 +1,4 @@
-package com.dumbdogdiner.stickychat.spigot.utils
+package com.dumbdogdiner.stickychat.utils
 
 import org.bukkit.Material
 
@@ -27,4 +27,4 @@ object BlockUtils {
             else -> false
         }
     }
-}   
+}
