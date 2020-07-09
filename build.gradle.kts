@@ -3,6 +3,7 @@ import kr.entree.spigradle.kotlin.paper
 
 plugins {
     kotlin("jvm") version "1.3.72"
+    kotlin("kapt") version "1.3.72"
 
     id("kr.entree.spigradle") version "2.0.1"
     id("com.github.johnrengelman.shadow") version "5.2.0"
@@ -61,8 +62,7 @@ tasks {
 
     spigot {
         authors = listOf("SkyezerFox")
-        depends = listOf("LuckPerms")
-        softDepends = listOf("PlaceholderAPI")
+        softDepends = listOf("PlaceholderAPI", "LuckPerms")
         commands {}
         apiVersion = "1.16"
     }

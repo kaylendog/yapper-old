@@ -1,4 +1,4 @@
-package com.dumbdogdiner.stickychat.data
+package com.dumbdogdiner.stickychat.data.sql
 
 import com.dumbdogdiner.stickychat.utils.StringUtils
 import org.jetbrains.exposed.sql.Table
@@ -6,13 +6,13 @@ import org.jetbrains.exposed.sql.Table
 /**
  * Table for storing sent mail messages.
  */
-object MailMessages : Table(name = StringUtils.formatTableName("messages")) {
+object Nicknames : Table(name = StringUtils.formatTableName("nicknames")) {
     val id = integer("id").autoIncrement()
 
-    val from = varchar("from", 36)
-    val to = varchar("to", 36)
+    val user = varchar("user", 36)
+    val value = text("content")
 
-    val content = text("content")
+    val old = bool("old")
 
     override val primaryKey = PrimaryKey(id)
 }

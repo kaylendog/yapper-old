@@ -18,4 +18,13 @@ interface Base {
 
     val logger
         get() = plugin.logger
+
+    val sqlManager
+        get() = plugin.storageManager
+
+    val chatManager
+        get() = plugin.chatManager
+
+    val permissionsResolver
+        get() = plugin.permissionsResolver
 }
