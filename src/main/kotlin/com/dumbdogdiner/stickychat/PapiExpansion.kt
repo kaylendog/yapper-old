@@ -29,7 +29,6 @@ class PapiExpansion : PlaceholderExpansion(), Base {
     }
 
     override fun onPlaceholderRequest(player: Player, identifier: String): String? {
-
         return "INVALID"
     }
 }

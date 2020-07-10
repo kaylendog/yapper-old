@@ -6,7 +6,7 @@ import org.jetbrains.exposed.sql.Table
 /**
  * Stores group formats persistently.
  */
-object GroupChatFormats : Table(name = StringUtils.formatTableName("groups")) {
+object Formats : Table(name = StringUtils.formatTableName("groups")) {
     val key = text("key")
     val value = text("value")
     override val primaryKey = PrimaryKey(key)

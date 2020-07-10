@@ -10,22 +10,27 @@ interface StorageMethod : Base {
     /**
      * Initialize this manager.
      */
-    abstract fun init()
+    fun init()
+
+    /**
+     * Get all group formats.
+     */
+    fun getAllGroupFormats(): HashMap<String, String>
 
     /**
      * Set the format string of the given group.
      */
-    abstract fun setFormat(group: String, format: String): Boolean
+    fun setGroupFormat(group: String, format: String): Boolean
 
     /**
      * Get the format string of the given group.
      */
-    abstract fun getFormat(group: String): String
+    fun getGroupFormat(group: String): String?
 
     /**
      * Get the format for a given player.
      */
-    fun getUserFormat(player: Player): String {
-        return getFormat(permissionsResolver.getPlayerGroup(player))
+    fun getUserFormat(player: Player): String? {
+        return getGroupFormat(permissionsResolver.getPlayerGroup(player))
     }
 }

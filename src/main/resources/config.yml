@@ -21,5 +21,7 @@ data:
   username: root
   password: password
 
-# The default format to use when creating a group.
-default-format: "&8%name%: %message%"
+# Configuration for chat.
+chat:
+  # The default format to use when creating a group.
+  default-format: "&8%name%: %message%"

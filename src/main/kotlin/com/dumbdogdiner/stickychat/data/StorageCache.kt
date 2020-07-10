@@ -6,7 +6,7 @@ import org.bukkit.entity.Player
 /**
  * Caches player data to prevent database overhead.
  */
-class PlayerCache : Base {
+class StorageCache : Base {
     private val groupFormatCache = HashMap<String, String>()
     private val displayNameCache = HashMap<String, String>()
 

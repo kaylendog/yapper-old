@@ -1,11 +1,11 @@
 package com.dumbdogdiner.stickychat
 
-import com.dumbdogdiner.stickychat.chat.ChatManager
 import com.dumbdogdiner.stickychat.commands.MailCommand
 import com.dumbdogdiner.stickychat.commands.MessageCommand
 import com.dumbdogdiner.stickychat.commands.NickCommand
 import com.dumbdogdiner.stickychat.data.StorageManager
 import com.dumbdogdiner.stickychat.files.Configuration
+import com.dumbdogdiner.stickychat.listeners.PlayerListener
 import com.dumbdogdiner.stickychat.permissions.DefaultResolver
 import com.dumbdogdiner.stickychat.permissions.LuckPermsResolver
 import com.dumbdogdiner.stickychat.permissions.PermissionsResolver
@@ -15,7 +15,6 @@ import org.bukkit.plugin.java.JavaPlugin
 
 @PluginMain
 class StickyChatPlugin : JavaPlugin() {
-    lateinit var chatManager: ChatManager
     lateinit var storageManager: StorageManager
 
     lateinit var permissionsResolver: PermissionsResolver
@@ -24,29 +23,9 @@ class StickyChatPlugin : JavaPlugin() {
         instance = this
         Configuration.loadDefaultConfig()
 
-        chatManager = ChatManager()
+        // Initialize storage manager
         storageManager = StorageManager()
-    }
-
-    override fun onEnable() {
-        // Register commands
-        getCommand("message")?.setExecutor(MessageCommand())
-        getCommand("nick")?.setExecutor(NickCommand())
-        getCommand("mail")?.setExecutor(MailCommand())
-
-        // Register events
-        server.pluginManager.registerEvents(chatManager, this)
-
-        // Plugin messaging
-        server.messenger.registerOutgoingPluginChannel(this, "BungeeCord")
-
         storageManager.init()
-
-        // Register PAPI expansion if available.
-        if (server.pluginManager.getPlugin("PlaceholderAPI") != null) {
-            ServerUtils.log("Attached PlaceholderAPI extension")
-            PapiExpansion().register()
-        }
 
         // Register permissions resolver
         permissionsResolver = if (LuckPermsResolver.isSupported()) {
@@ -56,9 +35,25 @@ class StickyChatPlugin : JavaPlugin() {
             ServerUtils.log("Using default resolver for group resolution")
             DefaultResolver()
         }
+    }
 
-        // Initialize the chat manager after the group] resolver has been initialized
-        chatManager.init()
+    override fun onEnable() {
+        // Register commands
+        getCommand("message")?.setExecutor(MessageCommand())
+        getCommand("nick")?.setExecutor(NickCommand())
+        getCommand("mail")?.setExecutor(MailCommand())
+
+        // Register events
+        server.pluginManager.registerEvents(PlayerListener(), this)
+
+        // Plugin messaging
+        server.messenger.registerOutgoingPluginChannel(this, "BungeeCord")
+
+        // Register PAPI expansion if available.
+        if (server.pluginManager.getPlugin("PlaceholderAPI") != null) {
+            ServerUtils.log("Attached PlaceholderAPI extension")
+            PapiExpansion().register()
+        }
 
         ServerUtils.log("Done.")
     }

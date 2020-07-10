@@ -5,11 +5,15 @@ class FileStorage : StorageMethod {
         TODO("Not yet implemented")
     }
 
-    override fun setFormat(group: String, format: String): Boolean {
+    override fun getAllGroupFormats(): HashMap<String, String> {
         TODO("Not yet implemented")
     }
 
-    override fun getFormat(group: String): String {
+    override fun setGroupFormat(group: String, format: String): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun getGroupFormat(group: String): String? {
         TODO("Not yet implemented")
     }
 }
