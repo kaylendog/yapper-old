@@ -23,21 +23,17 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation(
-        group = "org.jetbrains.kotlinx",
-        name = "kotlinx-coroutines-core",
-        version = "1.3.7"
-    )
 
     shadow(paper("1.16.1"))
 
-    implementation("com.okkero.skedule:skedule:1.2.6")
     implementation("org.jetbrains.exposed:exposed-core:0.26.1")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.26.1")
     implementation("org.postgresql:postgresql:42.2.2")
-    implementation("net.luckperms:api:5.0")
 
-    shadow("me.clip:placeholderapi:2.10.6")
+    compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7")
+    compileOnly("com.okkero.skedule:skedule:1.2.6")
+    compileOnly("net.luckperms:api:5.0")
+    compileOnly("me.clip:placeholderapi:2.10.6")
 }
 
 tasks {
@@ -51,19 +47,25 @@ tasks {
 
     shadowJar {
         archiveClassifier.set("")
-        project.configurations.implementation.configure { isCanBeResolved = true }
-        project.configurations.shadow.configure { isCanBeResolved = true }
-
-        configurations = listOf(
-            project.configurations.implementation.get(),
-            project.configurations.shadow.get()
-        )
     }
 
     spigot {
         authors = listOf("SkyezerFox")
         softDepends = listOf("PlaceholderAPI", "LuckPerms")
-        commands {}
+        commands {
+            create("mail") {
+                description = "Send a mail to another player on the network."
+                usage = "/mail <player> <message>"
+            }
+            create("message") {
+                description = "Send a private message to a player currently online."
+                usage = "/message [player] <message>"
+                aliases = listOf("msg", "r")
+            }
+            create("chat") {
+                description = "StickyChat management and configuration."
+            }
+        }
         apiVersion = "1.16"
     }
 }

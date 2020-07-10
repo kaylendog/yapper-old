@@ -1,0 +1,25 @@
+#
+# StickyChat
+# Authors: SkyezerFox
+#
+# Main Configuration File
+#
+
+# Which storage method to use for data storage.
+# Currently supports:
+#   - postgresql
+#   - yaml
+storage-method: postgresql
+
+# Configure remote database settings.
+# - You don't need to touch any of the settings here if you're using a local storage method!
+data:
+  database: minecraft
+  tableprefix: stickychat_
+  host: localhost
+  port: 5432
+  username: root
+  password: password
+
+# The default format to use when creating a group.
+default-format: "&8%name%: %message%"

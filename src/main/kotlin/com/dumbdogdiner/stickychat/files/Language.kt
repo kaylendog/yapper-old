@@ -18,7 +18,7 @@ object Language {
         StringUtils.colorize(it)
     }
 
-    private val prefix
+    val prefix
         get() = get("$path.prefix")
 
     val signSpySignCreated

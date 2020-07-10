@@ -9,15 +9,7 @@ import com.dumbdogdiner.stickychat.utils.ServerUtils
 object Configuration : Base {
     fun loadDefaultConfig() {
         ServerUtils.log("Loading configuration...")
-        config.addDefault("postgres.database", "minecraft")
-        config.addDefault("postgres.tableprefix", "stickychat_")
-        config.addDefault("postgres.host", "localhost")
-        config.addDefault("postgres.port", 5432)
-        config.addDefault("postgres.username", "root")
-        config.addDefault("postgres.password", "password")
-
-        config.options().copyDefaults(true)
-        plugin.saveConfig()
+        plugin.saveDefaultConfig()
         plugin.reloadConfig()
     }
 }

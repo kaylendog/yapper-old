@@ -1,28 +1,33 @@
 package com.dumbdogdiner.stickychat.data
 
-import org.bukkit.entity.Player
+import com.dumbdogdiner.stickychat.Base
+import com.dumbdogdiner.stickychat.data.sql.PostgresMethod
 
-/**
- * Manages the storage of formatting data.
- */
-interface StorageManager {
-    /**
-     * Initialize this manager.
-     */
-    fun init()
+class StorageManager : Base, StorageMethod {
+    private val cache = PlayerCache()
+    private var storageMethod: StorageMethod = FileStorage()
 
-    /**
-     * Set the format string of the given group.
-     */
-    fun setFormat(group: String, format: String): Boolean
+    override fun init() {
+        val method = config.getString("storage-method", "yaml")
 
-    /**
-     * Get the format string of the given group.
-     */
-    fun getFormat(group: String): String
+        storageMethod = when (method) {
+            "postgresql" -> PostgresMethod()
+            else -> FileStorage()
+        }
 
-    /**
-     * Get the format for a given player.
-     */
-    fun getUserFormat(player: Player): String
+        storageMethod.init()
+    }
+
+    override fun setFormat(group: String, format: String): Boolean {
+        cache.setGroupFormat(group, format)
+        return storageMethod.setFormat(group, format)
+    }
+
+    override fun getFormat(group: String): String {
+        if (cache.hasGroupFormat(group)) {
+            return cache.getGroupFormat(group)!!
+        }
+
+        return storageMethod.getFormat(group)
+    }
 }

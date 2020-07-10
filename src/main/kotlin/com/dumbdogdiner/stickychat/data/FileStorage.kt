@@ -1,8 +1,6 @@
 package com.dumbdogdiner.stickychat.data
 
-import org.bukkit.entity.Player
-
-class FileStorage : StorageManager {
+class FileStorage : StorageMethod {
     override fun init() {
         TODO("Not yet implemented")
     }
@@ -12,10 +10,6 @@ class FileStorage : StorageManager {
     }
 
     override fun getFormat(group: String): String {
-        TODO("Not yet implemented")
-    }
-
-    override fun getUserFormat(player: Player): String {
         TODO("Not yet implemented")
     }
 }

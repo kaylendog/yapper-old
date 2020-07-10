@@ -28,6 +28,8 @@ class LuckPermsResolver : PermissionsResolver {
         /**
          * Return whether LuckPerms is supported.
          */
-        fun isSupported() = Bukkit.getServicesManager().getRegistration(LuckPerms::class.java) != null
+        fun isSupported(): Boolean {
+            return try { Bukkit.getServicesManager().getRegistration(Class.forName("net.luckperms.api.LuckPerms")) != null } catch (e: Throwable) { false }
+        }
     }
 }

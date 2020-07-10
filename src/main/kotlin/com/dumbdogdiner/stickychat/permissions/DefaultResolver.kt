@@ -7,10 +7,10 @@ import org.bukkit.entity.Player
  */
 class DefaultResolver : PermissionsResolver {
     override fun getPlayerGroup(player: Player): String {
-        TODO("Not yet implemented")
+        return "default"
     }
 
     override fun getGroups(): Set<String> {
-        TODO("Not yet implemented")
+        return setOf("default")
     }
 }

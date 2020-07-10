@@ -1,9 +1,10 @@
 package com.dumbdogdiner.stickychat
 
 import com.dumbdogdiner.stickychat.chat.ChatManager
+import com.dumbdogdiner.stickychat.commands.MailCommand
 import com.dumbdogdiner.stickychat.commands.MessageCommand
+import com.dumbdogdiner.stickychat.commands.NickCommand
 import com.dumbdogdiner.stickychat.data.StorageManager
-import com.dumbdogdiner.stickychat.data.sql.PostgresManager
 import com.dumbdogdiner.stickychat.files.Configuration
 import com.dumbdogdiner.stickychat.permissions.DefaultResolver
 import com.dumbdogdiner.stickychat.permissions.LuckPermsResolver
@@ -24,14 +25,17 @@ class StickyChatPlugin : JavaPlugin() {
         Configuration.loadDefaultConfig()
 
         chatManager = ChatManager()
-        storageManager = PostgresManager()
+        storageManager = StorageManager()
     }
 
     override fun onEnable() {
         // Register commands
         getCommand("message")?.setExecutor(MessageCommand())
+        getCommand("nick")?.setExecutor(NickCommand())
+        getCommand("mail")?.setExecutor(MailCommand())
 
         // Register events
+        server.pluginManager.registerEvents(chatManager, this)
 
         // Plugin messaging
         server.messenger.registerOutgoingPluginChannel(this, "BungeeCord")
@@ -42,8 +46,6 @@ class StickyChatPlugin : JavaPlugin() {
         if (server.pluginManager.getPlugin("PlaceholderAPI") != null) {
             ServerUtils.log("Attached PlaceholderAPI extension")
             PapiExpansion().register()
-        } else {
-            ServerUtils.log("PlaceholderAPI is not installed - skipping placeholder registration")
         }
 
         // Register permissions resolver
@@ -51,7 +53,7 @@ class StickyChatPlugin : JavaPlugin() {
             ServerUtils.log("Using LuckPerms for group resolution")
             LuckPermsResolver()
         } else {
-            ServerUtils.log("Using defaut resolver for group resolution")
+            ServerUtils.log("Using default resolver for group resolution")
             DefaultResolver()
         }
 
