@@ -1,15 +1,13 @@
 package com.dumbdogdiner.stickychat.files
 
-import com.dumbdogdiner.stickychat.StickyChatPlugin
+import com.dumbdogdiner.stickychat.Base
 import com.dumbdogdiner.stickychat.utils.StringUtils
 
 /**
  * Language utilities.
  */
-object Language {
+object Language : Base {
     private const val path = "language"
-    private val plugin = StickyChatPlugin.instance
-    private val config = plugin.config
 
     private fun get(path: String) = StringUtils.colorize(
         config.getString(path)!!
@@ -23,6 +21,6 @@ object Language {
 
     val signSpySignCreated
         get() = "$prefix${get(
-            "$path.signSpySignCreated"
+            "$path.sign-spy.sign-created"
         )}"
 }

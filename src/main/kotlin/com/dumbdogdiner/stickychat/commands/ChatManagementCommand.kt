@@ -7,14 +7,11 @@ import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
 
 /**
- * Command for maaging plugin configuration.
+ * Command for managing plugin configuration.
  */
 class ChatManagementCommand : Base, TabExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
-        if (args.isEmpty()) {
-            sender.sendMessage(StringUtils.colorize("&6StickyChat &8- &bv${plugin.description.version}\n&bAuthors: &a${plugin.description.authors.joinToString("")}"))
-        }
-
+        sender.sendMessage(StringUtils.colorize("&6StickyChat &8- &bv${plugin.description.version}\n&bAuthors: &a${plugin.description.authors.joinToString("")}"))
         return true
     }
 

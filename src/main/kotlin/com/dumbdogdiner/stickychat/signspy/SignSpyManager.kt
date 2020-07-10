@@ -15,17 +15,16 @@ import org.bukkit.event.block.SignChangeEvent
  * Class for dealing with Sign changes.
  */
 class SignSpyManager : Listener, Base {
-    init {
-        ServerUtils.log("Initializing SignSpy...")
-        plugin.server.pluginManager.registerEvents(this, plugin)
-    }
-
     private val disabledPlayers = mutableSetOf<Player>()
 
     @EventHandler
     fun handleSignCreation(e: SignChangeEvent) {
+        if (!config.getBoolean("sign-spy.enabled", true)) {
+            return
+        }
+
         Bukkit.getOnlinePlayers().forEach {
-            if (it.hasPermission("signspy")) {
+            if (it.hasPermission("stickychat.signspy")) {
                 it.sendMessage(Language.signSpySignCreated)
             }
         }
@@ -33,6 +32,10 @@ class SignSpyManager : Listener, Base {
 
     @EventHandler
     fun handleSignPlacement(e: BlockPlaceEvent) {
+        if (!config.getBoolean("sign-spy.enabled", true)) {
+            return
+        }
+
         if (!BlockUtils.isSign(e.block.type)) {
             return
         }

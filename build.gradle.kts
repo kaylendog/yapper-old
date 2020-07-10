@@ -52,6 +52,7 @@ tasks {
     spigot {
         authors = listOf("SkyezerFox")
         softDepends = listOf("PlaceholderAPI", "LuckPerms")
+
         commands {
             create("mail") {
                 description = "Send a mail to another player on the network."

@@ -18,6 +18,6 @@ object StringUtils : Base {
      * Format an SQL table name.
      */
     fun formatTableName(name: String): String {
-        return "${config.getString("postgres.tableprefix", "stickychat_")}$name"
+        return "${config.getString("data.tableprefix", "stickychat_")}$name"
     }
 }

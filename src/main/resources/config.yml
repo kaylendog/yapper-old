@@ -5,6 +5,9 @@
 # Main Configuration File
 #
 
+#
+# DATABASE SETTINGS CAN BE IGNORED FOR THIS BUILD - they don't do anything uwu.
+#
 # Which storage method to use for data storage.
 # Currently supports:
 #   - postgresql
@@ -24,4 +27,25 @@ data:
 # Configuration for chat.
 chat:
   # The default format to use when creating a group.
-  default-format: "&8%name%: %message%"
+  format: "&8%name%: %message%"
+
+  # Disable join/quit messages - useful if you have a bungee plugin handling them for you already.
+  disableJoinMessages: false
+  disableQuitMessages: false
+
+# Configuration options for SignSpy
+# This feature is WIP!
+sign-spy:
+  enabled: false
+
+
+#
+# Language Configuration
+#
+# Use these configs to configure the feel of StickyChat~
+# Todo: Move these into a separate language.yml file.
+language:
+  prefix: "&6StickyChat &r&8» &r"
+
+  sign-spy:
+    sign-created: "&bPlayer '%name%' (%uuid%) placed a sign at %x%, %y%, %z%"
