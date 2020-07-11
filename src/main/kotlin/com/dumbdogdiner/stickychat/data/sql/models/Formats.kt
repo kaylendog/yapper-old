@@ -1,4 +1,4 @@
-package com.dumbdogdiner.stickychat.data.sql
+package com.dumbdogdiner.stickychat.data.sql.models
 
 import com.dumbdogdiner.stickychat.utils.StringUtils
 import org.jetbrains.exposed.sql.Table

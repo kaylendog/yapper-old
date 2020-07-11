@@ -2,13 +2,10 @@ package com.dumbdogdiner.stickychat.signspy
 
 import com.dumbdogdiner.stickychat.Base
 import com.dumbdogdiner.stickychat.files.Language
-import com.dumbdogdiner.stickychat.utils.BlockUtils
-import com.dumbdogdiner.stickychat.utils.ServerUtils
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.block.SignChangeEvent
 
 /**
@@ -25,21 +22,17 @@ class SignSpyManager : Listener, Base {
 
         Bukkit.getOnlinePlayers().forEach {
             if (it.hasPermission("stickychat.signspy")) {
-                it.sendMessage(Language.signSpySignCreated)
+                it.sendMessage(
+                    Language.signSpySignCreated
+                        .replace("%name%", e.player.displayName)
+                        .replace("%uuid%", e.player.uniqueId.toString())
+                        .replace("%x%", e.block.location.x.toString())
+                        .replace("%y%", e.block.location.y.toString())
+                        .replace("%z%", e.block.location.z.toString())
+                        .replace("%content%", e.lines.filter { txt -> txt.isNotBlank() }.joinToString(","))
+                )
             }
         }
-    }
-
-    @EventHandler
-    fun handleSignPlacement(e: BlockPlaceEvent) {
-        if (!config.getBoolean("sign-spy.enabled", true)) {
-            return
-        }
-
-        if (!BlockUtils.isSign(e.block.type)) {
-            return
-        }
-        ServerUtils.log("Player '${e.player.name}' (${e.player.uniqueId}) placed a sign at ${e.block.location}")
     }
 
     /**

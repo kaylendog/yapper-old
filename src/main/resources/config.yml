@@ -10,8 +10,10 @@
 #
 # Which storage method to use for data storage.
 # Currently supports:
-#   - postgresql
-#   - yaml
+#   - H2
+#   - PostgreSQL
+#   - MySQL
+#   - YAML
 storage-method: postgresql
 
 # Configure remote database settings.
@@ -38,7 +40,6 @@ chat:
 sign-spy:
   enabled: false
 
-
 #
 # Language Configuration
 #
@@ -48,4 +49,4 @@ language:
   prefix: "&6StickyChat &r&8» &r"
 
   sign-spy:
-    sign-created: "&bPlayer '%name%' (%uuid%) placed a sign at %x%, %y%, %z%"
+    sign-created: "&aPlayer '%name%' (%uuid%) placed a sign at %x%, %y%, %z% with content: '%content%'"
