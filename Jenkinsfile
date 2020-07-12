@@ -8,14 +8,11 @@ node('docker-cli') {
 
     docker.image('jcxldn/openjdk-alpine:14-jdk-slim').inside {
 
-      stage('Setup') {
-        checkout scm
-        sh 'chmod +x ./gradlew'
-      }
+      scmCloneStage()
 
       stage('Build') {
         // 'gradle wrapper' is not required here - it is only needed to update / generate a NEW wrapper, not use an existing one.
-        sh './gradlew build -s'
+        sh 'chmod +x ./gradlew && ./gradlew build -s'
 
         archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
         ghSetStatus("The build passed.", "success", "ci")
