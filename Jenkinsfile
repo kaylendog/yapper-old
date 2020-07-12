@@ -5,10 +5,9 @@
 node('docker-cli') {
   postJobGhStatus() {
     cleanWs()
-
+    scmCloneStage()
+    
     docker.image('jcxldn/openjdk-alpine:14-jdk-slim').inside {
-
-      scmCloneStage()
 
       stage('Build') {
         // 'gradle wrapper' is not required here - it is only needed to update / generate a NEW wrapper, not use an existing one.
