@@ -6,7 +6,7 @@ node('docker-cli') {
   postJobGhStatus() {
     cleanWs()
 
-    docker.image('jcxldn/openjdk-alpine:14-jdk-slim ').inside {
+    docker.image('jcxldn/openjdk-alpine:14-jdk-slim').inside {
 
       stage('Setup') {
         checkout scm
