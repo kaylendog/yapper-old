@@ -15,7 +15,7 @@ node('docker-cli') {
 
       stage('Build') {
         // 'gradle wrapper' is not required here - it is only needed to update / generate a NEW wrapper, not use an existing one.
-        sh './gradlew test build -s'
+        sh './gradlew build -s'
 
         archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
         ghSetStatus("The build passed.", "success", "ci")
