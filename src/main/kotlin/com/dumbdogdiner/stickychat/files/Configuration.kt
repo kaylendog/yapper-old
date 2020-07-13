@@ -8,7 +8,7 @@ import com.dumbdogdiner.stickychat.utils.ServerUtils
  */
 object Configuration : Base {
     fun loadDefaultConfig() {
-        ServerUtils.log("Loading configuration...")
+        logger.info("Loading configuration...")
         plugin.saveDefaultConfig()
         plugin.reloadConfig()
     }

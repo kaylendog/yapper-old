@@ -12,6 +12,14 @@ import org.bukkit.entity.Player
  * Utility methods for sending adorable fox notification sounds omg this was such a good idea i can't~
  */
 object SoundUtils : Base {
+    fun success(player: Player) {
+        GlobalScope.launch(BukkitDispatcher(plugin)) {
+            playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1f)
+            delay(500)
+            playSound(player, Sound.ENTITY_FOX_SCREECH)
+        }
+    }
+
     /**
      * Notification sound.
      */

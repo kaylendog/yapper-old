@@ -1,4 +1,4 @@
-package com.dumbdogdiner.stickychat.signspy
+package com.dumbdogdiner.stickychat.managers
 
 import com.dumbdogdiner.stickychat.Base
 import com.dumbdogdiner.stickychat.files.Language

@@ -1,7 +1,7 @@
 package com.dumbdogdiner.stickychat.listeners
 
 import com.dumbdogdiner.stickychat.Base
-import com.dumbdogdiner.stickychat.utils.PlaceholderUtils
+import com.dumbdogdiner.stickychat.utils.ChatUtils
 import com.dumbdogdiner.stickychat.utils.ServerUtils
 import com.dumbdogdiner.stickychat.utils.StringUtils.colorize
 import org.bukkit.event.EventHandler
@@ -17,10 +17,10 @@ import org.bukkit.event.player.PlayerQuitEvent
 class PlayerListener : Base, Listener {
     init {
         if (config.getBoolean("chat.disableJoinMessages", false)) {
-            ServerUtils.log("Join messages are disabled in plugin config.")
+            logger.info("Join messages are disabled in plugin config.")
         }
         if (config.getBoolean("chat.disableJoinMessages", false)) {
-            ServerUtils.log("Leave messages are disabled in plugin config.")
+            logger.info("Leave messages are disabled in plugin config.")
         }
     }
 
@@ -40,17 +40,8 @@ class PlayerListener : Base, Listener {
 
     @EventHandler
     fun handleChatEvent(e: AsyncPlayerChatEvent) {
-        val withFormatting = config.getString("chat.format", "&8%name%: %message%")!!
-            .replace("%name%", if (e.player.hasPermission("stickychat.colorizeNick")) colorize(e.player.displayName) else e.player.displayName)
-            .replace("%message%", if (e.player.hasPermission("stickychat.colorizeMessage")) colorize(e.message) else e.message)
-
-        logger.info("Pre-placeholder: $withFormatting")
-
-        // This needs to be better
-        e.format = PlaceholderUtils.setPlaceholdersSafe(
-            e.player,
-            withFormatting
-        ).replace("%", "")
+        ChatUtils.broadcastPlayerMessage(e.player, e.message)
+        e.isCancelled = true
     }
 
     /**

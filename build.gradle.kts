@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "com.dumbdogdiner"
-version = "1.0.1"
+version = "1.1.0"
 
 repositories {
     mavenCentral()
@@ -68,8 +68,8 @@ tasks {
             create("chat") {
                 description = "StickyChat management and configuration."
             }
-            create("soundtest") {
-                usage = "/soundtest <info|quiet|error>"
+            create("testpluginmsg") {
+                usage = "/testpluginmsg <content>"
             }
         }
         apiVersion = "1.16"

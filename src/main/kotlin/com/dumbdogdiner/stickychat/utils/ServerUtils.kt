@@ -11,7 +11,4 @@ import org.bukkit.command.CommandSender
 object ServerUtils : Base {
     fun sendMessage(sender: CommandSender, message: String) = sender.sendMessage("${Language.prefix}$message")
     fun sendColorizedMessage(sender: CommandSender, message: String) = sendMessage(sender, colorize(message))
-
-    fun log(message: String) = server.consoleSender.sendMessage(colorize("${Constants.CONSOLE_PREFIX}$message"))
-    fun log(message: Throwable) = server.consoleSender.sendMessage(colorize("${Constants.ERROR_PREFIX}$message"))
 }

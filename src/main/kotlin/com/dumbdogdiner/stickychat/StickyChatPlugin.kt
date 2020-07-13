@@ -4,41 +4,45 @@ import com.dumbdogdiner.stickychat.commands.ChatManagementCommand
 import com.dumbdogdiner.stickychat.commands.MailCommand
 import com.dumbdogdiner.stickychat.commands.MessageCommand
 import com.dumbdogdiner.stickychat.commands.NickCommand
+import com.dumbdogdiner.stickychat.data.StorageManager
 import com.dumbdogdiner.stickychat.files.Configuration
 import com.dumbdogdiner.stickychat.listeners.PlayerListener
+import com.dumbdogdiner.stickychat.managers.PrivateMessageManager
 import com.dumbdogdiner.stickychat.permissions.DefaultResolver
 import com.dumbdogdiner.stickychat.permissions.LuckPermsResolver
 import com.dumbdogdiner.stickychat.permissions.PermissionsResolver
-import com.dumbdogdiner.stickychat.signspy.SignSpyManager
-import com.dumbdogdiner.stickychat.utils.ServerUtils
+import com.dumbdogdiner.stickychat.managers.SignSpyManager
 import kr.entree.spigradle.annotations.PluginMain
 import org.bukkit.plugin.java.JavaPlugin
 
 @PluginMain
 class StickyChatPlugin : JavaPlugin() {
-    // lateinit var storageManager: StorageManager
+    lateinit var storageManager: StorageManager
 
     lateinit var permissionsResolver: PermissionsResolver
+    
     lateinit var signSpyManager: SignSpyManager
+    lateinit var privateMessageManager: PrivateMessageManager
 
     override fun onLoad() {
         instance = this
         Configuration.loadDefaultConfig()
 
         // Initialize storage manager
-        // storageManager = StorageManager()
-        // storageManager.init()
+        storageManager = StorageManager()
+        storageManager.init()
 
         signSpyManager = SignSpyManager()
+        privateMessageManager = PrivateMessageManager()
     }
 
     override fun onEnable() {
         // Register permissions resolver
         permissionsResolver = if (LuckPermsResolver.isSupported()) {
-            ServerUtils.log("Using LuckPerms for group resolution")
+            logger.info("Using LuckPerms for group resolution")
             LuckPermsResolver()
         } else {
-            ServerUtils.log("Using default resolver for group resolution")
+            logger.info("Using default resolver for group resolution")
             DefaultResolver()
         }
 
@@ -54,10 +58,11 @@ class StickyChatPlugin : JavaPlugin() {
 
         // Plugin messaging
         server.messenger.registerOutgoingPluginChannel(this, "BungeeCord")
+        server.messenger.registerIncomingPluginChannel(this, "BungeeCord", PluginMessenger)
 
         // Register PAPI expansion if available.
         if (server.pluginManager.getPlugin("PlaceholderAPI") != null) {
-            ServerUtils.log("Attached PlaceholderAPI extension")
+            logger.info("Attached PlaceholderAPI extension")
             PapiExpansion().register()
         }
     }

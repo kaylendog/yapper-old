@@ -7,10 +7,10 @@ import org.jetbrains.exposed.sql.statements.StatementContext
 import org.jetbrains.exposed.sql.statements.expandArgs
 
 /**
- * Wrapper class for ServerUtils.log
+ * Wrapper class for logger.info
  */
 class SqlLogger : SqlLogger {
     override fun log(context: StatementContext, transaction: Transaction) {
-        ServerUtils.log("[sql] debug: ${context.expandArgs(transaction)}")
+        logger.info("[sql] debug: ${context.expandArgs(transaction)}")
     }
 }

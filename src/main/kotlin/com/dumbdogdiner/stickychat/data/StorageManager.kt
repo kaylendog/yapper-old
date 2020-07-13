@@ -4,6 +4,7 @@ import com.dumbdogdiner.stickychat.Base
 import com.dumbdogdiner.stickychat.data.h2.H2Method
 import com.dumbdogdiner.stickychat.data.sql.MySqlMethod
 import com.dumbdogdiner.stickychat.data.sql.PostgresMethod
+import com.dumbdogdiner.stickychat.utils.ServerUtils
 
 /**
  * Manages stored formats.
@@ -19,7 +20,10 @@ class StorageManager : Base {
             "postgresql" -> PostgresMethod()
             "h2" -> H2Method()
             "mysql" -> MySqlMethod()
-            else -> FileStorage()
+            else -> {
+                logger.info("No storage method specified - using default FileStorage method")
+                FileStorage()
+            }
         }
 
         storageMethod.init()

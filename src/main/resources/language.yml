@@ -1,0 +1,10 @@
+#
+# Language Configuration
+#
+# Use these configs to configure the feel of StickyChat~
+# Todo: Move these into a separate language.yml file.
+
+prefix: "&6StickyChat &r&8» &r"
+
+sign-spy:
+  sign-created: "&aPlayer '%name%' (%uuid%) placed a sign at %x%, %y%, %z% with content: '%content%'"

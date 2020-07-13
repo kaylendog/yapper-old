@@ -14,7 +14,7 @@
 #   - PostgreSQL
 #   - MySQL
 #   - YAML
-storage-method: postgresql
+storage-method: PostgreSQL
 
 # Configure remote database settings.
 # - You don't need to touch any of the settings here if you're using a local storage method!
@@ -23,30 +23,43 @@ data:
   tableprefix: stickychat_
   host: localhost
   port: 5432
-  username: root
+  username: postgres
   password: password
 
 # Configuration for chat.
 chat:
-  # The default format to use when creating a group.
-  format: "&8%name%: %message%"
+  # The default format to use.
+  format: "&7%name%: %message%"
 
   # Disable join/quit messages - useful if you have a bungee plugin handling them for you already.
-  disableJoinMessages: false
-  disableQuitMessages: false
+  disable-join-messages: false
+  disable-quit-messages: false
+
+  # Whether StickyChat should format death messages.
+  format-death-messages: true
+  death-message-format: "%content%"
+
+  # Enable cross-server communication.
+  cross-server-messaging: true
+  cross-server-format: "[%server% - %name%] &b%message%"
+
+# Configuration for private messages.
+messages:
+  incoming:
+    enable-sound: true
+    format: "[PM] %name% => %message%"
+  outgoing:
+    format: "[PM] %name% => %message%"
+
+# Configuration for mail.
+mail:
+  # Whether this server should notify players of new mail when it is sent.
+  notifyOnArrival: true
+
+  # Whether this server should check for new mail when a player joins.
+  notifyOnJoin: true
 
 # Configuration options for SignSpy
 # This feature is WIP!
 sign-spy:
   enabled: false
-
-#
-# Language Configuration
-#
-# Use these configs to configure the feel of StickyChat~
-# Todo: Move these into a separate language.yml file.
-language:
-  prefix: "&6StickyChat &r&8» &r"
-
-  sign-spy:
-    sign-created: "&aPlayer '%name%' (%uuid%) placed a sign at %x%, %y%, %z% with content: '%content%'"

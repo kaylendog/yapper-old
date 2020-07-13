@@ -45,26 +45,26 @@ abstract class SqlMethod : Base, StorageMethod {
      * Initialize the database connection.
      */
     override fun init() {
-        ServerUtils.log("[sql] Setting up sql connection...")
-        db = Database.connect(
-            "$protocol://$host:$port/$database",
-            user = user,
-            password = password,
-            driver = driver
-        )
-        transaction {
-            try {
+        logger.info("[sql] Setting up sql connection...")
+        try {
+            db = Database.connect(
+                "$protocol://$host:$port/$database",
+                user = user,
+                password = password,
+                driver = driver
+            )
+            transaction {
                 addLogger(SqlLogger())
                 SchemaUtils.createMissingTablesAndColumns(
                     MailMessages, Nicknames,
                     Formats
                 )
-                ServerUtils.log("[sql] Database ready.")
-            } catch (e: ExposedSQLException) {
-                ServerUtils.log(e)
-                ServerUtils.log("Failed to connect to server.")
-                server.pluginManager.disablePlugin(plugin)
+                logger.info("[sql] Database ready.")
             }
+        } catch (e: ExposedSQLException) {
+            logger.severe(e.localizedMessage)
+            logger.info("Failed to connect to server.")
+            server.pluginManager.disablePlugin(plugin)
         }
     }
 

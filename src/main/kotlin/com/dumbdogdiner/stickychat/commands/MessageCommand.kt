@@ -56,11 +56,10 @@ class MessageCommand : Base, TabExecutor {
      * Send a message to a user on another server.
      */
     private fun sendExternalMessage(from: CommandSender, to: String, content: String) {
-        ServerUtils.sendColorizedMessage(from, StringUtils.colorize("&cPlayer is not online! Or, if they are, shout at me!"))
-        ServerUtils.sendColorizedMessage(from, StringUtils.colorize("&bUse /mail while I implement support for cross-server messaging."))
-
-        if (from is Player) {
-            SoundUtils.error(from)
+        if (from !is Player) {
+            ServerUtils.sendColorizedMessage(from, "&Cross-server messaging can only be used by players.")
+            return
         }
+        messenger.broadcastPrivateMessage(from, to, content)
     }
 }
