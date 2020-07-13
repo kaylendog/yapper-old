@@ -38,6 +38,7 @@ object PluginMessenger : Base, PluginMessageListener {
             MessageType.MESSAGE -> handleMessage(msgin)
             MessageType.PRIVATE_MESSAGE -> handlePrivateMessage(msgin)
             MessageType.PRIVATE_MESSAGE_ACK -> handlePrivateMessageAck(msgin)
+            MessageType.MAIL -> handleMailReceive(msgin)
         }
     }
 

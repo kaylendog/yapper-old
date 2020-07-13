@@ -52,7 +52,7 @@ class PrivateMessageManager : Base {
             return
         }
 
-        logger.info("[PM] ${from.name} => ${to.name}: $content")
+        logger.info("[PM] '${from.name}' => '${to.name}': '$content'")
         chatManager.sendMessage(
                 from,
                 Priority.DIRECT,
@@ -72,6 +72,7 @@ class PrivateMessageManager : Base {
         futurePrivateMessages[nonce] = PrivateMessage(from, to, content, nonce)
 
         messenger.broadcastPrivateMessage(from, to, content, nonce)
+        logger.info("[PM] Broadcasted private message from '${from.name}' to target '$to'")
 
         // Timeout after 1000ms
         messageAckTimeouts[nonce] = GlobalScope.launch(BukkitDispatcher(plugin)) {
@@ -94,7 +95,7 @@ class PrivateMessageManager : Base {
         )
         SoundUtils.info(target)
 
-        logger.info("[PM] $fromName => ${target.name}: $content")
+        logger.info("[PM] '$fromName' => '${target.name}': '$content'")
     }
 
     /**
@@ -105,13 +106,14 @@ class PrivateMessageManager : Base {
         val job = messageAckTimeouts[nonce] ?: return
 
         job.cancel()
-        // Todo: Send chat format
         chatManager.sendMessage(
             pm.from,
             Priority.DIRECT,
             createPrivateMessageTextComponent(pm.from.uniqueId.toString(), pm.from.name, pm.content)
         )
-        logger.info("Private message for ${pm.from} to user ${pm.to} timed out.")
+        SoundUtils.info(pm.from)
+
+        logger.info("[PM][ACK] $'{pm.from.name}' => '${pm.to}': '${pm.content}'")
     }
 
     /**
@@ -124,7 +126,10 @@ class PrivateMessageManager : Base {
         futurePrivateMessages.remove(nonce)
         messageAckTimeouts.remove(nonce)
 
-        chatManager.sendMessage(pm.from, Priority.SYSTEM, "&cFailed to deliver direct message to player &b${pm.to} &c- perhaps they aren't online?")
+        ServerUtils.sendColorizedMessage(pm.from, "&cFailed to deliver direct message to player &b${pm.to} &c- perhaps they aren't online?")
+        SoundUtils.error(pm.from)
+
+        logger.info("[PM] Private message for '${pm.from.name}' to player '${pm.to}' timed out: '${pm.content}'")
     }
 
     /**
@@ -150,6 +155,7 @@ class PrivateMessageManager : Base {
         hoverComponent.addExtra(StringUtils.colorize("&bSent: &e${SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date.from(Instant.now()))}\n"))
         hoverComponent.addExtra(StringUtils.colorize("&aClick to reply to this message."))
 
+        // Todo: Fix deprecations
         message.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, arrayOf(hoverComponent))
         message.clickEvent = ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg $fromName ")
 

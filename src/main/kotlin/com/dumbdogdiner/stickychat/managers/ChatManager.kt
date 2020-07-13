@@ -75,9 +75,9 @@ class ChatManager : Base {
      * Send a message to a given player using a string of content.
      */
     fun sendMessage(player: Player, priority: Priority = Priority.ALL, content: String) {
-        val message = TextComponent()
-        message.text = content
-        sendMessage(player, priority, content)
+        val component = TextComponent()
+        component.text = content
+        sendMessage(player, priority, component)
     }
 
     /**

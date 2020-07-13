@@ -25,9 +25,13 @@ class MailManager : Base {
         if (target != null) {
             sendLocalMailMessage(from, target, content, createdAt)
             return
+        } else {
+            sendRemoteMailMessage(from, to, content, createdAt)
         }
 
-        sendRemoteMailMessage(from, to, content, createdAt)
+        ServerUtils.sendColorizedMessage(from, "&bYour message has been delivered!")
+        SoundUtils.info(from)
+
         saveMailMessage(from, to, content, createdAt)
     }
 

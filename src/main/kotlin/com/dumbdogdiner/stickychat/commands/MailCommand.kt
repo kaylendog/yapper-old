@@ -25,7 +25,6 @@ class MailCommand : Base, TabExecutor {
         val content = args.drop(1).joinToString(" ")
         mailManager.sendMailMessage(sender, target, content)
 
-        ServerUtils.sendColorizedMessage(sender, "&bYour message has been delivered!")
         return true
     }
 
