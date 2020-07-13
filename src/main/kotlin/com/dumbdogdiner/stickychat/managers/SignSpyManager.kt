@@ -2,9 +2,8 @@ package com.dumbdogdiner.stickychat.managers
 
 import com.dumbdogdiner.stickychat.Base
 import com.dumbdogdiner.stickychat.files.Language
-import org.bukkit.Bukkit
+import com.dumbdogdiner.stickychat.utils.SoundUtils
 import org.bukkit.entity.Player
-import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.SignChangeEvent
 
@@ -14,24 +13,26 @@ import org.bukkit.event.block.SignChangeEvent
 class SignSpyManager : Listener, Base {
     private val disabledPlayers = mutableSetOf<Player>()
 
-    @EventHandler
+    /**
+     * Handle the creation of a sign.
+     */
     fun handleSignCreation(e: SignChangeEvent) {
-        if (!config.getBoolean("sign-spy.enabled", true)) {
-            return
-        }
-
-        Bukkit.getOnlinePlayers().forEach {
-            if (it.hasPermission("stickychat.signspy")) {
-                it.sendMessage(
-                    Language.signSpySignCreated
-                        .replace("%name%", e.player.displayName)
-                        .replace("%uuid%", e.player.uniqueId.toString())
-                        .replace("%x%", e.block.location.x.toString())
-                        .replace("%y%", e.block.location.y.toString())
-                        .replace("%z%", e.block.location.z.toString())
-                        .replace("%content%", e.lines.filter { txt -> txt.isNotBlank() }.joinToString(","))
-                )
+        for (it in server.onlinePlayers) {
+            if (!it.hasPermission("stickychat.signspy")) {
+                continue
             }
+
+            it.sendMessage(
+                Language.signSpySignCreated
+                    .replace("%name%", e.player.displayName)
+                    .replace("%uuid%", e.player.uniqueId.toString())
+                    .replace("%x%", e.block.location.x.toString())
+                    .replace("%y%", e.block.location.y.toString())
+                    .replace("%z%", e.block.location.z.toString())
+                    .replace("%content%", e.lines.filter { txt -> txt.isNotBlank() }.joinToString(","))
+            )
+
+            SoundUtils.info(it)
         }
     }
 

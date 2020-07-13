@@ -2,18 +2,13 @@ package com.dumbdogdiner.stickychat.data.sql
 
 import com.dumbdogdiner.stickychat.Base
 import com.dumbdogdiner.stickychat.data.StorageMethod
-import com.dumbdogdiner.stickychat.data.sql.models.Formats
 import com.dumbdogdiner.stickychat.data.sql.models.MailMessages
 import com.dumbdogdiner.stickychat.data.sql.models.Nicknames
-import com.dumbdogdiner.stickychat.utils.ServerUtils
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import org.bukkit.entity.Player
 import org.jetbrains.exposed.exceptions.ExposedSQLException
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.addLogger
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
 /**
@@ -56,8 +51,7 @@ abstract class SqlMethod : Base, StorageMethod {
             transaction {
                 addLogger(SqlLogger())
                 SchemaUtils.createMissingTablesAndColumns(
-                    MailMessages, Nicknames,
-                    Formats
+                    MailMessages, Nicknames
                 )
                 logger.info("[sql] Database ready.")
             }
@@ -68,28 +62,23 @@ abstract class SqlMethod : Base, StorageMethod {
         }
     }
 
-    override fun getAllGroupFormats(): HashMap<String, String> {
-        return transaction {
-            val res = HashMap<String, String>()
-            Formats.selectAll().forEach { res[it[Formats.key]] = it[Formats.value] }
-            res
-        }
+    override fun getPlayerNickname(player: Player): String? {
+        TODO("Not yet implemented")
     }
 
-    // Asynchronously set group format - will be cached anyway.
-    override fun setGroupFormat(group: String, format: String): Boolean {
-        GlobalScope.launch {
-            // Todo: Implement
-            transaction { }
-        }
-
-        return true
+    override fun setPlayerNickname(player: Player, new: String): Boolean {
+        TODO("Not yet implemented")
     }
 
-    override fun getGroupFormat(group: String): String? {
-        return transaction {
-            val res = Formats.select { Formats.key eq group }.singleOrNull() ?: return@transaction null
-            return@transaction res[Formats.key]
-        }
+    override fun clearPlayerNickname(player: Player): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveMailMessage(from: Player, to: String, content: String, created: Long): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun getMailMessage(id: Int): Boolean {
+        TODO("Not yet implemented")
     }
 }

@@ -1,6 +1,5 @@
 package com.dumbdogdiner.stickychat
 
-import com.dumbdogdiner.stickychat.utils.ChatUtils
 import com.google.common.io.ByteArrayDataOutput
 import com.google.common.io.ByteStreams
 import java.io.ByteArrayInputStream
@@ -50,7 +49,7 @@ object PluginMessenger : Base, PluginMessageListener {
      */
 
     private fun handleMessage(data: DataInputStream) {
-        ChatUtils.broadcastPlayerMessage(data.readUTF(), data.readUTF(), data.readUTF())
+        chatManager.broadcastPlayerMessage(data.readUTF(), data.readUTF(), data.readUTF())
     }
 
     fun broadcastMessage(player: Player, message: String) {
@@ -88,7 +87,7 @@ object PluginMessenger : Base, PluginMessageListener {
         broadcastPrivateMessageAck(target, nonce)
     }
 
-     fun broadcastPrivateMessage(player: Player, target: String, message: String, nonce: Int) {
+    fun broadcastPrivateMessage(player: Player, target: String, message: String, nonce: Int) {
         val out = ByteStreams.newDataOutput()
         out.writeShort(MessageType.PRIVATE_MESSAGE.ordinal)
 
@@ -118,13 +117,35 @@ object PluginMessenger : Base, PluginMessageListener {
     }
 
     /**
-     * Mail Receive
-     * - Int - ID
+     * Mail
+     * - UTF - From uuid
+     * - UTF - From name
+     * - UTF - To name
+     * - UTF - Content
      */
 
-    private fun handleMailReceive(data: DataInputStream) {}
+    private fun handleMailReceive(data: DataInputStream) {
+        val fromUuid = data.readUTF()
+        val fromName = data.readUTF()
+        val to = data.readUTF()
+        val content = data.readUTF()
+        val createdAt = data.readLong()
 
-    fun broadcastMailReceive(player: Player) { }
+        mailManager.handleReceivedMailMessage(fromUuid, fromName, to, content, createdAt)
+    }
+
+    fun sendMail(target: Player, fromUuid: String, fromName: String, toName: String, content: String, createdAt: Long) {
+        val out = ByteStreams.newDataOutput()
+        out.writeShort(MessageType.MAIL.ordinal)
+
+        out.writeUTF(fromUuid)
+        out.writeUTF(fromName)
+        out.writeUTF(toName)
+        out.writeUTF(content)
+        out.writeLong(createdAt)
+
+        sendTargetedPluginMessage(target, out)
+    }
 
     /**
      * Send a plugin message to Bungee.
@@ -156,6 +177,6 @@ object PluginMessenger : Base, PluginMessageListener {
         MESSAGE,
         PRIVATE_MESSAGE,
         PRIVATE_MESSAGE_ACK,
-        MAIL_RECEIVE
+        MAIL
     }
 }

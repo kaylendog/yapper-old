@@ -6,15 +6,34 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.bukkit.Sound
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 /**
  * Utility methods for sending adorable fox notification sounds omg this was such a good idea i can't~
  */
 object SoundUtils : Base {
+    /**
+     * Safely type-cast and execute sounds.
+     */
+    fun safe(sender: CommandSender, handler: (it: Player) -> Unit) {
+        if (sender !is Player) {
+            return
+        }
+        handler(sender)
+    }
+
     fun success(player: Player) {
         GlobalScope.launch(BukkitDispatcher(plugin)) {
             playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1f)
+            delay(500)
+            playSound(player, Sound.ENTITY_FOX_SCREECH)
+        }
+    }
+
+    fun quietSuccess(player: Player) {
+        GlobalScope.launch(BukkitDispatcher(plugin)) {
+            playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 2f)
             delay(500)
             playSound(player, Sound.ENTITY_FOX_SCREECH)
         }

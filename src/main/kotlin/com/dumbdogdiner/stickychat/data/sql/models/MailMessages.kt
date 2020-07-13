@@ -14,5 +14,7 @@ object MailMessages : Table(name = StringUtils.formatTableName("messages")) {
 
     val content = text("content")
 
+    val createdAt = long("createdAt")
+
     override val primaryKey = PrimaryKey(id)
 }

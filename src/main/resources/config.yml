@@ -54,12 +54,13 @@ messages:
 # Configuration for mail.
 mail:
   # Whether this server should notify players of new mail when it is sent.
-  notifyOnArrival: true
+  notify-on-arrival: true
 
   # Whether this server should check for new mail when a player joins.
-  notifyOnJoin: true
+  notify-on-join: true
 
 # Configuration options for SignSpy
 # This feature is WIP!
 sign-spy:
-  enabled: false
+  enabled: true
+  enable-sound: true

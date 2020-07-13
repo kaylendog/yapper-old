@@ -1,8 +1,6 @@
 package com.dumbdogdiner.stickychat.listeners
 
 import com.dumbdogdiner.stickychat.Base
-import com.dumbdogdiner.stickychat.utils.ChatUtils
-import com.dumbdogdiner.stickychat.utils.ServerUtils
 import com.dumbdogdiner.stickychat.utils.StringUtils.colorize
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -40,7 +38,7 @@ class PlayerListener : Base, Listener {
 
     @EventHandler
     fun handleChatEvent(e: AsyncPlayerChatEvent) {
-        ChatUtils.broadcastPlayerMessage(e.player, e.message)
+        chatManager.broadcastPlayerMessage(e.player, e.message)
         e.isCancelled = true
     }
 

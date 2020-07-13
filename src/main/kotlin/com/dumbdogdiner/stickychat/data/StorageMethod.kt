@@ -13,24 +13,33 @@ interface StorageMethod : Base {
     fun init()
 
     /**
-     * Get all group formats.
+     * Fetch a player's nickname.
      */
-    fun getAllGroupFormats(): HashMap<String, String>
+    fun getPlayerNickname(player: Player): String?
 
     /**
-     * Set the format string of the given group.
+     * Fetch a player's display name. Will return their username if no nickname is present.
      */
-    fun setGroupFormat(group: String, format: String): Boolean
+    fun getPlayerDisplayname(player: Player) = getPlayerNickname(player) ?: player.name
 
     /**
-     * Get the format string of the given group.
+     * Set a player's nickname.
      */
-    fun getGroupFormat(group: String): String?
+    fun setPlayerNickname(player: Player, new: String): Boolean
 
     /**
-     * Get the format for a given player.
+     * Clear a player's nickname.
      */
-    fun getUserFormat(player: Player): String? {
-        return getGroupFormat(permissionsResolver.getPlayerGroup(player))
-    }
+    fun clearPlayerNickname(player: Player): Boolean
+
+    /**
+     * Store a mail message.
+     */
+    fun saveMailMessage(from: Player, to: String, content: String, created: Long): Boolean
+
+    /**
+     * Fetch a mail message from disk.
+     * Todo: Use unique ids?
+     */
+    fun getMailMessage(id: Int): Boolean
 }

@@ -2,9 +2,13 @@ package com.dumbdogdiner.stickychat.managers
 
 import com.dumbdogdiner.stickychat.Base
 import com.okkero.skedule.BukkitDispatcher
-import kotlinx.coroutines.*
-import org.bukkit.entity.Player
 import kotlin.random.Random
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import org.bukkit.entity.Player
 
 /**
  * Manages the receiving and sending of private messages.
@@ -36,7 +40,6 @@ class PrivateMessageManager : Base {
      * Handle an incoming private message.
      */
     fun handleReceivedPrivateMessage(from: String, to: String, content: String) {
-
     }
 
     /**

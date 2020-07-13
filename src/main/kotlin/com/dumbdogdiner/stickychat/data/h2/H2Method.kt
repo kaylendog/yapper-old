@@ -1,6 +1,7 @@
 package com.dumbdogdiner.stickychat.data.h2
 
 import com.dumbdogdiner.stickychat.data.StorageMethod
+import org.bukkit.entity.Player
 
 /**
  * Stores data locally using H2.
@@ -10,15 +11,23 @@ class H2Method : StorageMethod {
         TODO("Not yet implemented")
     }
 
-    override fun getAllGroupFormats(): HashMap<String, String> {
+    override fun getPlayerNickname(player: Player): String? {
         TODO("Not yet implemented")
     }
 
-    override fun setGroupFormat(group: String, format: String): Boolean {
+    override fun setPlayerNickname(player: Player, new: String): Boolean {
         TODO("Not yet implemented")
     }
 
-    override fun getGroupFormat(group: String): String? {
+    override fun clearPlayerNickname(player: Player): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveMailMessage(from: Player, to: String, content: String, created: Long): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun getMailMessage(id: Int): Boolean {
         TODO("Not yet implemented")
     }
 }

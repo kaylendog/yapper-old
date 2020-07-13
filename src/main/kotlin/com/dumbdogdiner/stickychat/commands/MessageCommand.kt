@@ -3,7 +3,6 @@ package com.dumbdogdiner.stickychat.commands
 import com.dumbdogdiner.stickychat.Base
 import com.dumbdogdiner.stickychat.utils.ServerUtils
 import com.dumbdogdiner.stickychat.utils.SoundUtils
-import com.dumbdogdiner.stickychat.utils.StringUtils
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
@@ -57,9 +56,9 @@ class MessageCommand : Base, TabExecutor {
      */
     private fun sendExternalMessage(from: CommandSender, to: String, content: String) {
         if (from !is Player) {
-            ServerUtils.sendColorizedMessage(from, "&Cross-server messaging can only be used by players.")
+            ServerUtils.sendColorizedMessage(from, "&Cross-server private messaging may only be used by players.")
             return
         }
-        messenger.broadcastPrivateMessage(from, to, content)
+        privateMessageManager.sendPrivateMessage(from, to, content)
     }
 }

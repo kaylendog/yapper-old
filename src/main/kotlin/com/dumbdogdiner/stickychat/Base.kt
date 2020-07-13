@@ -23,7 +23,13 @@ interface Base {
         get() = plugin.permissionsResolver
 
     val storageManager
-       get() = plugin.storageManager
+        get() = plugin.storageManager
+
+    val chatManager
+        get() = plugin.chatManager
+
+    val mailManager
+        get() = plugin.mailManager
 
     val privateMessageManager
         get() = plugin.privateMessageManager

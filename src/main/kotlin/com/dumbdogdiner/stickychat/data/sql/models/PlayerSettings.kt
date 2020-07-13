@@ -4,10 +4,10 @@ import com.dumbdogdiner.stickychat.utils.StringUtils
 import org.jetbrains.exposed.sql.Table
 
 /**
- * Table for player nicknames
+ * Stores player settings.
  */
-object Nicknames : Table(name = StringUtils.formatTableName("nicknames")) {
+object PlayerSettings : Table(StringUtils.formatTableName("settings")) {
     val id = varchar("id", 36)
-    val value = text("value")
+    val priority = short("priority")
     override val primaryKey = PrimaryKey(id)
 }
