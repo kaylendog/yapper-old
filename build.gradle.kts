@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "com.dumbdogdiner"
-version = "1.1.0"
+version = "2.0.0"
 
 repositories {
     mavenCentral()
@@ -24,7 +24,7 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
 
-    shadow(paper("1.16.1"))
+    compileOnly(paper("1.16.1"))
 
     implementation("org.jetbrains.exposed:exposed-core:0.26.1")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.26.1")

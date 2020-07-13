@@ -1,8 +1,8 @@
 package com.dumbdogdiner.stickychat.managers
 
 import com.dumbdogdiner.stickychat.Base
-import com.dumbdogdiner.stickychat.files.Language
 import com.dumbdogdiner.stickychat.utils.SoundUtils
+import com.dumbdogdiner.stickychat.utils.StringUtils.colorize
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 import org.bukkit.event.block.SignChangeEvent
@@ -23,7 +23,7 @@ class SignSpyManager : Listener, Base {
             }
 
             it.sendMessage(
-                Language.signSpySignCreated
+                colorize("&bPlayer '%name%' (%uuid%) placed a sign at %x%, %y%, %z% with content: %content%")
                     .replace("%name%", e.player.displayName)
                     .replace("%uuid%", e.player.uniqueId.toString())
                     .replace("%x%", e.block.location.x.toString())

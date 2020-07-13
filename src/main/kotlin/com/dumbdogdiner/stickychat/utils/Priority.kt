@@ -5,7 +5,8 @@ package com.dumbdogdiner.stickychat.utils
  * required for them to receive messages.
  */
 enum class Priority {
-    DIRECT,
+    ALL,
     IMPORTANT,
-    ALL
+    DIRECT,
+    SYSTEM
 }

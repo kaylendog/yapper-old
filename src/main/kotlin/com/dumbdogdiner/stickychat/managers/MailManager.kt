@@ -2,6 +2,8 @@ package com.dumbdogdiner.stickychat.managers
 
 import com.dumbdogdiner.stickychat.Base
 import com.dumbdogdiner.stickychat.utils.Priority
+import com.dumbdogdiner.stickychat.utils.ServerUtils
+import com.dumbdogdiner.stickychat.utils.SoundUtils
 import com.dumbdogdiner.stickychat.utils.StringUtils
 import java.text.SimpleDateFormat
 import net.md_5.bungee.api.chat.ClickEvent
@@ -33,7 +35,14 @@ class MailManager : Base {
      * Deliver a message to a player on the server.
      */
     fun sendLocalMailMessage(from: Player, to: Player, content: String, createdAt: Long) {
+        if (from == to) {
+            ServerUtils.sendColorizedMessage(from, "&cYou cannot send a letter to yourself!")
+            SoundUtils.error(from)
+            return
+        }
+
         chatManager.sendMessage(to, Priority.DIRECT, createMailTextComponent(from.uniqueId.toString(), from.name, to.name, content, createdAt))
+        SoundUtils.info(to)
     }
 
     /**
@@ -60,6 +69,7 @@ class MailManager : Base {
 
         val target = server.onlinePlayers.find { it.uniqueId.toString() == fromUuid } ?: return
         chatManager.sendMessage(target, Priority.DIRECT, createMailTextComponent(fromUuid, fromName, to, content, createdAt))
+        SoundUtils.info(target)
     }
 
     /**
@@ -70,7 +80,7 @@ class MailManager : Base {
         message.text = content
 
         val hoverComponent = TextComponent()
-        hoverComponent.text = StringUtils.colorize("&bMessage from &e$fromName\n")
+        hoverComponent.text = StringUtils.colorize("&bLetter from &e$fromName\n")
         hoverComponent.addExtra(StringUtils.colorize("&bUUID: &e$fromUuid\n"))
         hoverComponent.addExtra(StringUtils.colorize("&bSent: &e${SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(createdAt)}\n"))
         hoverComponent.addExtra(StringUtils.colorize("&aClick to send a message."))

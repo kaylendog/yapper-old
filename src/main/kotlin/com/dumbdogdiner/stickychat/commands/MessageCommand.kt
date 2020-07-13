@@ -2,7 +2,6 @@ package com.dumbdogdiner.stickychat.commands
 
 import com.dumbdogdiner.stickychat.Base
 import com.dumbdogdiner.stickychat.utils.ServerUtils
-import com.dumbdogdiner.stickychat.utils.SoundUtils
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
@@ -13,16 +12,17 @@ import org.bukkit.entity.Player
  */
 class MessageCommand : Base, TabExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
+        if (sender !is Player) {
+            ServerUtils.sendColorizedMessage(sender, "&cThis command may only be used by players.")
+            return true
+        }
+
         if (args.size < 2) {
             ServerUtils.sendColorizedMessage(sender, "&cInvalid command usage - " + (plugin.getCommand("message")?.usage))
             return true
         }
 
-        when (val player = server.onlinePlayers.find { it.name == args[0] }) {
-            null -> sendExternalMessage(sender, args[0], args.drop(1).joinToString(""))
-            else -> sendLocalMessage(sender, player, args.drop(1).joinToString(""))
-        }
-
+        privateMessageManager.sendPrivateMessage(sender, args[0], args.drop(1).joinToString(" "))
         return true
     }
 
@@ -36,29 +36,5 @@ class MessageCommand : Base, TabExecutor {
             return server.onlinePlayers.map { it.name }.toMutableList()
         }
         return mutableListOf()
-    }
-
-    /**
-     * Send a message to a user on the current server.
-     */
-    private fun sendLocalMessage(from: CommandSender, to: Player, content: String) {
-        to.sendMessage("${from.name}: $content")
-        ServerUtils.sendColorizedMessage(from, "&bSuccessfully sent a message to ${to.name}!")
-
-        if (from is Player) {
-            SoundUtils.info(from)
-        }
-        SoundUtils.info(to)
-    }
-
-    /**
-     * Send a message to a user on another server.
-     */
-    private fun sendExternalMessage(from: CommandSender, to: String, content: String) {
-        if (from !is Player) {
-            ServerUtils.sendColorizedMessage(from, "&Cross-server private messaging may only be used by players.")
-            return
-        }
-        privateMessageManager.sendPrivateMessage(from, to, content)
     }
 }

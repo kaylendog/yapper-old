@@ -15,7 +15,7 @@ class ChatCommand : Base, TabExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (args.isEmpty()) {
             sender.sendMessage(StringUtils.colorize("&bStickyChat &8- &ev${plugin.description.version}\n&bAuthors: &e${plugin.description.authors.joinToString("")}"))
-            SoundUtils.safe(sender) { SoundUtils.info(it) }
+            SoundUtils.safe(sender) { SoundUtils.quietSuccess(it) }
             return true
         }
 

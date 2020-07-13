@@ -14,10 +14,10 @@ import org.bukkit.event.player.PlayerQuitEvent
  */
 class PlayerListener : Base, Listener {
     init {
-        if (config.getBoolean("chat.disableJoinMessages", false)) {
+        if (config.getBoolean("chat.disable-join-messages", false)) {
             logger.info("Join messages are disabled in plugin config.")
         }
-        if (config.getBoolean("chat.disableJoinMessages", false)) {
+        if (config.getBoolean("chat.disable-leave-messages", false)) {
             logger.info("Leave messages are disabled in plugin config.")
         }
     }

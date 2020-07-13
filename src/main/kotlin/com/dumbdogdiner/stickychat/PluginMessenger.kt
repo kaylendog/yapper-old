@@ -43,21 +43,21 @@ object PluginMessenger : Base, PluginMessageListener {
 
     /**
      * Message Event
-     * - UTF - Player name
      * - UTF - Player UUID
+     * - UTF - Player name
      * - UTF - Message content (pre-colorized)
      */
 
     private fun handleMessage(data: DataInputStream) {
-        chatManager.broadcastPlayerMessage(data.readUTF(), data.readUTF(), data.readUTF())
+        chatManager.sendGlobalChatMessage(data.readUTF(), data.readUTF(), data.readUTF())
     }
 
     fun broadcastMessage(player: Player, message: String) {
         val out = ByteStreams.newDataOutput()
         out.writeShort(MessageType.MESSAGE.ordinal)
 
-        out.writeUTF(player.name)
         out.writeUTF(player.uniqueId.toString())
+        out.writeUTF(player.name)
         out.writeUTF(message)
 
         sendTargetedPluginMessage(player, out)
@@ -72,7 +72,8 @@ object PluginMessenger : Base, PluginMessageListener {
      */
 
     private fun handlePrivateMessage(data: DataInputStream) {
-        val from = data.readUTF()
+        val fromUuid = data.readUTF()
+        val fromName = data.readUTF()
         val to = data.readUTF()
 
         val target = server.onlinePlayers.find { it.name == to } ?: return
@@ -82,7 +83,7 @@ object PluginMessenger : Base, PluginMessageListener {
         val content = data.readUTF()
         val nonce = data.readInt()
 
-        privateMessageManager.handleReceivedPrivateMessage(from, to, content)
+        privateMessageManager.handleReceivedPrivateMessage(fromUuid, fromName, to, content)
 
         broadcastPrivateMessageAck(target, nonce)
     }

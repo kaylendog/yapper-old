@@ -19,9 +19,6 @@ interface Base {
     val logger
         get() = plugin.logger
 
-    val permissionsResolver
-        get() = plugin.permissionsResolver
-
     val storageManager
         get() = plugin.storageManager
 
@@ -33,6 +30,9 @@ interface Base {
 
     val privateMessageManager
         get() = plugin.privateMessageManager
+
+    val signSpyManager
+        get() = plugin.signSpyManager
 
     val messenger
         get() = PluginMessenger

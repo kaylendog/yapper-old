@@ -7,21 +7,17 @@ import com.dumbdogdiner.stickychat.commands.NickCommand
 import com.dumbdogdiner.stickychat.data.StorageManager
 import com.dumbdogdiner.stickychat.files.Configuration
 import com.dumbdogdiner.stickychat.listeners.PlayerListener
+import com.dumbdogdiner.stickychat.listeners.SignListener
 import com.dumbdogdiner.stickychat.managers.ChatManager
 import com.dumbdogdiner.stickychat.managers.MailManager
 import com.dumbdogdiner.stickychat.managers.PrivateMessageManager
 import com.dumbdogdiner.stickychat.managers.SignSpyManager
-import com.dumbdogdiner.stickychat.permissions.DefaultResolver
-import com.dumbdogdiner.stickychat.permissions.LuckPermsResolver
-import com.dumbdogdiner.stickychat.permissions.PermissionsResolver
 import kr.entree.spigradle.annotations.PluginMain
 import org.bukkit.plugin.java.JavaPlugin
 
 @PluginMain
 class StickyChatPlugin : JavaPlugin() {
     lateinit var storageManager: StorageManager
-
-    lateinit var permissionsResolver: PermissionsResolver
 
     lateinit var chatManager: ChatManager
     lateinit var mailManager: MailManager
@@ -43,15 +39,6 @@ class StickyChatPlugin : JavaPlugin() {
     }
 
     override fun onEnable() {
-        // Register permissions resolver
-        permissionsResolver = if (LuckPermsResolver.isSupported()) {
-            logger.info("Using LuckPerms for group resolution")
-            LuckPermsResolver()
-        } else {
-            logger.info("Using default resolver for group resolution")
-            DefaultResolver()
-        }
-
         // Register commands
         getCommand("chat")?.setExecutor(ChatCommand())
         getCommand("message")?.setExecutor(MessageCommand())
@@ -60,7 +47,7 @@ class StickyChatPlugin : JavaPlugin() {
 
         // Register events
         server.pluginManager.registerEvents(PlayerListener(), this)
-        server.pluginManager.registerEvents(signSpyManager, this)
+        server.pluginManager.registerEvents(SignListener(), this)
 
         // Plugin messaging
         server.messenger.registerOutgoingPluginChannel(this, "BungeeCord")

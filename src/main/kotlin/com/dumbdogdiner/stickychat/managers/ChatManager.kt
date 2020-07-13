@@ -2,7 +2,6 @@ package com.dumbdogdiner.stickychat.managers
 
 import com.dumbdogdiner.stickychat.Base
 import com.dumbdogdiner.stickychat.PluginMessenger
-import com.dumbdogdiner.stickychat.utils.ChatUtils
 import com.dumbdogdiner.stickychat.utils.PlaceholderUtils
 import com.dumbdogdiner.stickychat.utils.Priority
 import com.dumbdogdiner.stickychat.utils.StringUtils
@@ -23,19 +22,35 @@ class ChatManager : Base {
     private val playerChatPriority = HashMap<Player, Priority>()
 
     /**
-     * Broadcast a message to all players.
+     * Broadcast a given message to all players.
      */
     fun sendMessageToAllPlayers(priority: Priority = Priority.ALL, baseComponent: BaseComponent) {
         for (it in server.onlinePlayers) {
             sendMessage(it, priority, baseComponent)
         }
-        logger.info("[GLOBAL] ${baseComponent.toPlainText()}")
+        server.logger.info(baseComponent.toPlainText())
     }
 
-    fun broadcastPlayerMessage(player: Player, message: String) {
-        val withFormatting = StringUtils.colorize(ChatUtils.config.getString("chat.format", "&8%name%: %message%")!!)
+    /**
+     * Broadcast a global chat message to this server.
+     */
+    fun sendGlobalChatMessage(fromUuid: String, fromName: String, content: String) {
+        val message = TextComponent()
+        message.text = content
+        message.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, arrayOf(createHoverComponent(fromName, fromUuid)))
+        message.clickEvent = ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg $fromName ")
+
+        sendMessageToAllPlayers(Priority.ALL, message)
+    }
+
+    /**
+     * Broadcast a player message to all players on the server, and forward it through bungee to
+     * other servers on the network.
+     */
+    fun broadcastPlayerMessage(player: Player, content: String) {
+        val withFormatting = StringUtils.colorize(config.getString("chat.format", "&8%name%: %message%")!!)
                 .replace("%name%", if (player.hasPermission("stickychat.colorizeNick")) StringUtils.colorize(player.displayName) else player.displayName)
-                .replace("%message%", if (player.hasPermission("stickychat.colorizeMessage")) StringUtils.colorize(message) else message)
+                .replace("%message%", if (player.hasPermission("stickychat.colorizeMessage")) StringUtils.colorize(content) else content)
 
         // This needs to be better
         val format = PlaceholderUtils.setPlaceholdersSafe(
@@ -43,19 +58,8 @@ class ChatManager : Base {
                 withFormatting
         ).replace("%", "")
 
-        broadcastPlayerMessage(player.name, player.uniqueId.toString(), format)
-        PluginMessenger.broadcastMessage(player, format)
-    }
-
-    /**
-     * Broadcast a text-based message to all players on the server.
-     */
-    fun broadcastPlayerMessage(name: String, uuid: String, content: String) {
-        val message = TextComponent()
-        message.text = content
-        message.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, arrayOf(createHoverComponent(name, uuid)))
-        message.clickEvent = ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg $name ")
-        sendMessageToAllPlayers(Priority.ALL, message)
+        sendGlobalChatMessage(player.uniqueId.toString(), player.name, format)
+        PluginMessenger.broadcastMessage(player, content)
     }
 
     /**
@@ -65,6 +69,15 @@ class ChatManager : Base {
         if (priority.ordinal >= getChatPriority(player).ordinal) {
             player.spigot().sendMessage(baseComponent)
         }
+    }
+
+    /**
+     * Send a message to a given player using a string of content.
+     */
+    fun sendMessage(player: Player, priority: Priority = Priority.ALL, content: String) {
+        val message = TextComponent()
+        message.text = content
+        sendMessage(player, priority, content)
     }
 
     /**
@@ -81,7 +94,7 @@ class ChatManager : Base {
     fun getChatPriority(player: Player): Priority {
         return playerChatPriority[player] ?: {
             // In case data hasn't been retrieved yet.
-            playerChatPriority[player] = Priority.IMPORTANT
+            playerChatPriority[player] = Priority.ALL
             forcePlayerChatPriorityUpdate(player)
             Priority.IMPORTANT
         }()

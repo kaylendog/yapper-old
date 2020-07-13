@@ -26,10 +26,13 @@ data:
   username: postgres
   password: password
 
+prefix: "&b&lStickyChat &r&8» &r"
+
 # Configuration for chat.
 chat:
   # The default format to use.
   format: "&7%name%: %message%"
+
 
   # Disable join/quit messages - useful if you have a bungee plugin handling them for you already.
   disable-join-messages: false
