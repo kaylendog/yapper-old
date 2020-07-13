@@ -2,6 +2,7 @@ package com.dumbdogdiner.stickychat.commands
 
 import com.dumbdogdiner.stickychat.Base
 import com.dumbdogdiner.stickychat.utils.ServerUtils
+import com.dumbdogdiner.stickychat.utils.SoundUtils
 import com.dumbdogdiner.stickychat.utils.StringUtils
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -14,7 +15,7 @@ import org.bukkit.entity.Player
 class MessageCommand : Base, TabExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (args.size < 2) {
-            sender.sendMessage("&cInvalid command usage.")
+            ServerUtils.sendColorizedMessage(sender, "&cInvalid command usage - " + (plugin.getCommand("message")?.usage))
             return true
         }
 
@@ -43,13 +44,23 @@ class MessageCommand : Base, TabExecutor {
      */
     private fun sendLocalMessage(from: CommandSender, to: Player, content: String) {
         to.sendMessage("${from.name}: $content")
+        ServerUtils.sendColorizedMessage(from, "&bSuccessfully sent a message to ${to.name}!")
+
+        if (from is Player) {
+            SoundUtils.info(from)
+        }
+        SoundUtils.info(to)
     }
 
     /**
      * Send a message to a user on another server.
      */
     private fun sendExternalMessage(from: CommandSender, to: String, content: String) {
-        ServerUtils.sendMessage(from, StringUtils.colorize("&cPlayer is not online! Or, if they are, shout at me!"))
-        ServerUtils.sendMessage(from, StringUtils.colorize("&bUse /mail while I implement support for cross-server messaging."))
+        ServerUtils.sendColorizedMessage(from, StringUtils.colorize("&cPlayer is not online! Or, if they are, shout at me!"))
+        ServerUtils.sendColorizedMessage(from, StringUtils.colorize("&bUse /mail while I implement support for cross-server messaging."))
+
+        if (from is Player) {
+            SoundUtils.error(from)
+        }
     }
 }

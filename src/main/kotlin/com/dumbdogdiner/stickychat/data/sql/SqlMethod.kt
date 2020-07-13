@@ -2,6 +2,9 @@ package com.dumbdogdiner.stickychat.data.sql
 
 import com.dumbdogdiner.stickychat.Base
 import com.dumbdogdiner.stickychat.data.StorageMethod
+import com.dumbdogdiner.stickychat.data.sql.models.Formats
+import com.dumbdogdiner.stickychat.data.sql.models.MailMessages
+import com.dumbdogdiner.stickychat.data.sql.models.Nicknames
 import com.dumbdogdiner.stickychat.utils.ServerUtils
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

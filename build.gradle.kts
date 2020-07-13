@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "com.dumbdogdiner"
-version = "1.0.0"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
@@ -29,9 +29,11 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-core:0.26.1")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.26.1")
     implementation("org.postgresql:postgresql:42.2.2")
+    implementation("mysql:mysql-connector-java:5.1.48")
+
+    implementation("com.okkero.skedule:skedule:1.2.6")
 
     compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7")
-    compileOnly("com.okkero.skedule:skedule:1.2.6")
     compileOnly("net.luckperms:api:5.0")
     compileOnly("me.clip:placeholderapi:2.10.6")
 }
@@ -65,6 +67,9 @@ tasks {
             }
             create("chat") {
                 description = "StickyChat management and configuration."
+            }
+            create("soundtest") {
+                usage = "/soundtest <info|quiet|error>"
             }
         }
         apiVersion = "1.16"
