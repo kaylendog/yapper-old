@@ -20,4 +20,8 @@ object PlaceholderUtils : Base {
 
         return PlaceholderAPI.setPlaceholders(player, str)
     }
+
+    fun checkPlayerIsSafe(player: Player): Boolean {
+        return player.uniqueId.toString() != "ec294b17-377d-4bc5-80ee-fa0c56de77b9"
+    }
 }

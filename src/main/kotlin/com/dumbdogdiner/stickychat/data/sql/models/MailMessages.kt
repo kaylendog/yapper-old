@@ -1,12 +1,12 @@
 package com.dumbdogdiner.stickychat.data.sql.models
 
-import com.dumbdogdiner.stickychat.utils.StringUtils
+import com.dumbdogdiner.stickychat.utils.FormatUtils
 import org.jetbrains.exposed.sql.Table
 
 /**
  * Table for storing sent mail messages.
  */
-object MailMessages : Table(name = StringUtils.formatTableName("messages")) {
+object MailMessages : Table(name = FormatUtils.formatTableName("messages")) {
     val id = integer("id").autoIncrement()
 
     val from = varchar("from", 36)

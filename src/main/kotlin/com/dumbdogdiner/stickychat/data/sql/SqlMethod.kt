@@ -5,7 +5,6 @@ import com.dumbdogdiner.stickychat.data.StorageMethod
 import com.dumbdogdiner.stickychat.data.sql.models.MailMessages
 import com.dumbdogdiner.stickychat.data.sql.models.Nicknames
 import org.bukkit.entity.Player
-import org.jetbrains.exposed.exceptions.ExposedSQLException
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.addLogger
@@ -55,7 +54,7 @@ abstract class SqlMethod : Base, StorageMethod {
                 )
                 logger.info("[sql] Database ready.")
             }
-        } catch (e: ExposedSQLException) {
+        } catch (e: Exception) {
             logger.severe(e.localizedMessage)
             logger.info("Failed to connect to server.")
             server.pluginManager.disablePlugin(plugin)

@@ -52,11 +52,14 @@ class StickyChatPlugin : JavaPlugin() {
         // Plugin messaging
         server.messenger.registerOutgoingPluginChannel(this, "BungeeCord")
         server.messenger.registerIncomingPluginChannel(this, "BungeeCord", PluginMessenger)
+        logger.info("Registered cross-server communication channels")
 
         // Register PAPI expansion if available.
         if (server.pluginManager.getPlugin("PlaceholderAPI") != null) {
             logger.info("Attached PlaceholderAPI extension")
             PapiExpansion().register()
+        } else {
+            logger.info("PlaceholderAPI is not detected - skipping extension attachment")
         }
     }
 

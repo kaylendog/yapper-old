@@ -1,9 +1,9 @@
 package com.dumbdogdiner.stickychat.commands
 
 import com.dumbdogdiner.stickychat.Base
+import com.dumbdogdiner.stickychat.utils.FormatUtils
 import com.dumbdogdiner.stickychat.utils.ServerUtils
 import com.dumbdogdiner.stickychat.utils.SoundUtils
-import com.dumbdogdiner.stickychat.utils.StringUtils
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
@@ -14,7 +14,7 @@ import org.bukkit.command.TabExecutor
 class ChatCommand : Base, TabExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (args.isEmpty()) {
-            sender.sendMessage(StringUtils.colorize("&bStickyChat &8- &ev${plugin.description.version}\n&bAuthors: &e${plugin.description.authors.joinToString("")}"))
+            sender.sendMessage(FormatUtils.colorize("&bStickyChat &8- &ev${plugin.description.version}\n&bAuthors: &e${plugin.description.authors.joinToString("")}"))
             SoundUtils.safe(sender) { SoundUtils.quietSuccess(it) }
             return true
         }
@@ -30,7 +30,9 @@ class ChatCommand : Base, TabExecutor {
      */
     fun reload(sender: CommandSender): Boolean {
         plugin.reloadConfig()
+
         ServerUtils.sendColorizedMessage(sender, "&bConfiguration reloaded!")
+        SoundUtils.safe(sender) { SoundUtils.info(it) }
 
         return true
     }

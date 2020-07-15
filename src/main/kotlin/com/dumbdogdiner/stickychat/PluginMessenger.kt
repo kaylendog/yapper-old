@@ -84,7 +84,7 @@ object PluginMessenger : Base, PluginMessageListener {
         val content = data.readUTF()
         val nonce = data.readInt()
 
-        privateMessageManager.handleReceivedPrivateMessage(fromUuid, fromName, to, content)
+        privateMessageManager.handleReceivedPrivateMessage(fromUuid, fromName, target, content)
 
         broadcastPrivateMessageAck(target, nonce)
     }

@@ -1,10 +1,10 @@
 package com.dumbdogdiner.stickychat.managers
 
 import com.dumbdogdiner.stickychat.Base
+import com.dumbdogdiner.stickychat.utils.FormatUtils
 import com.dumbdogdiner.stickychat.utils.Priority
 import com.dumbdogdiner.stickychat.utils.ServerUtils
 import com.dumbdogdiner.stickychat.utils.SoundUtils
-import com.dumbdogdiner.stickychat.utils.StringUtils
 import com.okkero.skedule.BukkitDispatcher
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -56,13 +56,13 @@ class PrivateMessageManager : Base {
         chatManager.sendMessage(
                 from,
                 Priority.DIRECT,
-                createPrivateMessageTextComponent(from.uniqueId.toString(), from.name, content)
+                createPrivateMessageTextComponent(from.uniqueId.toString(), from.name, FormatUtils.formatOutgoingPrivateMessage(from, to.name, content))
         )
         SoundUtils.info(from)
         chatManager.sendMessage(
             to,
             Priority.DIRECT,
-            createPrivateMessageTextComponent(from.uniqueId.toString(), from.name, content)
+            createPrivateMessageTextComponent(from.uniqueId.toString(), from.name, FormatUtils.formatIncomingPrivateMessage(from.uniqueId.toString(), from.name, to, content))
         )
         SoundUtils.info(to)
     }
@@ -85,17 +85,15 @@ class PrivateMessageManager : Base {
     /**
      * Handle an incoming private message from the plugin messenger.
      */
-    fun handleReceivedPrivateMessage(fromUuid: String, fromName: String, to: String, content: String) {
-        val target = server.onlinePlayers.find { it.name == to } ?: return
-
+    fun handleReceivedPrivateMessage(fromUuid: String, fromName: String, to: Player, content: String) {
         chatManager.sendMessage(
-            target,
+            to,
             Priority.DIRECT,
-            createPrivateMessageTextComponent(fromUuid, fromName, content)
+            createPrivateMessageTextComponent(fromUuid, fromName, FormatUtils.formatIncomingPrivateMessage(fromUuid, fromName, to, content))
         )
-        SoundUtils.info(target)
+        SoundUtils.info(to)
 
-        logger.info("[PM] '$fromName' => '${target.name}': '$content'")
+        logger.info("[PM] '$fromName' => '${to.name}': '$content'")
     }
 
     /**
@@ -109,11 +107,15 @@ class PrivateMessageManager : Base {
         chatManager.sendMessage(
             pm.from,
             Priority.DIRECT,
-            createPrivateMessageTextComponent(pm.from.uniqueId.toString(), pm.from.name, pm.content)
+            createPrivateMessageTextComponent(pm.from.uniqueId.toString(), pm.from.name, FormatUtils.formatOutgoingPrivateMessage(pm.from, pm.to, pm.content))
         )
         SoundUtils.info(pm.from)
 
         logger.info("[PM][ACK] $'{pm.from.name}' => '${pm.to}': '${pm.content}'")
+
+        // De-reference
+        futurePrivateMessages.remove(nonce)
+        messageAckTimeouts.remove(nonce)
     }
 
     /**
@@ -150,10 +152,10 @@ class PrivateMessageManager : Base {
         message.text = content
 
         val hoverComponent = TextComponent()
-        hoverComponent.text = StringUtils.colorize("&bMessage from &e$fromName\n")
-        hoverComponent.addExtra(StringUtils.colorize("&bUUID: &e$fromUuid\n"))
-        hoverComponent.addExtra(StringUtils.colorize("&bSent: &e${SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date.from(Instant.now()))}\n"))
-        hoverComponent.addExtra(StringUtils.colorize("&aClick to reply to this message."))
+        hoverComponent.text = FormatUtils.colorize("&bMessage from &e$fromName\n")
+        hoverComponent.addExtra(FormatUtils.colorize("&bUUID: &e$fromUuid\n"))
+        hoverComponent.addExtra(FormatUtils.colorize("&bSent: &e${SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date.from(Instant.now()))}\n"))
+        hoverComponent.addExtra(FormatUtils.colorize("&aClick to reply to this message."))
 
         // Todo: Fix deprecations
         message.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, arrayOf(hoverComponent))

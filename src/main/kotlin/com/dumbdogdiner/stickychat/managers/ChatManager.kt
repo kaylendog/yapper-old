@@ -2,9 +2,8 @@ package com.dumbdogdiner.stickychat.managers
 
 import com.dumbdogdiner.stickychat.Base
 import com.dumbdogdiner.stickychat.PluginMessenger
-import com.dumbdogdiner.stickychat.utils.PlaceholderUtils
+import com.dumbdogdiner.stickychat.utils.FormatUtils
 import com.dumbdogdiner.stickychat.utils.Priority
-import com.dumbdogdiner.stickychat.utils.StringUtils
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.Date
@@ -48,17 +47,7 @@ class ChatManager : Base {
      * other servers on the network.
      */
     fun broadcastPlayerMessage(player: Player, content: String) {
-        val withFormatting = StringUtils.colorize(config.getString("chat.format", "&8%name%: %message%")!!)
-                .replace("%name%", if (player.hasPermission("stickychat.colorizeNick")) StringUtils.colorize(player.displayName) else player.displayName)
-                .replace("%message%", if (player.hasPermission("stickychat.colorizeMessage")) StringUtils.colorize(content) else content)
-
-        // This needs to be better
-        val format = PlaceholderUtils.setPlaceholdersSafe(
-                player,
-                withFormatting
-        ).replace("%", "")
-
-        sendGlobalChatMessage(player.uniqueId.toString(), player.name, format)
+        sendGlobalChatMessage(player.uniqueId.toString(), player.name, FormatUtils.formatGlobalChatMessage(player, content))
         PluginMessenger.broadcastMessage(player, content)
     }
 
@@ -96,7 +85,7 @@ class ChatManager : Base {
             // In case data hasn't been retrieved yet.
             playerChatPriority[player] = Priority.ALL
             forcePlayerChatPriorityUpdate(player)
-            Priority.IMPORTANT
+            Priority.ALL
         }()
     }
 
@@ -112,10 +101,10 @@ class ChatManager : Base {
     private fun createHoverComponent(name: String, uuid: String): TextComponent {
         val component = TextComponent()
         // Todo: Check if extras can be looped over for colorization?
-        component.text = StringUtils.colorize("&bMessage from &e$name\n")
-        component.addExtra(StringUtils.colorize("&bUUID: &e$uuid\n"))
-        component.addExtra(StringUtils.colorize("&bSent: &e${SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date.from(Instant.now()))}\n"))
-        component.addExtra(StringUtils.colorize("&aClick to send a message."))
+        component.text = FormatUtils.colorize("&bMessage from &e$name\n")
+        component.addExtra(FormatUtils.colorize("&bUUID: &e$uuid\n"))
+        component.addExtra(FormatUtils.colorize("&bSent: &e${SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date.from(Instant.now()))}\n"))
+        component.addExtra(FormatUtils.colorize("&aClick to send a message."))
 
         return component
     }

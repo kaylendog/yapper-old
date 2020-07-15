@@ -1,10 +1,10 @@
 package com.dumbdogdiner.stickychat.managers
 
 import com.dumbdogdiner.stickychat.Base
+import com.dumbdogdiner.stickychat.utils.FormatUtils
 import com.dumbdogdiner.stickychat.utils.Priority
 import com.dumbdogdiner.stickychat.utils.ServerUtils
 import com.dumbdogdiner.stickychat.utils.SoundUtils
-import com.dumbdogdiner.stickychat.utils.StringUtils
 import java.text.SimpleDateFormat
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
@@ -84,10 +84,10 @@ class MailManager : Base {
         message.text = content
 
         val hoverComponent = TextComponent()
-        hoverComponent.text = StringUtils.colorize("&bLetter from &e$fromName\n")
-        hoverComponent.addExtra(StringUtils.colorize("&bUUID: &e$fromUuid\n"))
-        hoverComponent.addExtra(StringUtils.colorize("&bSent: &e${SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(createdAt)}\n"))
-        hoverComponent.addExtra(StringUtils.colorize("&aClick to send a message."))
+        hoverComponent.text = FormatUtils.colorize("&bLetter from &e$fromName\n")
+        hoverComponent.addExtra(FormatUtils.colorize("&bUUID: &e$fromUuid\n"))
+        hoverComponent.addExtra(FormatUtils.colorize("&bSent: &e${SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(createdAt)}\n"))
+        hoverComponent.addExtra(FormatUtils.colorize("&aClick to send a message."))
 
         message.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, arrayOf(hoverComponent))
         message.clickEvent = ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mail $fromName ")

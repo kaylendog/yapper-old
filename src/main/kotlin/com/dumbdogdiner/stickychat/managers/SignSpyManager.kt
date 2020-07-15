@@ -1,8 +1,8 @@
 package com.dumbdogdiner.stickychat.managers
 
 import com.dumbdogdiner.stickychat.Base
+import com.dumbdogdiner.stickychat.utils.FormatUtils.colorize
 import com.dumbdogdiner.stickychat.utils.SoundUtils
-import com.dumbdogdiner.stickychat.utils.StringUtils.colorize
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 import org.bukkit.event.block.SignChangeEvent
