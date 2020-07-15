@@ -6,16 +6,16 @@ node('docker-cli') {
   postJobGhStatus() {
     cleanWs()
 
-    docker.image('jcxldn/openjdk-alpine:14-jdk-slim ').inside {
+    docker.image('jcxldn/openjdk-alpine:14-jdk-slim').inside {
 
       stage('Setup') {
         checkout scm
-        sh 'chmod +x ./gradlew'
+        sh 'apk update && apk add --no-cache curl git && chmod +x ./gradlew'
       }
 
       stage('Build') {
         // 'gradle wrapper' is not required here - it is only needed to update / generate a NEW wrapper, not use an existing one.
-        sh './gradlew test build -s'
+        sh './gradlew build -s'
 
         archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
         ghSetStatus("The build passed.", "success", "ci")
