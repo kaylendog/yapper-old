@@ -3,7 +3,9 @@ package com.dumbdogdiner.stickychat.managers
 import com.dumbdogdiner.stickychat.Base
 import com.dumbdogdiner.stickychat.PluginMessenger
 import com.dumbdogdiner.stickychat.utils.FormatUtils
+import com.dumbdogdiner.stickychat.utils.FormatUtils.colorize
 import com.dumbdogdiner.stickychat.utils.Priority
+import com.dumbdogdiner.stickychat.utils.ServerUtils
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.Date
@@ -67,6 +69,22 @@ class ChatManager : Base {
         val component = TextComponent()
         component.text = content
         sendMessage(player, priority, component)
+    }
+
+    /**
+     * Send a system message to the specified player, formatting the content with the plugin prefix.
+     */
+    fun sendSystemMessage(player: Player, content: String) {
+        val component = TextComponent()
+        component.text = colorize("${config.getString("prefix")}$content")
+        sendSystemMessage(player, component)
+    }
+
+    /**
+     * Send a component to the specified player, marked as SYSTEM.
+     */
+    fun sendSystemMessage(player: Player, component: BaseComponent) {
+        sendMessage(player, Priority.SYSTEM, component)
     }
 
     /**

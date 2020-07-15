@@ -2,6 +2,7 @@ package com.dumbdogdiner.stickychat.managers
 
 import com.dumbdogdiner.stickychat.Base
 import com.dumbdogdiner.stickychat.utils.FormatUtils
+import com.dumbdogdiner.stickychat.utils.FormatUtils.colorize
 import com.dumbdogdiner.stickychat.utils.Priority
 import com.dumbdogdiner.stickychat.utils.ServerUtils
 import com.dumbdogdiner.stickychat.utils.SoundUtils
@@ -66,14 +67,28 @@ class MailManager : Base {
     /**
      * Handle a received mail message from the plugin messenger.
      */
-    fun handleReceivedMailMessage(fromUuid: String, fromName: String, to: String, content: String, createdAt: Long) {
+    fun handleReceivedMailMessage(fromUuid: String, fromName: String, to: Player, content: String, createdAt: Long) {
         if (!config.getBoolean("mail.notify-on-arrival", true)) {
             return
         }
+        chatManager.sendSystemMessage(to, createReceivedMailTextComponent(fromName))
+        SoundUtils.quietSuccess(to)
+    }
 
-        val target = server.onlinePlayers.find { it.uniqueId.toString() == fromUuid } ?: return
-        chatManager.sendMessage(target, Priority.DIRECT, createMailTextComponent(fromUuid, fromName, to, content, createdAt))
-        SoundUtils.info(target)
+    /**
+     * Create the text component used for notifying a player of a new letter.
+     */
+    private fun createReceivedMailTextComponent(fromName: String): TextComponent {
+        val component = TextComponent()
+        component.text = colorize("&bYou have received a new letter from &e$fromName&b!}")
+
+        val clickComponent = TextComponent()
+        clickComponent.text = colorize("&f&l[&aOPEN&l]")
+        clickComponent.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/mail open")
+
+        component.addExtra(clickComponent)
+
+        return component
     }
 
     /**
@@ -87,7 +102,7 @@ class MailManager : Base {
         hoverComponent.text = FormatUtils.colorize("&bLetter from &e$fromName\n")
         hoverComponent.addExtra(FormatUtils.colorize("&bUUID: &e$fromUuid\n"))
         hoverComponent.addExtra(FormatUtils.colorize("&bSent: &e${SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(createdAt)}\n"))
-        hoverComponent.addExtra(FormatUtils.colorize("&aClick to send a message."))
+        hoverComponent.addExtra(FormatUtils.colorize("&bClick to send a message."))
 
         message.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, arrayOf(hoverComponent))
         message.clickEvent = ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mail $fromName ")

@@ -6,11 +6,11 @@ import org.jetbrains.exposed.sql.Table
 /**
  * Table for storing sent mail messages.
  */
-object MailMessages : Table(name = FormatUtils.formatTableName("messages")) {
+object Letters : Table(name = FormatUtils.formatTableName("letters")) {
     val id = integer("id").autoIncrement()
 
-    val from = varchar("from", 36)
-    val to = varchar("to", 36)
+    val fromName = varchar("from",  16)
+    val toName = varchar("to", 16)
 
     val content = text("content")
 

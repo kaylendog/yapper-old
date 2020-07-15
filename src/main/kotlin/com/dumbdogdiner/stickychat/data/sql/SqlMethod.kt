@@ -2,7 +2,7 @@ package com.dumbdogdiner.stickychat.data.sql
 
 import com.dumbdogdiner.stickychat.Base
 import com.dumbdogdiner.stickychat.data.StorageMethod
-import com.dumbdogdiner.stickychat.data.sql.models.MailMessages
+import com.dumbdogdiner.stickychat.data.sql.models.Letters
 import com.dumbdogdiner.stickychat.data.sql.models.Nicknames
 import org.bukkit.entity.Player
 import org.jetbrains.exposed.sql.Database
@@ -50,7 +50,7 @@ abstract class SqlMethod : Base, StorageMethod {
             transaction {
                 addLogger(SqlLogger())
                 SchemaUtils.createMissingTablesAndColumns(
-                    MailMessages, Nicknames
+                    Letters, Nicknames
                 )
                 logger.info("[sql] Database ready.")
             }
