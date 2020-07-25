@@ -20,6 +20,12 @@ class SignSpyManager : Listener, Base {
 
     private val placedSigns = mutableSetOf<Player>()
 
+    private val vladdyNitpicksALotOhYesHeDoes = TextComponent()
+
+    init {
+        vladdyNitpicksALotOhYesHeDoes.text = FormatUtils.colorize(" &bor ")
+    }
+
     /**
      * Handle the creation of a sign.
      */
@@ -34,9 +40,7 @@ class SignSpyManager : Listener, Base {
         utilComponent.text = FormatUtils.colorize(config.getString("prefix", "&b&lStickyChat &r&8» &r")!!)
 
         val teleportComponent = TextComponent()
-        // Todo: VLAD FIX THIS SPACE OR I WILL- uh
-        // idk <3
-        teleportComponent.text = FormatUtils.colorize("&b[TELEPORT] ")
+        teleportComponent.text = FormatUtils.colorize("&b[TELEPORT]")
         teleportComponent.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp ${e.block.location.blockX} ${e.block.location.blockY} ${e.block.location.blockZ}")
 
         // Todo: Add permission workaround.
@@ -45,6 +49,7 @@ class SignSpyManager : Listener, Base {
         destroyComponent.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/setblock ${e.block.location.blockX} ${e.block.location.blockY} ${e.block.location.blockZ} air destroy")
 
         utilComponent.addExtra(teleportComponent)
+        utilComponent.addExtra(vladdyNitpicksALotOhYesHeDoes)
         utilComponent.addExtra(destroyComponent)
 
         val enableSound = config.getBoolean("sign-spy.enable-sound", true)
