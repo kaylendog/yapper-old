@@ -19,11 +19,15 @@ class FileStorage : StorageMethod {
         TODO("Not yet implemented")
     }
 
-    override fun saveLetter(from: Player, to: String, content: String, created: Long): Boolean {
+    override fun savePartialLetter(from: Player, toName: String, content: String, createdAt: Long): Boolean {
         TODO("Not yet implemented")
     }
 
-    override fun getLetter(id: Int): Boolean {
+    override fun hydratePartialLetter(fromUuid: String, fromName: String, to: Player, createdAt: Long): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun getLetter(id: Int): Letter? {
         TODO("Not yet implemented")
     }
 
@@ -34,4 +38,5 @@ class FileStorage : StorageMethod {
     override fun fetchLettersForPlayer(player: Player, filterUnread: Boolean): List<Letter> {
         TODO("Not yet implemented")
     }
+
 }

@@ -33,19 +33,15 @@ interface StorageMethod : Base {
     fun clearPlayerNickname(player: Player): Boolean
 
     /**
-     * Store a mail message.
-     */
-    fun saveLetter(from: Player, to: String, content: String, created: Long): Boolean
-
-    /**
-     * Save a letter for which the UUID of the target player cannot be found.
+     * Save a letter for which the UUID of the target player cannot be found - for use
+     * when sending a letter.
      */
     fun savePartialLetter(from: Player, toName: String, content: String, createdAt: Long): Boolean
 
     /**
      * Hydrate a partial letter of its missing fields once they can be retrieved.
      */
-    fun hydratePartialLetter(from: Player, to: Player, createdAt: Long) {}
+    fun hydratePartialLetter(fromUuid: String, fromName: String, to: Player, createdAt: Long): Boolean
 
     /**
      * Fetch a mail message from disk.

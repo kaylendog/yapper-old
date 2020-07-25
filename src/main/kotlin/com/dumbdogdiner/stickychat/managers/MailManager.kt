@@ -6,10 +6,13 @@ import com.dumbdogdiner.stickychat.utils.FormatUtils.colorize
 import com.dumbdogdiner.stickychat.utils.Priority
 import com.dumbdogdiner.stickychat.utils.ServerUtils
 import com.dumbdogdiner.stickychat.utils.SoundUtils
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 /**
@@ -37,22 +40,22 @@ class MailManager : Base {
 
         val target = server.onlinePlayers.find { it.name == to }
         if (target != null) {
-            sendLocalMailMessage(from, target, content, createdAt)
+            sendLocalLetter(from, target, content, createdAt)
             return
         } else {
-            sendRemoteMailMessage(from, to, content, createdAt)
+            sendRemoteLetter(from, to, content, createdAt)
         }
 
         ServerUtils.sendColorizedMessage(from, "&bYour message has been delivered!")
         SoundUtils.info(from)
 
-        saveMailMessage(from, to, content, createdAt)
+        storageManager.savePartialLetter(from, to, content, createdAt)
     }
 
     /**
      * Deliver a message to a player on the server.
      */
-    fun sendLocalMailMessage(from: Player, to: Player, content: String, createdAt: Long) {
+    fun sendLocalLetter(from: Player, to: Player, content: String, createdAt: Long) {
         if (from == to) {
             ServerUtils.sendColorizedMessage(from, "&cYou cannot send a letter to yourself!")
             SoundUtils.error(from)
@@ -66,26 +69,20 @@ class MailManager : Base {
     /**
      * Attempt to deliver a mail message to someone on the network.
      */
-    fun sendRemoteMailMessage(from: Player, to: String, content: String, createdAt: Long) {
+    fun sendRemoteLetter(from: Player, to: String, content: String, createdAt: Long) {
         messenger.sendMail(from, from.uniqueId.toString(), from.name, to, content, createdAt)
-    }
-
-    /**
-     * Save a message to storage.
-     */
-    fun saveMailMessage(player: Player, to: String, content: String, createdAt: Long) {
-        storageManager.saveLetter(player, to, content, createdAt)
     }
 
     /**
      * Handle a received mail message from the plugin messenger.
      */
     fun handleReceivedMailMessage(fromUuid: String, fromName: String, to: Player, content: String, createdAt: Long) {
-        if (!config.getBoolean("mail.notify-on-arrival", true)) {
-            return
+        if (config.getBoolean("mail.notify-on-arrival", true)) {
+            chatManager.sendSystemMessage(to, createReceivedMailTextComponent(fromName))
+            SoundUtils.quietSuccess(to)
         }
-        chatManager.sendSystemMessage(to, createReceivedMailTextComponent(fromName))
-        SoundUtils.quietSuccess(to)
+
+        storageManager.hydratePartialLetter(fromUuid, fromName, to, createdAt)
     }
 
     /**

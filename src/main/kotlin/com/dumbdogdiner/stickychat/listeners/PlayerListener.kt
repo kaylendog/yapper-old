@@ -36,6 +36,7 @@ class PlayerListener : Base, Listener {
             e.joinMessage = ""
         }
 
+        storageManager.getPlayerNickname(e.player)
         mailManager.checkForMail(e.player)
     }
 

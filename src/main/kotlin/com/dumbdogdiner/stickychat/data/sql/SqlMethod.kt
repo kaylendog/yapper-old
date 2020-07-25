@@ -81,22 +81,28 @@ abstract class SqlMethod : Base, StorageMethod {
         }
     }
 
-    override fun saveLetter(from: Player, to: Player, content: String, createdAt: Long): Boolean {
+    override fun savePartialLetter(from: Player, toName: String, content: String, createdAt: Long): Boolean {
         transaction {
             Letters.insert {
                 it[fromUuid] = from.uniqueId.toString()
                 it[fromName] = from.name
-                it[toName] = to
-                it[toUuid] = toUuid
-                it[content] = content
-                it[createdAt] = createdAt
+                it[Letters.toName] = toName
+                it[Letters.content] = content
+                it[Letters.createdAt] = createdAt
             }
         }
         return true
     }
 
-    override fun savePartialLetter(from: Player, toName: String, content: String, createdAt: Long): Boolean {
-        TODO("Not yet implemented")
+    override fun hydratePartialLetter(fromUuid: String, to: Player, createdAt: Long): Boolean {
+        transaction {
+            Letters.update({
+                Letters.fromUuid.eq(fromUuid) and Letters.toName.eq(to.name) and Letters.createdAt.eq(createdAt)
+            }) {
+                it[toUuid] = to.uniqueId.toString()
+            }
+        }
+        return true
     }
 
     override fun getLetter(id: Int): Letter? {
@@ -104,6 +110,6 @@ abstract class SqlMethod : Base, StorageMethod {
             Letters.select { Letters.id eq id }.singleOrNull()
         } ?: return null
 
-        return Letter()
+        return Letter(letter[Letters.fromUuid], letter[Letters.fromName], letter[Letters.toUuid], letter[Letters.toName], letter[Letters.content], letter[Letters.createdAt])
     }
 }
