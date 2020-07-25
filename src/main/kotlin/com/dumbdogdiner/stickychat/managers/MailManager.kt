@@ -20,7 +20,13 @@ class MailManager : Base {
      * Check for new messages sent to the given player.
      */
     fun checkForMail(recipient: Player) {
-        storageManager
+        val letters = storageManager.fetchLettersForPlayer(recipient, true)
+        if (letters.isEmpty()) {
+            return
+        }
+
+        chatManager.sendSystemMessage(recipient, "You have ${letters.size} new letter${if (letters.size > 1) {"s"} else ""}!")
+        SoundUtils.quietSuccess(recipient)
     }
 
     /**
@@ -106,10 +112,10 @@ class MailManager : Base {
         message.text = content
 
         val hoverComponent = TextComponent()
-        hoverComponent.text = FormatUtils.colorize("&bLetter from &e$fromName\n")
-        hoverComponent.addExtra(FormatUtils.colorize("&bUUID: &e$fromUuid\n"))
-        hoverComponent.addExtra(FormatUtils.colorize("&bSent: &e${SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(createdAt)}\n"))
-        hoverComponent.addExtra(FormatUtils.colorize("&bClick to send a message."))
+        hoverComponent.text = colorize("&bLetter from &e$fromName\n")
+        hoverComponent.addExtra(colorize("&bUUID: &e$fromUuid\n"))
+        hoverComponent.addExtra(colorize("&bSent: &e${SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(createdAt)}\n"))
+        hoverComponent.addExtra(colorize("&bClick to send a message."))
 
         message.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, arrayOf(hoverComponent))
         message.clickEvent = ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mail $fromName ")

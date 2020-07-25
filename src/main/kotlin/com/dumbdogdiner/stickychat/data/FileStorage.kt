@@ -19,11 +19,19 @@ class FileStorage : StorageMethod {
         TODO("Not yet implemented")
     }
 
-    override fun saveMailMessage(from: Player, to: String, content: String, created: Long): Boolean {
+    override fun saveLetter(from: Player, to: String, content: String, created: Long): Boolean {
         TODO("Not yet implemented")
     }
 
-    override fun getMailMessage(id: Int): Boolean {
+    override fun getLetter(id: Int): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun fetchLettersForPlayer(player: Player): List<Letter> {
+        TODO("Not yet implemented")
+    }
+
+    override fun fetchLettersForPlayer(player: Player, filterUnread: Boolean): List<Letter> {
         TODO("Not yet implemented")
     }
 }

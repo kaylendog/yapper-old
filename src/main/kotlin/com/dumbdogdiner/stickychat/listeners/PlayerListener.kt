@@ -35,6 +35,8 @@ class PlayerListener : Base, Listener {
         if (config.getBoolean("chat.disableJoinMessages", false)) {
             e.joinMessage = ""
         }
+
+        mailManager.checkForMail(e.player)
     }
 
     @EventHandler

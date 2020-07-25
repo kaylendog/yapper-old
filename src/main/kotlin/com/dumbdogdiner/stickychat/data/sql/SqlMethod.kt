@@ -1,14 +1,14 @@
 package com.dumbdogdiner.stickychat.data.sql
 
 import com.dumbdogdiner.stickychat.Base
+import com.dumbdogdiner.stickychat.data.Letter
 import com.dumbdogdiner.stickychat.data.StorageMethod
 import com.dumbdogdiner.stickychat.data.sql.models.Letters
 import com.dumbdogdiner.stickychat.data.sql.models.Nicknames
 import org.bukkit.entity.Player
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.addLogger
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
+import kotlin.properties.Delegates
 
 /**
  * Manages the connection between PostgreSQL and the plugin.
@@ -17,28 +17,26 @@ abstract class SqlMethod : Base, StorageMethod {
     abstract val driver: String
     abstract val protocol: String
 
-    private val host: String
-    private val port: Int
-    private val database: String
+    private lateinit var host: String
+    private var port by Delegates.notNull<Int>()
+    private lateinit var database: String
 
-    private val user: String
-    private val password: String
+    private lateinit var user: String
+    private lateinit var password: String
 
     private lateinit var db: Database
 
-    init {
+    /**
+     * Initialize the database connection.
+     */
+    override fun init() {
         host = config.getString("data.host")!!
         port = config.getInt("data.port")
 
         database = config.getString("data.database")!!
         user = config.getString("data.username")!!
         password = config.getString("data.password")!!
-    }
 
-    /**
-     * Initialize the database connection.
-     */
-    override fun init() {
         logger.info("[sql] Setting up sql connection...")
         try {
             db = Database.connect(
@@ -62,22 +60,50 @@ abstract class SqlMethod : Base, StorageMethod {
     }
 
     override fun getPlayerNickname(player: Player): String? {
-        TODO("Not yet implemented")
+        return transaction {
+            Nicknames.select {  Nicknames.id eq player.uniqueId.toString() }.singleOrNull()?.get(Nicknames.value)
+        }
     }
 
     override fun setPlayerNickname(player: Player, new: String): Boolean {
-        TODO("Not yet implemented")
+        transaction {
+            Nicknames.insert {
+                it[id] = player.uniqueId.toString()
+                it[value] = new
+            }
+        }
+        return true
     }
 
     override fun clearPlayerNickname(player: Player): Boolean {
+        return transaction {
+            Nicknames.deleteWhere { Nicknames.id eq player.uniqueId.toString() } != 0
+        }
+    }
+
+    override fun saveLetter(from: Player, to: Player, content: String, createdAt: Long): Boolean {
+        transaction {
+            Letters.insert {
+                it[fromUuid] = from.uniqueId.toString()
+                it[fromName] = from.name
+                it[toName] = to
+                it[toUuid] = toUuid
+                it[content] = content
+                it[createdAt] = createdAt
+            }
+        }
+        return true
+    }
+
+    override fun savePartialLetter(from: Player, toName: String, content: String, createdAt: Long): Boolean {
         TODO("Not yet implemented")
     }
 
-    override fun saveMailMessage(from: Player, to: String, content: String, created: Long): Boolean {
-        TODO("Not yet implemented")
-    }
+    override fun getLetter(id: Int): Letter? {
+        val letter = transaction {
+            Letters.select { Letters.id eq id }.singleOrNull()
+        } ?: return null
 
-    override fun getMailMessage(id: Int): Boolean {
-        TODO("Not yet implemented")
+        return Letter()
     }
 }

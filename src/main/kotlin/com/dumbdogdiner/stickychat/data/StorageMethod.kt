@@ -38,10 +38,20 @@ interface StorageMethod : Base {
     fun saveLetter(from: Player, to: String, content: String, created: Long): Boolean
 
     /**
+     * Save a letter for which the UUID of the target player cannot be found.
+     */
+    fun savePartialLetter(from: Player, toName: String, content: String, createdAt: Long): Boolean
+
+    /**
+     * Hydrate a partial letter of its missing fields once they can be retrieved.
+     */
+    fun hydratePartialLetter(from: Player, to: Player, createdAt: Long) {}
+
+    /**
      * Fetch a mail message from disk.
      * Todo: Use unique ids?
      */
-    fun getLetter(id: Int): Boolean
+    fun getLetter(id: Int): Letter?
 
     /**
      * Fetch letters for a given player.

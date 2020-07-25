@@ -63,7 +63,9 @@ class StickyChatPlugin : JavaPlugin() {
         }
     }
 
-    override fun onDisable() { }
+    override fun onDisable() {
+        logger.info("yapp yapp!! (see you soon <3)")
+    }
 
     companion object {
         lateinit var instance: StickyChatPlugin
