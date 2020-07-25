@@ -5,7 +5,6 @@ import com.dumbdogdiner.stickychat.PluginMessenger
 import com.dumbdogdiner.stickychat.utils.FormatUtils
 import com.dumbdogdiner.stickychat.utils.FormatUtils.colorize
 import com.dumbdogdiner.stickychat.utils.Priority
-import com.dumbdogdiner.stickychat.utils.ServerUtils
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.Date
@@ -120,10 +119,10 @@ class ChatManager : Base {
     private fun createHoverComponent(name: String, uuid: String): TextComponent {
         val component = TextComponent()
         // Todo: Check if extras can be looped over for colorization?
-        component.text = FormatUtils.colorize("&bMessage from &e$name\n")
-        component.addExtra(FormatUtils.colorize("&bUUID: &e$uuid\n"))
-        component.addExtra(FormatUtils.colorize("&bSent: &e${SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date.from(Instant.now()))}\n"))
-        component.addExtra(FormatUtils.colorize("&aClick to send a message."))
+        component.text = colorize("&bMessage from &e$name\n")
+        component.addExtra(colorize("&bUUID: &e$uuid\n"))
+        component.addExtra(colorize("&bSent: &e${SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date.from(Instant.now()))}\n"))
+        component.addExtra(colorize("&aClick to send a message."))
 
         return component
     }

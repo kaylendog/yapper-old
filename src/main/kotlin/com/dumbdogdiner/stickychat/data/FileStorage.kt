@@ -38,5 +38,4 @@ class FileStorage : StorageMethod {
     override fun fetchLettersForPlayer(player: Player, filterUnread: Boolean): List<Letter> {
         TODO("Not yet implemented")
     }
-
 }

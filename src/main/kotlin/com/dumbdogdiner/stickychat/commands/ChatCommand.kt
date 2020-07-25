@@ -31,7 +31,7 @@ class ChatCommand : Base, TabExecutor {
     fun reload(sender: CommandSender): Boolean {
         plugin.reloadConfig()
 
-        ServerUtils.sendColorizedMessage(sender, "&bConfiguration reloaded!")
+        ServerUtils.sendColorizedMessage(sender, "&eConfiguration reloaded!")
         SoundUtils.safe(sender) { SoundUtils.info(it) }
 
         return true
@@ -39,6 +39,7 @@ class ChatCommand : Base, TabExecutor {
 
     fun invalidUsage(sender: CommandSender): Boolean {
         ServerUtils.sendColorizedMessage(sender, "&cInvalid command usage.")
+        SoundUtils.safe(sender) { SoundUtils.error(it) }
         return true
     }
 

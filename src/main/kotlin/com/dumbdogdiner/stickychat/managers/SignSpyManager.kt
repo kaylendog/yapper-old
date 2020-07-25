@@ -1,8 +1,13 @@
 package com.dumbdogdiner.stickychat.managers
 
 import com.dumbdogdiner.stickychat.Base
-import com.dumbdogdiner.stickychat.utils.FormatUtils.colorize
+import com.dumbdogdiner.stickychat.utils.FormatUtils
 import com.dumbdogdiner.stickychat.utils.SoundUtils
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import net.md_5.bungee.api.chat.ClickEvent
+import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 import org.bukkit.event.block.SignChangeEvent
@@ -13,6 +18,8 @@ import org.bukkit.event.block.SignChangeEvent
 class SignSpyManager : Listener, Base {
     private val disabledPlayers = mutableSetOf<Player>()
 
+    private val placedSigns = mutableSetOf<Player>()
+
     /**
      * Handle the creation of a sign.
      */
@@ -21,24 +28,45 @@ class SignSpyManager : Listener, Base {
             return
         }
 
+        val msg = "&a${e.player.name} &bplaced a sign at ${e.block.location.x}, ${e.block.location.y}, ${e.block.location.z}\n" + " &8- &r\"" + e.lines.filter { txt -> txt.isNotBlank() }.joinToString("\n &r&8- &r")
+
+        val utilComponent = TextComponent()
+        utilComponent.text = FormatUtils.colorize(config.getString("prefix", "&b&lStickyChat &r&8» &r")!!)
+
+        val teleportComponent = TextComponent()
+        // Todo: VLAD FIX THIS SPACE OR I WILL- uh
+        // idk <3
+        teleportComponent.text = FormatUtils.colorize("&b[TELEPORT] ")
+        teleportComponent.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp ${e.block.location.blockX} ${e.block.location.blockY} ${e.block.location.blockZ}")
+
+        // Todo: Add permission workaround.
+        val destroyComponent = TextComponent()
+        destroyComponent.text = FormatUtils.colorize("&c[DESTROY]")
+        destroyComponent.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/setblock ${e.block.location.blockX} ${e.block.location.blockY} ${e.block.location.blockZ} air destroy")
+
+        utilComponent.addExtra(teleportComponent)
+        utilComponent.addExtra(destroyComponent)
+
+        val enableSound = config.getBoolean("sign-spy.enable-sound", true)
+
         for (it in server.onlinePlayers) {
             if (!it.hasPermission("stickychat.signspy")) {
                 continue
             }
 
-            it.sendMessage(
-                colorize("&bPlayer '&a%name%&b' (%uuid%) placed a sign at %x%, %y%, %z% with content:\n - %content%")
-                    .replace("%name%", e.player.displayName)
-                    .replace("%uuid%", e.player.uniqueId.toString())
-                    .replace("%x%", e.block.location.x.toString())
-                    .replace("%y%", e.block.location.y.toString())
-                    .replace("%z%", e.block.location.z.toString())
-                    .replace("%content%", e.lines.filter { txt -> txt.isNotBlank() }.joinToString("\n &r&b-&r "))
-            )
+            chatManager.sendSystemMessage(it, msg)
+            chatManager.sendSystemMessage(it, utilComponent)
 
-            if (config.getBoolean("sign-spy.enable-sound", true)) {
+            if (enableSound) {
                 SoundUtils.info(it)
             }
+        }
+
+        // Todo: Attach this to permission workaround.
+        placedSigns.add(e.player)
+        GlobalScope.launch {
+            delay(60000)
+            placedSigns.remove(e.player)
         }
     }
 

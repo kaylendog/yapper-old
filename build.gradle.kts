@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "com.dumbdogdiner"
-version = "2.0.0"
+version = "2.0.0-alpha-rc1"
 
 repositories {
     mavenCentral()
@@ -63,13 +63,15 @@ tasks {
             create("message") {
                 description = "Send a private message to a player currently online."
                 usage = "/message [player] <message>"
-                aliases = listOf("msg", "r")
+                aliases = listOf("msg", "tell", "whisper")
+            }
+            create("reply") {
+                description = "Reply to the last private message you received."
+                usage = "/reply <message>"
+                aliases = listOf("r")
             }
             create("chat") {
                 description = "StickyChat management and configuration."
-            }
-            create("testpluginmsg") {
-                usage = "/testpluginmsg <content>"
             }
         }
         apiVersion = "1.16"

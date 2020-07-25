@@ -9,7 +9,7 @@ import org.jetbrains.exposed.sql.Table
 object Letters : Table(name = FormatUtils.formatTableName("letters")) {
     val id = integer("id").autoIncrement()
 
-    val fromUuid = varchar("fromUuid",  36)
+    val fromUuid = varchar("fromUuid", 36)
     val fromName = varchar("fromName", 16)
     val toUuid = varchar("toUuid", 36).nullable()
     val toName = varchar("toName", 16)

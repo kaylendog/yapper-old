@@ -1,5 +1,6 @@
 package com.dumbdogdiner.stickychat.data.h2
 
+import com.dumbdogdiner.stickychat.data.Letter
 import com.dumbdogdiner.stickychat.data.StorageMethod
 import org.bukkit.entity.Player
 
@@ -23,11 +24,23 @@ class H2Method : StorageMethod {
         TODO("Not yet implemented")
     }
 
-    override fun saveMailMessage(from: Player, to: String, content: String, created: Long): Boolean {
+    override fun savePartialLetter(from: Player, toName: String, content: String, createdAt: Long): Boolean {
         TODO("Not yet implemented")
     }
 
-    override fun getMailMessage(id: Int): Boolean {
+    override fun hydratePartialLetter(fromUuid: String, fromName: String, to: Player, createdAt: Long): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun getLetter(id: Int): Letter? {
+        TODO("Not yet implemented")
+    }
+
+    override fun fetchLettersForPlayer(player: Player): List<Letter> {
+        TODO("Not yet implemented")
+    }
+
+    override fun fetchLettersForPlayer(player: Player, filterUnread: Boolean): List<Letter> {
         TODO("Not yet implemented")
     }
 }

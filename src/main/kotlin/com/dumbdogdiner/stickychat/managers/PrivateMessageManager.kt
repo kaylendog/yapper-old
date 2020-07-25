@@ -30,6 +30,8 @@ class PrivateMessageManager : Base {
     private val messageAckTimeouts = HashMap<Int, Job>()
     private val futurePrivateMessages = HashMap<Int, PrivateMessage>()
 
+    private val lastMessageTarget = HashMap<Player, String>()
+
     /**
      * Send a private message to a player.
      */
@@ -40,6 +42,27 @@ class PrivateMessageManager : Base {
             return
         }
         sendRemotePrivateMessage(from, to, content)
+    }
+
+    /**
+     * Reply to the last message received by this player, if there is one.
+     */
+    fun reply(from: Player, content: String) {
+        val to = lastMessageTarget[from]
+        if (to == null) {
+            chatManager.sendSystemMessage(from, "&cYou haven't sent any messages to anyone yet!")
+            SoundUtils.error(from)
+            return
+        }
+
+        sendPrivateMessage(from, to, content)
+    }
+
+    /**
+     * Forget the target the given player last sent a message to.
+     */
+    fun forgetLastMessageTarget(player: Player) {
+        lastMessageTarget.remove(player)
     }
 
     /**
@@ -121,7 +144,7 @@ class PrivateMessageManager : Base {
     /**
      * Check and timeout a private message if no ACK has been received.
      */
-    fun doAckTimeout(nonce: Int) {
+    private fun doAckTimeout(nonce: Int) {
         val pm = futurePrivateMessages[nonce] ?: return
 
         // De-reference

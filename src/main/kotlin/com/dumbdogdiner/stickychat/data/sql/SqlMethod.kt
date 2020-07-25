@@ -5,10 +5,17 @@ import com.dumbdogdiner.stickychat.data.Letter
 import com.dumbdogdiner.stickychat.data.StorageMethod
 import com.dumbdogdiner.stickychat.data.sql.models.Letters
 import com.dumbdogdiner.stickychat.data.sql.models.Nicknames
-import org.bukkit.entity.Player
-import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.properties.Delegates
+import org.bukkit.entity.Player
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.addLogger
+import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.update
 
 /**
  * Manages the connection between PostgreSQL and the plugin.
@@ -54,14 +61,15 @@ abstract class SqlMethod : Base, StorageMethod {
             }
         } catch (e: Exception) {
             logger.severe(e.localizedMessage)
-            logger.info("Failed to connect to server.")
+            logger.severe("[sql] Failed to connect to server - will unload.")
+            plugin.heckDontEnableSomethingWentWrong = true
             server.pluginManager.disablePlugin(plugin)
         }
     }
 
     override fun getPlayerNickname(player: Player): String? {
         return transaction {
-            Nicknames.select {  Nicknames.id eq player.uniqueId.toString() }.singleOrNull()?.get(Nicknames.value)
+            Nicknames.select { Nicknames.id eq player.uniqueId.toString() }.singleOrNull()?.get(Nicknames.value)
         }
     }
 
@@ -89,12 +97,13 @@ abstract class SqlMethod : Base, StorageMethod {
                 it[Letters.toName] = toName
                 it[Letters.content] = content
                 it[Letters.createdAt] = createdAt
+                it[unread] = true
             }
         }
         return true
     }
 
-    override fun hydratePartialLetter(fromUuid: String, to: Player, createdAt: Long): Boolean {
+    override fun hydratePartialLetter(fromUuid: String, fromName: String, to: Player, createdAt: Long): Boolean {
         transaction {
             Letters.update({
                 Letters.fromUuid.eq(fromUuid) and Letters.toName.eq(to.name) and Letters.createdAt.eq(createdAt)
@@ -111,5 +120,39 @@ abstract class SqlMethod : Base, StorageMethod {
         } ?: return null
 
         return Letter(letter[Letters.fromUuid], letter[Letters.fromName], letter[Letters.toUuid], letter[Letters.toName], letter[Letters.content], letter[Letters.createdAt])
+    }
+
+    override fun fetchLettersForPlayer(player: Player): List<Letter> {
+        return transaction {
+            Letters
+                .select { Letters.toUuid eq player.uniqueId.toString() }
+                .map {
+                    Letter(
+                        it[Letters.fromUuid],
+                        it[Letters.fromName],
+                        it[Letters.toUuid],
+                        it[Letters.toName],
+                        it[Letters.content],
+                        it[Letters.createdAt]
+                    )
+                }
+        }
+    }
+
+    override fun fetchLettersForPlayer(player: Player, filterUnread: Boolean): List<Letter> {
+        return transaction {
+            Letters
+                .select { Letters.toUuid.eq(player.uniqueId.toString()) and Letters.unread.eq(true) }
+                .map {
+                    Letter(
+                        it[Letters.fromUuid],
+                        it[Letters.fromName],
+                        it[Letters.toUuid],
+                        it[Letters.toName],
+                        it[Letters.content],
+                        it[Letters.createdAt]
+                    )
+                }
+        }
     }
 }

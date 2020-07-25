@@ -26,6 +26,11 @@ data:
   username: postgres
   password: password
 
+
+# Configure the name of this server
+server: "server"
+
+# Configure the prefix used by StickyChat
 prefix: "&b&lStickyChat &r&8» &r"
 
 # Configuration for chat.

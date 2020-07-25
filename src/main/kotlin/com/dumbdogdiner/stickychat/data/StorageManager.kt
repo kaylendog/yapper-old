@@ -73,7 +73,7 @@ class StorageManager : Base, StorageMethod {
      * Store a mail message.
      */
     override fun savePartialLetter(from: Player, toName: String, content: String, createdAt: Long): Boolean {
-        logger.info("Saving letter from '${from.name}' (${from.uniqueId.toString()}) to player '$toName'")
+        logger.info("Saving letter from '${from.name}' (${from.uniqueId}) to player '$toName'")
         GlobalScope.launch {
             storageMethod.savePartialLetter(from, toName, content, createdAt)
         }

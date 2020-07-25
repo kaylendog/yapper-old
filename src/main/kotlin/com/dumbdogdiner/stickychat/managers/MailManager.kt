@@ -1,18 +1,16 @@
 package com.dumbdogdiner.stickychat.managers
 
 import com.dumbdogdiner.stickychat.Base
-import com.dumbdogdiner.stickychat.utils.FormatUtils
 import com.dumbdogdiner.stickychat.utils.FormatUtils.colorize
 import com.dumbdogdiner.stickychat.utils.Priority
 import com.dumbdogdiner.stickychat.utils.ServerUtils
 import com.dumbdogdiner.stickychat.utils.SoundUtils
+import java.text.SimpleDateFormat
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 /**
@@ -23,13 +21,14 @@ class MailManager : Base {
      * Check for new messages sent to the given player.
      */
     fun checkForMail(recipient: Player) {
-        val letters = storageManager.fetchLettersForPlayer(recipient, true)
-        if (letters.isEmpty()) {
-            return
+        GlobalScope.launch {
+            val letters = storageManager.fetchLettersForPlayer(recipient, true)
+            if (letters.isEmpty()) {
+                return@launch
+            }
+            chatManager.sendSystemMessage(recipient, "&bYou have &e${letters.size} &bnew letter${if (letters.size > 1) {"s"} else ""}!")
+            SoundUtils.quietSuccess(recipient)
         }
-
-        chatManager.sendSystemMessage(recipient, "You have ${letters.size} new letter${if (letters.size > 1) {"s"} else ""}!")
-        SoundUtils.quietSuccess(recipient)
     }
 
     /**
@@ -37,6 +36,12 @@ class MailManager : Base {
      */
     fun sendMailMessage(from: Player, to: String, content: String) {
         val createdAt = System.currentTimeMillis()
+
+        if (to.length < 3 || to.length > 16) {
+            chatManager.sendSystemMessage(from, "&cInvalid player!")
+            SoundUtils.error(from)
+            return
+        }
 
         val target = server.onlinePlayers.find { it.name == to }
         if (target != null) {
@@ -55,7 +60,7 @@ class MailManager : Base {
     /**
      * Deliver a message to a player on the server.
      */
-    fun sendLocalLetter(from: Player, to: Player, content: String, createdAt: Long) {
+    private fun sendLocalLetter(from: Player, to: Player, content: String, createdAt: Long) {
         if (from == to) {
             ServerUtils.sendColorizedMessage(from, "&cYou cannot send a letter to yourself!")
             SoundUtils.error(from)
@@ -69,7 +74,7 @@ class MailManager : Base {
     /**
      * Attempt to deliver a mail message to someone on the network.
      */
-    fun sendRemoteLetter(from: Player, to: String, content: String, createdAt: Long) {
+    private fun sendRemoteLetter(from: Player, to: String, content: String, createdAt: Long) {
         messenger.sendMail(from, from.uniqueId.toString(), from.name, to, content, createdAt)
     }
 

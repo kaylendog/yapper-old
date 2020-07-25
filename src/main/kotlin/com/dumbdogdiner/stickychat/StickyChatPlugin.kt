@@ -4,8 +4,8 @@ import com.dumbdogdiner.stickychat.commands.ChatCommand
 import com.dumbdogdiner.stickychat.commands.MailCommand
 import com.dumbdogdiner.stickychat.commands.MessageCommand
 import com.dumbdogdiner.stickychat.commands.NickCommand
+import com.dumbdogdiner.stickychat.commands.ReplyCommand
 import com.dumbdogdiner.stickychat.data.StorageManager
-import com.dumbdogdiner.stickychat.files.Configuration
 import com.dumbdogdiner.stickychat.listeners.PlayerListener
 import com.dumbdogdiner.stickychat.listeners.SignListener
 import com.dumbdogdiner.stickychat.managers.ChatManager
@@ -24,9 +24,14 @@ class StickyChatPlugin : JavaPlugin() {
     lateinit var privateMessageManager: PrivateMessageManager
     lateinit var signSpyManager: SignSpyManager
 
+    // :3
+    var heckDontEnableSomethingWentWrong = false
+
     override fun onLoad() {
         instance = this
-        Configuration.loadDefaultConfig()
+        logger.info("Loading configuration...")
+        saveDefaultConfig()
+        reloadConfig()
 
         // Initialize storage manager
         storageManager = StorageManager()
@@ -39,9 +44,14 @@ class StickyChatPlugin : JavaPlugin() {
     }
 
     override fun onEnable() {
+        if (heckDontEnableSomethingWentWrong) {
+            return
+        }
+
         // Register commands
         getCommand("chat")?.setExecutor(ChatCommand())
         getCommand("message")?.setExecutor(MessageCommand())
+        getCommand("reply")?.setExecutor(ReplyCommand())
         getCommand("nick")?.setExecutor(NickCommand())
         getCommand("mail")?.setExecutor(MailCommand())
 

@@ -32,7 +32,7 @@ class PlayerListener : Base, Listener {
 
     @EventHandler
     fun onPlayerJoin(e: PlayerJoinEvent) {
-        if (config.getBoolean("chat.disableJoinMessages", false)) {
+        if (config.getBoolean("chat.disable-join-messages", false)) {
             e.joinMessage = ""
         }
 
@@ -42,9 +42,11 @@ class PlayerListener : Base, Listener {
 
     @EventHandler
     fun onPlayerQuit(e: PlayerQuitEvent) {
-        if (config.getBoolean("chat.disableJoinMessages", false)) {
+        if (config.getBoolean("chat.disable-quit-messages", false)) {
             e.quitMessage = ""
         }
+
+        privateMessageManager.forgetLastMessageTarget(e.player)
     }
 
     @EventHandler
