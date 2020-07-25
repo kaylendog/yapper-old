@@ -34,8 +34,6 @@ class SignSpyManager : Listener, Base {
         utilComponent.text = FormatUtils.colorize(config.getString("prefix", "&b&lStickyChat &r&8» &r")!!)
 
         val teleportComponent = TextComponent()
-        // Todo: VLAD FIX THIS SPACE OR I WILL- uh
-        // idk <3
         teleportComponent.text = FormatUtils.colorize("&b[TELEPORT] ")
         teleportComponent.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp ${e.block.location.blockX} ${e.block.location.blockY} ${e.block.location.blockZ}")
 
@@ -43,8 +41,12 @@ class SignSpyManager : Listener, Base {
         val destroyComponent = TextComponent()
         destroyComponent.text = FormatUtils.colorize("&c[DESTROY]")
         destroyComponent.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/setblock ${e.block.location.blockX} ${e.block.location.blockY} ${e.block.location.blockZ} air destroy")
+        
+        val vladdyNitpicksALot = TextComponent()
+        vladdyNitpicksALot.text = FormatUtils.colorize(" &bor ")
 
         utilComponent.addExtra(teleportComponent)
+        utilComponent.addExtra(vladdyNitpicksALot)
         utilComponent.addExtra(destroyComponent)
 
         val enableSound = config.getBoolean("sign-spy.enable-sound", true)
