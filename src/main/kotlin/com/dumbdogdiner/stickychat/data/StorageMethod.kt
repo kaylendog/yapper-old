@@ -35,11 +35,21 @@ interface StorageMethod : Base {
     /**
      * Store a mail message.
      */
-    fun saveMailMessage(from: Player, to: String, content: String, created: Long): Boolean
+    fun saveLetter(from: Player, to: String, content: String, created: Long): Boolean
 
     /**
      * Fetch a mail message from disk.
      * Todo: Use unique ids?
      */
-    fun getMailMessage(id: Int): Boolean
+    fun getLetter(id: Int): Boolean
+
+    /**
+     * Fetch letters for a given player.
+     */
+    fun fetchLettersForPlayer(player: Player): List<Letter>
+
+    /**
+     * Fetch letters for a given player, with an option to fetch only unread.
+     */
+    fun fetchLettersForPlayer(player: Player, filterUnread: Boolean): List<Letter>
 }

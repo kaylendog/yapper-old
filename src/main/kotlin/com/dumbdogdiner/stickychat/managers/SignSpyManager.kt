@@ -17,22 +17,28 @@ class SignSpyManager : Listener, Base {
      * Handle the creation of a sign.
      */
     fun handleSignCreation(e: SignChangeEvent) {
+        if (!config.getBoolean("sign-spy.enabled", true)) {
+            return
+        }
+
         for (it in server.onlinePlayers) {
             if (!it.hasPermission("stickychat.signspy")) {
                 continue
             }
 
             it.sendMessage(
-                colorize("&bPlayer '%name%' (%uuid%) placed a sign at %x%, %y%, %z% with content: %content%")
+                colorize("&bPlayer '&a%name%&b' (%uuid%) placed a sign at %x%, %y%, %z% with content:\n - %content%")
                     .replace("%name%", e.player.displayName)
                     .replace("%uuid%", e.player.uniqueId.toString())
                     .replace("%x%", e.block.location.x.toString())
                     .replace("%y%", e.block.location.y.toString())
                     .replace("%z%", e.block.location.z.toString())
-                    .replace("%content%", e.lines.filter { txt -> txt.isNotBlank() }.joinToString(","))
+                    .replace("%content%", e.lines.filter { txt -> txt.isNotBlank() }.joinToString("\n &r&b-&r "))
             )
 
-            SoundUtils.info(it)
+            if (config.getBoolean("sign-spy.enable-sound", true)) {
+                SoundUtils.info(it)
+            }
         }
     }
 

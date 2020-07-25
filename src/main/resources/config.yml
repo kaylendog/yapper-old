@@ -62,6 +62,9 @@ mail:
   # Whether this server should check for new mail when a player joins.
   notify-on-join: true
 
+  enable-sound: true
+  format: "%name%: %message%"
+
 # Configuration options for SignSpy
 # This feature is WIP!
 sign-spy:

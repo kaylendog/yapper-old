@@ -49,8 +49,9 @@ class ChatManager : Base {
      * other servers on the network.
      */
     fun broadcastPlayerMessage(player: Player, content: String) {
-        sendGlobalChatMessage(player.uniqueId.toString(), player.name, FormatUtils.formatGlobalChatMessage(player, content))
-        PluginMessenger.broadcastMessage(player, content)
+        val formattedContent = FormatUtils.formatGlobalChatMessage(player, content)
+        sendGlobalChatMessage(player.uniqueId.toString(), player.name, formattedContent)
+        PluginMessenger.broadcastMessage(player, formattedContent)
     }
 
     /**

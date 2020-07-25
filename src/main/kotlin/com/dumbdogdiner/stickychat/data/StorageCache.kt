@@ -12,18 +12,28 @@ class StorageCache : Base {
     /**
      * Whether the cache contains a user display name.
      */
-    fun hasDisplayName(p: Player): Boolean {
+    fun hasNickname(p: Player): Boolean {
         return displayNameCache.contains(p.uniqueId.toString())
     }
 
     /**
      * Fetch the display name of a player.
      */
-    fun getPlayerDisplayName(p: Player): String {
-        return if (displayNameCache.containsKey(p.uniqueId.toString())) {
-            displayNameCache[p.uniqueId.toString()]!!
-        } else {
-            p.displayName
-        }
+    fun getPlayerNickname(p: Player): String? {
+        return displayNameCache[p.uniqueId.toString()]
+    }
+
+    /**
+     * Set a player's nickname.
+     */
+    fun setPlayerNickname(p: Player, v: String) {
+        displayNameCache[p.uniqueId.toString()] = v
+    }
+
+    /**
+     * Delete a display name from the cache.
+     */
+    fun deleteNickname(p: Player): Boolean {
+        return displayNameCache.remove(p.uniqueId.toString()) != null
     }
 }

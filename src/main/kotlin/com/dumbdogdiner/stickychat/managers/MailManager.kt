@@ -17,6 +17,13 @@ import org.bukkit.entity.Player
  */
 class MailManager : Base {
     /**
+     * Check for new messages sent to the given player.
+     */
+    fun checkForMail(recipient: Player) {
+        storageManager
+    }
+
+    /**
      * Create and send a mail message
      */
     fun sendMailMessage(from: Player, to: String, content: String) {
@@ -61,7 +68,7 @@ class MailManager : Base {
      * Save a message to storage.
      */
     fun saveMailMessage(player: Player, to: String, content: String, createdAt: Long) {
-        storageManager.saveMailMessage(player, to, content, createdAt)
+        storageManager.saveLetter(player, to, content, createdAt)
     }
 
     /**

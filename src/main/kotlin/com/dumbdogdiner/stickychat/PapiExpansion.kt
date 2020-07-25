@@ -7,7 +7,6 @@ import org.bukkit.entity.Player
  * PlaceholderAPI Expansion class
  */
 class PapiExpansion : PlaceholderExpansion(), Base {
-
     override fun persist(): Boolean {
         return true
     }
@@ -21,7 +20,7 @@ class PapiExpansion : PlaceholderExpansion(), Base {
     }
 
     override fun getIdentifier(): String {
-        return "parkour"
+        return "stickychat"
     }
 
     override fun getVersion(): String {
@@ -29,6 +28,6 @@ class PapiExpansion : PlaceholderExpansion(), Base {
     }
 
     override fun onPlaceholderRequest(player: Player, identifier: String): String? {
-        return "INVALID"
+        return null
     }
 }

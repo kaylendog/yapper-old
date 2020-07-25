@@ -130,10 +130,13 @@ object PluginMessenger : Base, PluginMessageListener {
         val fromUuid = data.readUTF()
         val fromName = data.readUTF()
         val to = data.readUTF()
+
+        val target = server.onlinePlayers.find { it.name == to } ?: return
+
         val content = data.readUTF()
         val createdAt = data.readLong()
 
-        mailManager.handleReceivedMailMessage(fromUuid, fromName, to, content, createdAt)
+        mailManager.handleReceivedMailMessage(fromUuid, fromName, target, content, createdAt)
     }
 
     fun sendMail(target: Player, fromUuid: String, fromName: String, toName: String, content: String, createdAt: Long) {
