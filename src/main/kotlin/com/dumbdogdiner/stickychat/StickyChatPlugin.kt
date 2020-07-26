@@ -49,7 +49,7 @@ class StickyChatPlugin : JavaPlugin() {
         }
 
         // Register commands
-        getCommand("chat")?.setExecutor(ChatCommand())
+        getCommand("stickychat")?.setExecutor(ChatCommand())
         getCommand("message")?.setExecutor(MessageCommand())
         getCommand("reply")?.setExecutor(ReplyCommand())
         getCommand("nick")?.setExecutor(NickCommand())

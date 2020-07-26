@@ -26,17 +26,36 @@ object FormatUtils : Base {
      * Format a global chat message from a player.
      */
     fun formatGlobalChatMessage(from: Player, content: String): String {
-        val content = content.replace("%", "")
-
         val withFormatting = colorize(config.getString("chat.format", "&8%name%: %message%")!!)
                 .replace("%name%", if (from.hasPermission("stickychat.colorizeNick")) colorize(from.displayName) else from.displayName)
                 .replace("%message%", if (from.hasPermission("stickychat.colorizeMessage")) colorize(content) else content)
 
-        // This needs to be better
-        return PlaceholderUtils.setPlaceholdersSafe(
+        return try { PlaceholderUtils.setPlaceholdersSafe(
                 from,
                 withFormatting
-        )
+        ) } catch (e: Exception) {
+            logger.warning("Error while parsing placeholders for player '${from.name} (${from.uniqueId})")
+            e.printStackTrace()
+            withFormatting
+        }
+    }
+
+    /**
+     * Format an outgoing chat message from a given player.
+     */
+    fun formatOutgoingGlobalChatMessage(from: Player, content: String): String {
+        val withFormatting = colorize(config.getString("chat.cross-server-format", "&8%name%: %message%")!!)
+            .replace("%name%", if (from.hasPermission("stickychat.colorizeNick")) colorize(from.displayName) else from.displayName)
+            .replace("%message%", if (from.hasPermission("stickychat.colorizeMessage")) colorize(content) else content)
+
+        return try { PlaceholderUtils.setPlaceholdersSafe(
+            from,
+            withFormatting
+        ) } catch (e: Exception) {
+            logger.warning("Error while parsing placeholders for player '${from.name} (${from.uniqueId})")
+            e.printStackTrace()
+            withFormatting
+        }
     }
 
     /**

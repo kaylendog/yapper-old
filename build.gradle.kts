@@ -53,7 +53,7 @@ tasks {
 
     spigot {
         authors = listOf("SkyezerFox")
-        softDepends = listOf("PlaceholderAPI", "LuckPerms")
+        softDepends = listOf("PlaceholderAPI")
 
         commands {
             create("mail") {
@@ -70,8 +70,10 @@ tasks {
                 usage = "/reply <message>"
                 aliases = listOf("r")
             }
-            create("chat") {
+            create("stickychat") {
                 description = "StickyChat management and configuration."
+                usage = "/stickychat [reload]"
+                aliases = listOf("chat")
             }
         }
         apiVersion = "1.16"

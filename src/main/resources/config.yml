@@ -75,3 +75,7 @@ mail:
 sign-spy:
   enabled: true
   enable-sound: true
+
+debug:
+  # Allow players to send themselves messages.
+  enable-self-message: false

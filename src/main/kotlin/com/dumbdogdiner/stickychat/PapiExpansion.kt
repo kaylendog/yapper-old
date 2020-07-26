@@ -27,7 +27,14 @@ class PapiExpansion : PlaceholderExpansion(), Base {
         return plugin.description.version
     }
 
-    override fun onPlaceholderRequest(player: Player, identifier: String): String? {
-        return null
+    override fun onPlaceholderRequest(player: Player?, identifier: String): String? {
+        if (player == null) return ""
+
+        return when (identifier.toLowerCase()) {
+            "server" -> config.getString("server", "server")
+            "player_displayname" -> storageManager.getPlayerDisplayname(player)
+            "player_nickname" -> storageManager.getPlayerNickname(player)
+            else -> null
+        }
     }
 }

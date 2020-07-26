@@ -21,6 +21,10 @@ import org.bukkit.entity.Player
 class ChatManager : Base {
     private val playerChatPriority = HashMap<Player, Priority>()
 
+    init {
+        logger.info("Cross-server messaging has been ${ if (config.getBoolean("chat.cross-server-messaging", true)) {"enabled"} else {"disabled"}}")
+    }
+
     /**
      * Broadcast a given message to all players.
      */
@@ -48,9 +52,13 @@ class ChatManager : Base {
      * other servers on the network.
      */
     fun broadcastPlayerMessage(player: Player, content: String) {
-        val formattedContent = FormatUtils.formatGlobalChatMessage(player, content)
+        var formattedContent = FormatUtils.formatGlobalChatMessage(player, content)
         sendGlobalChatMessage(player.uniqueId.toString(), player.name, formattedContent)
-        PluginMessenger.broadcastMessage(player, formattedContent)
+
+        if (config.getBoolean("chat.cross-server-messaging", true)) {
+            formattedContent = FormatUtils.formatOutgoingGlobalChatMessage(player, content)
+            PluginMessenger.broadcastMessage(player, formattedContent)
+        }
     }
 
     /**

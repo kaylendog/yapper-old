@@ -17,6 +17,9 @@ class MailCommand : Base, TabExecutor {
             return true
         }
 
+        chatManager.sendSystemMessage(sender, "&cThis command is still being implemented!")
+        return true
+
         if (args.size < 2) {
             ServerUtils.sendColorizedMessage(sender, "&cInvalid command usage - /mail <player> <message>")
         }

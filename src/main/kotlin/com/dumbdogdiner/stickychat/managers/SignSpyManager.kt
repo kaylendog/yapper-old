@@ -17,13 +17,12 @@ import org.bukkit.event.block.SignChangeEvent
  */
 class SignSpyManager : Listener, Base {
     private val disabledPlayers = mutableSetOf<Player>()
-
     private val placedSigns = mutableSetOf<Player>()
 
     private val vladdyNitpicksALotOhYesHeDoes = TextComponent()
 
     init {
-        vladdyNitpicksALotOhYesHeDoes.text = FormatUtils.colorize(" &bor ")
+        vladdyNitpicksALotOhYesHeDoes.text = FormatUtils.colorize(" &eor ")
     }
 
     /**
@@ -40,7 +39,7 @@ class SignSpyManager : Listener, Base {
         utilComponent.text = FormatUtils.colorize(config.getString("prefix", "&b&lStickyChat &r&8» &r")!!)
 
         val teleportComponent = TextComponent()
-        teleportComponent.text = FormatUtils.colorize("&b[TELEPORT]")
+        teleportComponent.text = FormatUtils.colorize("&d[TELEPORT]")
         teleportComponent.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp ${e.block.location.blockX} ${e.block.location.blockY} ${e.block.location.blockZ}")
 
         // Todo: Add permission workaround.
