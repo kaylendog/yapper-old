@@ -55,7 +55,7 @@ class ChatManager : Base {
         var formattedContent = FormatUtils.formatGlobalChatMessage(player, content)
         sendGlobalChatMessage(player.uniqueId.toString(), player.name, formattedContent)
 
-        if (config.getBoolean("chat.cross-server-messaging", true)) {
+        if (config.getBoolean("chat.outgoing-cross-server-messaging", true)) {
             formattedContent = FormatUtils.formatOutgoingGlobalChatMessage(player, content)
             PluginMessenger.broadcastMessage(player, formattedContent)
         }
@@ -130,7 +130,7 @@ class ChatManager : Base {
         component.text = colorize("&bMessage from &e$name\n")
         component.addExtra(colorize("&bUUID: &e$uuid\n"))
         component.addExtra(colorize("&bSent: &e${SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date.from(Instant.now()))}\n"))
-        component.addExtra(colorize("&aClick to send a message."))
+        component.addExtra(colorize("&dClick to send a message."))
 
         return component
     }

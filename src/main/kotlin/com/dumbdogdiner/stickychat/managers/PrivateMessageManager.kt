@@ -69,7 +69,7 @@ class PrivateMessageManager : Base {
      * Send a local private message between players on the same server.
      */
     fun sendLocalPrivateMessage(from: Player, to: Player, content: String) {
-        if (from == to) {
+        if (from == to && !config.getBoolean("debug.enable-self-message")) {
             ServerUtils.sendColorizedMessage(from, "&cYou cannot send a message to yourself!")
             SoundUtils.error(from)
             return
@@ -178,7 +178,7 @@ class PrivateMessageManager : Base {
         hoverComponent.text = FormatUtils.colorize("&bMessage from &e$fromName\n")
         hoverComponent.addExtra(FormatUtils.colorize("&bUUID: &e$fromUuid\n"))
         hoverComponent.addExtra(FormatUtils.colorize("&bSent: &e${SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date.from(Instant.now()))}\n"))
-        hoverComponent.addExtra(FormatUtils.colorize("&aClick to reply to this message."))
+        hoverComponent.addExtra(FormatUtils.colorize("&dClick to reply to this message."))
 
         // Todo: Fix deprecations
         message.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, arrayOf(hoverComponent))

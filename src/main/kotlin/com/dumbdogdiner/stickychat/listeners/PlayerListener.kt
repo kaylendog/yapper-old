@@ -76,7 +76,7 @@ class PlayerListener : Base, Listener {
             return
         }
 
-        if (Random.nextDouble(0.0, 1.0) <= 0.01) {
+        if (Random.nextDouble(0.0, 1.0) <= 0.00001) {
             val location = ServerUtils.extractLocation(e.player.location, e.player.eyeLocation.direction)
             val entity = e.player.world.spawnEntity(location, EntityType.FOX)
             e.player.playSound(location, Sound.ENTITY_CREEPER_PRIMED, 2f, 1f)

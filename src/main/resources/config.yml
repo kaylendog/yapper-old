@@ -5,15 +5,10 @@
 # Main Configuration File
 #
 
-#
-# DATABASE SETTINGS CAN BE IGNORED FOR THIS BUILD - they don't do anything uwu.
-#
 # Which storage method to use for data storage.
 # Currently supports:
-#   - H2
 #   - PostgreSQL
 #   - MySQL
-#   - YAML
 storage-method: PostgreSQL
 
 # Configure remote database settings.
@@ -36,8 +31,8 @@ prefix: "&b&lStickyChat &r&8» &r"
 # Configuration for chat.
 chat:
   # The default format to use.
-  format: "&7%name%: %message%"
-
+  # Supports placeholders and color codes.
+  format: "&7%name% &8» &7%message%"
 
   # Disable join/quit messages - useful if you have a bungee plugin handling them for you already.
   disable-join-messages: false
@@ -48,16 +43,26 @@ chat:
   death-message-format: "%content%"
 
   # Enable cross-server communication.
-  cross-server-messaging: true
-  cross-server-format: "[%server% - %name%] &b%message%"
+  incoming-cross-server-messaging: true
+  outgoing-cross-server-messaging: true
+  cross-server-format: "&8[&a%server% &8- &b%name%&8] &7%message%"
 
 # Configuration for private messages.
+#
+# Available formats:
+# %from_name% - Name of the player who sent the message
+# %from_uuid% - UUID of the player who sent the message
+# %to_name% - Name of the player who received the message
+# %message% - The message
+#
+# Supports placeholders and color codes. For incoming messages, placeholders will be evaluated
+# as the recipient. For outgoing, they will be evaluated as the sender.
 messages:
   incoming:
     enable-sound: true
-    format: "[PM] %name% => %message%"
+    format: "&8[&e&lPM&r&8] &a%from_name% &8» &r%message%"
   outgoing:
-    format: "[PM] %name% => %message%"
+    format: "&8[&e&lPM&r&8] &a%from_name% &8» &r%message%"
 
 # Configuration for mail.
 mail:
@@ -68,7 +73,7 @@ mail:
   notify-on-join: true
 
   enable-sound: true
-  format: "%name%: %message%"
+  format: "&7%name% &8» &7%message%"
 
 # Configuration options for SignSpy
 # This feature is WIP!

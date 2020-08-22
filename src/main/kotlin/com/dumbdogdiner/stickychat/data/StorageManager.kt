@@ -36,7 +36,14 @@ class StorageManager : Base, StorageMethod {
     }
 
     /**
-     * Fetch a player's nickname - will return their username if no nickname is present.
+     * Fetch a player displayname.
+     */
+    override fun getPlayerDisplayname(player: Player): String {
+        return getPlayerNickname(player) ?: player.name
+    }
+
+    /**
+     * Fetch a player's nickname.
      */
     override fun getPlayerNickname(player: Player): String? {
         val cached = cache.getPlayerNickname(player)
@@ -44,7 +51,7 @@ class StorageManager : Base, StorageMethod {
             return cached
         }
 
-        return storageMethod.getPlayerNickname(player) ?: player.name
+        return storageMethod.getPlayerNickname(player)
     }
 
     /**

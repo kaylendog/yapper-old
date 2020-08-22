@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "com.dumbdogdiner"
-version = "2.0.0-alpha-rc1"
+version = "2.0.0-alpha-rc2"
 
 repositories {
     mavenCentral()
@@ -30,6 +30,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-jdbc:0.26.1")
     implementation("org.postgresql:postgresql:42.2.2")
     implementation("mysql:mysql-connector-java:5.1.48")
+    implementation("me.lucko:helper:5.6.2")
 
     implementation("com.okkero.skedule:skedule:1.2.6")
 
@@ -58,7 +59,7 @@ tasks {
         commands {
             create("mail") {
                 description = "Send a mail to another player on the network."
-                usage = "/mail <player> <message>"
+                usage = "/mail [filter/player] [player] [unread]"
             }
             create("message") {
                 description = "Send a private message to a player currently online."

@@ -6,6 +6,8 @@ import com.dumbdogdiner.stickychat.commands.MessageCommand
 import com.dumbdogdiner.stickychat.commands.NickCommand
 import com.dumbdogdiner.stickychat.commands.ReplyCommand
 import com.dumbdogdiner.stickychat.data.StorageManager
+import com.dumbdogdiner.stickychat.files.DeathMessages
+import com.dumbdogdiner.stickychat.listeners.DeathListener
 import com.dumbdogdiner.stickychat.listeners.PlayerListener
 import com.dumbdogdiner.stickychat.listeners.SignListener
 import com.dumbdogdiner.stickychat.managers.ChatManager
@@ -33,6 +35,8 @@ class StickyChatPlugin : JavaPlugin() {
         saveDefaultConfig()
         reloadConfig()
 
+        DeathMessages.loadMessages()
+
         // Initialize storage manager
         storageManager = StorageManager()
         storageManager.init()
@@ -58,6 +62,7 @@ class StickyChatPlugin : JavaPlugin() {
         // Register events
         server.pluginManager.registerEvents(PlayerListener(), this)
         server.pluginManager.registerEvents(SignListener(), this)
+        server.pluginManager.registerEvents(DeathListener(), this)
 
         // Plugin messaging
         server.messenger.registerOutgoingPluginChannel(this, "BungeeCord")

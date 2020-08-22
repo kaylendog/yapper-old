@@ -1,6 +1,7 @@
 package com.dumbdogdiner.stickychat.managers
 
 import com.dumbdogdiner.stickychat.Base
+import com.dumbdogdiner.stickychat.gui.LetterGui
 import com.dumbdogdiner.stickychat.utils.FormatUtils.colorize
 import com.dumbdogdiner.stickychat.utils.Priority
 import com.dumbdogdiner.stickychat.utils.ServerUtils
@@ -55,6 +56,22 @@ class MailManager : Base {
         SoundUtils.info(from)
 
         storageManager.savePartialLetter(from, to, content, createdAt)
+    }
+
+    /**
+     * Fetch a player's mail.
+     */
+    fun readAllMail(to: Player, page: Int) {
+        GlobalScope.launch {
+            val letters = storageManager.fetchLettersForPlayer(to)
+            LetterGui(to, letters)
+        }
+    }
+
+    fun readUnreadMail(to: Player, page: Int) {
+        GlobalScope.launch {
+            storageManager.fetchLettersForPlayer(to, true)
+        }
     }
 
     /**
@@ -117,7 +134,7 @@ class MailManager : Base {
         hoverComponent.text = colorize("&bLetter from &e$fromName\n")
         hoverComponent.addExtra(colorize("&bUUID: &e$fromUuid\n"))
         hoverComponent.addExtra(colorize("&bSent: &e${SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(createdAt)}\n"))
-        hoverComponent.addExtra(colorize("&bClick to send a message."))
+        hoverComponent.addExtra(colorize("&dClick to send a message."))
 
         message.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, arrayOf(hoverComponent))
         message.clickEvent = ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/mail $fromName ")

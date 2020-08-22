@@ -50,6 +50,10 @@ object PluginMessenger : Base, PluginMessageListener {
      */
 
     private fun handleMessage(data: DataInputStream) {
+        if (!config.getBoolean("chat.incoming-cross-server-messaging", true)) {
+            return
+        }
+
         chatManager.sendGlobalChatMessage(data.readUTF(), data.readUTF(), data.readUTF())
     }
 

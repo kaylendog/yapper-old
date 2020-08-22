@@ -13,7 +13,7 @@ object FormatUtils : Base {
     /**
      * Convert a list of strings containing bukkit colour codes into their true values.
      */
-    fun colorize(list: List<String>) = list.map { colorize(it); }
+    fun colorize(list: List<String>) = list.map { colorize(it) }
 
     /**
      * Format an SQL table name.
@@ -26,62 +26,52 @@ object FormatUtils : Base {
      * Format a global chat message from a player.
      */
     fun formatGlobalChatMessage(from: Player, content: String): String {
-        val withFormatting = colorize(config.getString("chat.format", "&8%name%: %message%")!!)
-                .replace("%name%", if (from.hasPermission("stickychat.colorizeNick")) colorize(from.displayName) else from.displayName)
-                .replace("%message%", if (from.hasPermission("stickychat.colorizeMessage")) colorize(content) else content)
-
-        return try { PlaceholderUtils.setPlaceholdersSafe(
-                from,
-                withFormatting
-        ) } catch (e: Exception) {
-            logger.warning("Error while parsing placeholders for player '${from.name} (${from.uniqueId})")
-            e.printStackTrace()
-            withFormatting
-        }
+        return PlaceholderUtils.setPlaceholdersSafe(
+            from,
+            config.getString("chat.format", "&8%name%: %message%")!!
+        )
+            .replace("%name%", if (from.hasPermission("stickychat.colorizeNick")) colorize(from.displayName) else from.displayName)
+            .replace("%message%", if (from.hasPermission("stickychat.colorizeMessage")) colorize(content) else content)
     }
 
     /**
      * Format an outgoing chat message from a given player.
      */
     fun formatOutgoingGlobalChatMessage(from: Player, content: String): String {
-        val withFormatting = colorize(config.getString("chat.cross-server-format", "&8%name%: %message%")!!)
+        return PlaceholderUtils.setPlaceholdersSafe(
+                from,
+                config.getString("chat.cross-server-format", "&8%name%: %message%")!!
+        )
             .replace("%name%", if (from.hasPermission("stickychat.colorizeNick")) colorize(from.displayName) else from.displayName)
             .replace("%message%", if (from.hasPermission("stickychat.colorizeMessage")) colorize(content) else content)
-
-        return try { PlaceholderUtils.setPlaceholdersSafe(
-            from,
-            withFormatting
-        ) } catch (e: Exception) {
-            logger.warning("Error while parsing placeholders for player '${from.name} (${from.uniqueId})")
-            e.printStackTrace()
-            withFormatting
-        }
     }
 
     /**
      * Format an incoming private message.
      */
     fun formatIncomingPrivateMessage(fromUuid: String, fromName: String, to: Player, content: String): String {
-        val message = content.replace("%", "")
+        val format = config.getString("messages.incoming.format", "&8[&e&lPM&r&8] &a%from_name% &8» &r%message%")!!
+        val formatWithPlaceholders = PlaceholderUtils.setPlaceholdersSafe(to, format)
 
-        return colorize(config.getString("private.incoming.format", "[PM] %from_name% => %message%")!!)
-                .replace("%from_uuid%", fromUuid)
-                .replace("%from_name%", fromName)
-                .replace("%to_name%", to.name)
-                .replace("%message%", message)
+        return colorize(formatWithPlaceholders)
+            .replace("%from_uuid%", fromUuid)
+            .replace("%from_name%", fromName)
+            .replace("%to_name%", to.name)
+            .replace("%message%", content)
     }
 
     /**
      * Format an outgoing private message.
      */
     fun formatOutgoingPrivateMessage(from: Player, to: String, content: String): String {
-        val message = content.replace("%", "")
+        val format = config.getString("messages.outgoing.format", "&8[&e&lPM&r&8] &a%from_name% &8» &r%message%")!!
+        val formatWithPlaceholders = PlaceholderUtils.setPlaceholdersSafe(from, format)
 
-        return colorize(config.getString("private.outgoing.format", "[PM] %from_name% => %message%")!!)
-                .replace("%from_uuid%", from.uniqueId.toString())
-                .replace("%from_name%", from.name)
-                .replace("%to_name%", to)
-                .replace("%message%", message)
+        return colorize(formatWithPlaceholders)
+            .replace("%from_uuid%", from.uniqueId.toString())
+            .replace("%from_name%", from.name)
+            .replace("%to_name%", to)
+            .replace("%message%", content)
     }
 
     const val entityName = "&cS&et&ai&bn&9k&dy"

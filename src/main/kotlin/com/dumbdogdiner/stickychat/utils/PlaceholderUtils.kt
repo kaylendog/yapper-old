@@ -1,6 +1,7 @@
 package com.dumbdogdiner.stickychat.utils
 
 import com.dumbdogdiner.stickychat.Base
+import java.lang.Exception
 import me.clip.placeholderapi.PlaceholderAPI
 import org.bukkit.entity.Player
 
@@ -18,7 +19,11 @@ object PlaceholderUtils : Base {
             return str
         }
 
-        return PlaceholderAPI.setPlaceholders(player, str)
+        return try { PlaceholderAPI.setPlaceholders(player, str) } catch (err: Exception) {
+            logger.warning("Error while parsing placeholders for player '${player.name} (${player.uniqueId})")
+            err.printStackTrace()
+            str
+        }
     }
 
     fun checkPlayerIsSafe(player: Player): Boolean {

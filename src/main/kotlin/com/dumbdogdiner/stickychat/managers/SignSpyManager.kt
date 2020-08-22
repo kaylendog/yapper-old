@@ -33,7 +33,7 @@ class SignSpyManager : Listener, Base {
             return
         }
 
-        val msg = "&a${e.player.name} &bplaced a sign at ${e.block.location.x}, ${e.block.location.y}, ${e.block.location.z}" + "\n &r&8- &r" + e.lines.filter { txt -> txt.isNotBlank() }.joinToString("\n &r&8- &r")
+        val msg = "&a${e.player.name} &bplaced a sign at ${e.block.location.x}, ${e.block.location.y}, ${e.block.location.z}" + "\n &r&8- &r&7" + e.lines.filter { txt -> txt.isNotBlank() }.joinToString("\n &r&8- &r&7")
 
         val utilComponent = TextComponent()
         utilComponent.text = FormatUtils.colorize(config.getString("prefix", "&b&lStickyChat &r&8» &r")!!)
