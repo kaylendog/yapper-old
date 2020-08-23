@@ -35,10 +35,18 @@ object PluginMessenger : Base, PluginMessageListener {
         val type: MessageType = MessageType.values()[msgin.readShort().toInt()]
 
         when (type) {
-            MessageType.MESSAGE -> handleMessage(msgin)
-            MessageType.PRIVATE_MESSAGE -> handlePrivateMessage(msgin)
-            MessageType.PRIVATE_MESSAGE_ACK -> handlePrivateMessageAck(msgin)
-            MessageType.MAIL -> handleMailReceive(msgin)
+            MessageType.MESSAGE -> handleMessage(
+                msgin
+            )
+            MessageType.PRIVATE_MESSAGE -> handlePrivateMessage(
+                msgin
+            )
+            MessageType.PRIVATE_MESSAGE_ACK -> handlePrivateMessageAck(
+                msgin
+            )
+            MessageType.MAIL -> handleMailReceive(
+                msgin
+            )
         }
     }
 
@@ -160,7 +168,9 @@ object PluginMessenger : Base, PluginMessageListener {
      * Send a plugin message to Bungee.
      */
     private fun sendPluginMessage(data: ByteArrayDataOutput) {
-        sendTargetedPluginMessage(Bukkit.getOnlinePlayers().first(), data)
+        sendTargetedPluginMessage(
+            Bukkit.getOnlinePlayers().first(), data
+        )
     }
 
     /**

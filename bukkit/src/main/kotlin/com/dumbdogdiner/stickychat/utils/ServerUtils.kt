@@ -12,7 +12,8 @@ import org.bukkit.util.Vector
  */
 object ServerUtils : Base {
     fun sendMessage(sender: CommandSender, message: String) = sender.sendMessage("${colorize(config.getString("prefix").orEmpty())}$message")
-    fun sendColorizedMessage(sender: CommandSender, message: String) = sendMessage(sender, colorize(message))
+    fun sendColorizedMessage(sender: CommandSender, message: String) =
+        sendMessage(sender, colorize(message))
 
     fun extractLocation(a: Location, b: Vector): Location {
         return a.world.getHighestBlockAt(a.clone().add(

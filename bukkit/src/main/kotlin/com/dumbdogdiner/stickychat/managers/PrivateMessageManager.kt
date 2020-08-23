@@ -92,7 +92,13 @@ class PrivateMessageManager : Base {
 
     fun sendRemotePrivateMessage(from: Player, to: String, content: String) {
         val nonce = nonceGenerator.nextInt()
-        futurePrivateMessages[nonce] = PrivateMessage(from, to, content, nonce)
+        futurePrivateMessages[nonce] =
+            PrivateMessage(
+                from,
+                to,
+                content,
+                nonce
+            )
 
         messenger.broadcastPrivateMessage(from, to, content, nonce)
         logger.info("[PM] Broadcasted private message from '${from.name}' to target '$to'")

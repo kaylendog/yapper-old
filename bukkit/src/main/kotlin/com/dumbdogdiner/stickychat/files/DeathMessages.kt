@@ -55,7 +55,9 @@ object DeathMessages : Base {
      * Get a random death message from configuration.
      */
     fun getRandom(type: EntityDamageEvent.DamageCause): String? {
-        val section = deathConfig.getList(formatEnumName(type)) ?: return null
+        val section = deathConfig.getList(
+            formatEnumName(type)
+        ) ?: return null
         return section.random() as String
     }
 
@@ -63,7 +65,9 @@ object DeathMessages : Base {
      * Fetch all the loaded death messages.
      */
     fun getAll(type: EntityDamageEvent.DamageCause): List<String>? {
-        val section = deathConfig.getList(formatEnumName(type)) ?: return null
+        val section = deathConfig.getList(
+            formatEnumName(type)
+        ) ?: return null
         return section as List<String>
     }
 

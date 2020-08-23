@@ -12,9 +12,11 @@ import org.bukkit.entity.Player
  * Manages stored formats.
  * Todo: Async/synchronous filtering.
  */
-class StorageManager : Base, StorageMethod {
+class StorageManager : Base,
+    StorageMethod {
     private val cache = StorageCache()
-    private var storageMethod: StorageMethod = FileStorage()
+    private var storageMethod: StorageMethod =
+        FileStorage()
 
     /**
      * Initialize the storage manager.

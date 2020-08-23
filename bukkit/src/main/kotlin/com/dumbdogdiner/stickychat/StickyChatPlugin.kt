@@ -31,6 +31,7 @@ class StickyChatPlugin : JavaPlugin() {
 
     override fun onLoad() {
         instance = this
+
         logger.info("Loading configuration...")
         saveDefaultConfig()
         reloadConfig()
@@ -66,7 +67,9 @@ class StickyChatPlugin : JavaPlugin() {
 
         // Plugin messaging
         server.messenger.registerOutgoingPluginChannel(this, "BungeeCord")
-        server.messenger.registerIncomingPluginChannel(this, "BungeeCord", PluginMessenger)
+        server.messenger.registerIncomingPluginChannel(this, "BungeeCord",
+            PluginMessenger
+        )
         logger.info("Registered cross-server communication channels")
 
         // Register PAPI expansion if available.

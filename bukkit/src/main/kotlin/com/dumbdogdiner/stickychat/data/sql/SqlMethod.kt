@@ -20,7 +20,8 @@ import org.jetbrains.exposed.sql.update
 /**
  * Manages the connection between PostgreSQL and the plugin.
  */
-abstract class SqlMethod : Base, StorageMethod {
+abstract class SqlMethod : Base,
+    StorageMethod {
     abstract val driver: String
     abstract val protocol: String
 
@@ -55,7 +56,8 @@ abstract class SqlMethod : Base, StorageMethod {
             transaction {
                 addLogger(SqlLogger())
                 SchemaUtils.createMissingTablesAndColumns(
-                    Letters, Nicknames
+                    Letters,
+                    Nicknames
                 )
                 logger.info("[sql] Database ready.")
             }
@@ -69,7 +71,8 @@ abstract class SqlMethod : Base, StorageMethod {
 
     override fun getPlayerNickname(player: Player): String? {
         return transaction {
-            Nicknames.select { Nicknames.id eq player.uniqueId.toString() }.singleOrNull()?.get(Nicknames.value)
+            Nicknames.select { Nicknames.id eq player.uniqueId.toString() }.singleOrNull()?.get(
+                Nicknames.value)
         }
     }
 
@@ -119,7 +122,14 @@ abstract class SqlMethod : Base, StorageMethod {
             Letters.select { Letters.id eq id }.singleOrNull()
         } ?: return null
 
-        return Letter(letter[Letters.fromUuid], letter[Letters.fromName], letter[Letters.toUuid], letter[Letters.toName], letter[Letters.content], letter[Letters.createdAt])
+        return Letter(
+            letter[Letters.fromUuid],
+            letter[Letters.fromName],
+            letter[Letters.toUuid],
+            letter[Letters.toName],
+            letter[Letters.content],
+            letter[Letters.createdAt]
+        )
     }
 
     override fun fetchLettersForPlayer(player: Player): List<Letter> {

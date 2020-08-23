@@ -13,7 +13,11 @@ object FormatUtils : Base {
     /**
      * Convert a list of strings containing bukkit colour codes into their true values.
      */
-    fun colorize(list: List<String>) = list.map { colorize(it) }
+    fun colorize(list: List<String>) = list.map {
+        colorize(
+            it
+        )
+    }
 
     /**
      * Format an SQL table name.
@@ -30,8 +34,12 @@ object FormatUtils : Base {
             from,
             config.getString("chat.format", "&8%name%: %message%")!!
         )
-            .replace("%name%", if (from.hasPermission("stickychat.colorizeNick")) colorize(from.displayName) else from.displayName)
-            .replace("%message%", if (from.hasPermission("stickychat.colorizeMessage")) colorize(content) else content)
+            .replace("%name%", if (from.hasPermission("stickychat.colorizeNick")) colorize(
+                from.displayName
+            ) else from.displayName)
+            .replace("%message%", if (from.hasPermission("stickychat.colorizeMessage")) colorize(
+                content
+            ) else content)
     }
 
     /**
@@ -39,11 +47,15 @@ object FormatUtils : Base {
      */
     fun formatOutgoingGlobalChatMessage(from: Player, content: String): String {
         return PlaceholderUtils.setPlaceholdersSafe(
-                from,
-                config.getString("chat.cross-server-format", "&8%name%: %message%")!!
+            from,
+            config.getString("chat.cross-server-format", "&8%name%: %message%")!!
         )
-            .replace("%name%", if (from.hasPermission("stickychat.colorizeNick")) colorize(from.displayName) else from.displayName)
-            .replace("%message%", if (from.hasPermission("stickychat.colorizeMessage")) colorize(content) else content)
+            .replace("%name%", if (from.hasPermission("stickychat.colorizeNick")) colorize(
+                from.displayName
+            ) else from.displayName)
+            .replace("%message%", if (from.hasPermission("stickychat.colorizeMessage")) colorize(
+                content
+            ) else content)
     }
 
     /**
@@ -51,7 +63,8 @@ object FormatUtils : Base {
      */
     fun formatIncomingPrivateMessage(fromUuid: String, fromName: String, to: Player, content: String): String {
         val format = config.getString("messages.incoming.format", "&8[&e&lPM&r&8] &a%from_name% &8» &r%message%")!!
-        val formatWithPlaceholders = PlaceholderUtils.setPlaceholdersSafe(to, format)
+        val formatWithPlaceholders =
+            PlaceholderUtils.setPlaceholdersSafe(to, format)
 
         return colorize(formatWithPlaceholders)
             .replace("%from_uuid%", fromUuid)
@@ -65,7 +78,8 @@ object FormatUtils : Base {
      */
     fun formatOutgoingPrivateMessage(from: Player, to: String, content: String): String {
         val format = config.getString("messages.outgoing.format", "&8[&e&lPM&r&8] &a%from_name% &8» &r%message%")!!
-        val formatWithPlaceholders = PlaceholderUtils.setPlaceholdersSafe(from, format)
+        val formatWithPlaceholders =
+            PlaceholderUtils.setPlaceholdersSafe(from, format)
 
         return colorize(formatWithPlaceholders)
             .replace("%from_uuid%", from.uniqueId.toString())

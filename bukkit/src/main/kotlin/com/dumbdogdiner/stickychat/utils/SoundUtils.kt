@@ -25,7 +25,11 @@ object SoundUtils : Base {
 
     fun success(player: Player) {
         GlobalScope.launch(BukkitDispatcher(plugin)) {
-            playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1f)
+            playSound(
+                player,
+                Sound.ENTITY_PLAYER_LEVELUP,
+                1f
+            )
             delay(500)
             playSound(player, Sound.ENTITY_FOX_SCREECH)
         }
@@ -33,7 +37,11 @@ object SoundUtils : Base {
 
     fun quietSuccess(player: Player) {
         GlobalScope.launch(BukkitDispatcher(plugin)) {
-            playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 2f)
+            playSound(
+                player,
+                Sound.ENTITY_PLAYER_LEVELUP,
+                2f
+            )
             delay(500)
             playSound(player, Sound.ENTITY_FOX_SCREECH)
         }
@@ -44,7 +52,11 @@ object SoundUtils : Base {
      */
     fun info(player: Player) {
         GlobalScope.launch(BukkitDispatcher(plugin)) {
-            playSound(player, Sound.BLOCK_NOTE_BLOCK_HARP, 1.5f)
+            playSound(
+                player,
+                Sound.BLOCK_NOTE_BLOCK_HARP,
+                1.5f
+            )
             delay(500)
             playSound(player, Sound.ENTITY_FOX_SLEEP)
         }
@@ -64,7 +76,10 @@ object SoundUtils : Base {
      */
     fun error(player: Player) {
         GlobalScope.launch(BukkitDispatcher(plugin)) {
-            playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS)
+            playSound(
+                player,
+                Sound.BLOCK_NOTE_BLOCK_BASS
+            )
             playSound(player, Sound.ENTITY_ITEM_BREAK)
             playSound(player, Sound.ENTITY_FOX_HURT)
         }
