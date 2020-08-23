@@ -2,21 +2,10 @@
 import kr.entree.spigradle.kotlin.paper
 
 plugins {
-    kotlin("jvm") version "1.3.72"
-    kotlin("kapt") version "1.3.72"
-
-    id("kr.entree.spigradle") version "2.0.1"
-    id("com.github.johnrengelman.shadow") version "5.2.0"
-
-    id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
+    id("kr.entree.spigradle") version "2.1.2"
 }
 
-group = "com.dumbdogdiner"
-version = "2.0.0-alpha-rc2"
-
 repositories {
-    mavenCentral()
-
     maven { url = uri("http://nexus.okkero.com/repository/maven-releases/") }
     maven { url = uri("https://repo.extendedclip.com/content/repositories/placeholderapi/") }
 }
@@ -24,7 +13,7 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
 
-    compileOnly(paper("1.16.1"))
+    compileOnly(paper("1.16.2"))
 
     implementation("org.jetbrains.exposed:exposed-core:0.26.1")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.26.1")
@@ -40,23 +29,13 @@ dependencies {
 }
 
 tasks {
-    ktlintKotlinScriptCheck {
-        dependsOn("ktlintFormat")
-    }
-
     build {
         dependsOn("shadowJar")
-    }
-
-    shadowJar {
-        archiveClassifier.set("")
     }
 
     spigot {
         authors = listOf("SkyezerFox")
         softDepends = listOf("PlaceholderAPI")
-
-        main = "com.dumbdogdiner.stickychat.bukkit.StickyChatPlugin"
 
         commands {
             create("mail") {
@@ -79,6 +58,9 @@ tasks {
                 aliases = listOf("chat")
             }
         }
+
+        // TODO permission nodes
+
         apiVersion = "1.16"
     }
 }
