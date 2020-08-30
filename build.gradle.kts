@@ -5,11 +5,13 @@ plugins {
     kotlin("kapt") version "1.3.72"
     id("com.github.johnrengelman.shadow") version "5.2.0"
     id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
+    java
 }
 
 allprojects {
     repositories {
         jcenter()
+        mavenCentral()
     }
 }
 
@@ -21,8 +23,10 @@ subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "org.jetbrains.kotlin.kapt")
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
+    apply(plugin = "java")
 
     repositories {
+        jcenter()
         mavenCentral()
     }
 }
@@ -34,7 +38,7 @@ rootProject.childProjects.forEach { _ ->
     }
 
     getTasksByName("build", false).forEach {
-        it.dependsOn("shadowJar")
+        it.dependsOn("ktlintKotlinScriptCheck", "shadowJar")
     }
 
     getTasksByName("shadowJar", false).forEach {

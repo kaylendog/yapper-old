@@ -1,8 +1,10 @@
 package com.dumbdogdiner.stickychatbukkit
 
+import com.dumbdogdiner.stickychatcommon.Constants
+import com.dumbdogdiner.stickychatcommon.MessageHandler
+import com.dumbdogdiner.stickychatcommon.MessageType
 import com.google.common.io.ByteArrayDataOutput
 import com.google.common.io.ByteStreams
-import java.io.ByteArrayInputStream
 import java.io.DataInputStream
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -11,43 +13,16 @@ import org.bukkit.plugin.messaging.PluginMessageListener
 /**
  * Utility methods for plugin messaging.
  */
-object PluginMessenger : Base, PluginMessageListener {
+object PluginMessenger : Base, PluginMessageListener, MessageHandler {
 
-    private const val CHANNEL_NAME = "StickyChat"
+    private const val CHANNEL_NAME = Constants.CHANNEL_NAME
 
     override fun onPluginMessageReceived(channel: String, player: Player, message: ByteArray) {
         if (channel != "BungeeCord") {
             return
         }
 
-        val input = ByteStreams.newDataInput(message)
-        val subchannel = input.readUTF()
-
-        if (subchannel != CHANNEL_NAME) {
-            return
-        }
-
-        val len = input.readShort()
-        val msgbytes = ByteArray(len.toInt())
-        input.readFully(msgbytes)
-
-        val msgin = DataInputStream(ByteArrayInputStream(msgbytes))
-        val type: MessageType = MessageType.values()[msgin.readShort().toInt()]
-
-        when (type) {
-            MessageType.MESSAGE -> handleMessage(
-                msgin
-            )
-            MessageType.PRIVATE_MESSAGE -> handlePrivateMessage(
-                msgin
-            )
-            MessageType.PRIVATE_MESSAGE_ACK -> handlePrivateMessageAck(
-                msgin
-            )
-            MessageType.MAIL -> handleMailReceive(
-                msgin
-            )
-        }
+        handlePacket(ByteStreams.newDataInput(message))
     }
 
     /**
@@ -57,7 +32,7 @@ object PluginMessenger : Base, PluginMessageListener {
      * - UTF - Message content (pre-colorized)
      */
 
-    private fun handleMessage(data: DataInputStream) {
+    override fun handleMessage(data: DataInputStream) {
         if (!config.getBoolean("chat.incoming-cross-server-messaging", true)) {
             return
         }
@@ -84,7 +59,7 @@ object PluginMessenger : Base, PluginMessageListener {
      * - Int - Nonce
      */
 
-    private fun handlePrivateMessage(data: DataInputStream) {
+    override fun handlePrivateMessage(data: DataInputStream) {
         val fromUuid = data.readUTF()
         val fromName = data.readUTF()
         val to = data.readUTF()
@@ -118,7 +93,7 @@ object PluginMessenger : Base, PluginMessageListener {
      * - Int - Nonce
      */
 
-    private fun handlePrivateMessageAck(data: DataInputStream) {
+    override fun handlePrivateMessageAck(data: DataInputStream) {
         val nonce = data.readInt()
         privateMessageManager.handleReceivedAck(nonce)
     }
@@ -138,7 +113,7 @@ object PluginMessenger : Base, PluginMessageListener {
      * - UTF - Content
      */
 
-    private fun handleMailReceive(data: DataInputStream) {
+    override fun handleMailReceive(data: DataInputStream) {
         val fromUuid = data.readUTF()
         val fromName = data.readUTF()
         val to = data.readUTF()
@@ -167,16 +142,26 @@ object PluginMessenger : Base, PluginMessageListener {
     /**
      * Send a plugin message to Bungee.
      */
-    private fun sendPluginMessage(data: ByteArrayDataOutput) {
+    override fun sendPluginMessage(data: ByteArrayDataOutput) {
         sendTargetedPluginMessage(
             Bukkit.getOnlinePlayers().first(), data
         )
     }
 
     /**
+     * Send a plugin message to the player with the given uuid.
+     */
+    override fun sendTargetedPluginMessage(uuid: String, data: ByteArrayDataOutput) {
+        if (Bukkit.getOnlinePlayers().isEmpty()) {
+            return
+        }
+        sendTargetedPluginMessage(Bukkit.getOnlinePlayers().find { it.uniqueId.toString() == uuid }!!, data)
+    }
+
+    /**
      * Send a targeted plugin message via the specified player.
      */
-    private fun sendTargetedPluginMessage(target: Player, data: ByteArrayDataOutput) {
+    fun sendTargetedPluginMessage(target: Player, data: ByteArrayDataOutput) {
         val out = ByteStreams.newDataOutput()
 
         out.writeUTF("Forward")
@@ -187,15 +172,5 @@ object PluginMessenger : Base, PluginMessageListener {
         out.write(data.toByteArray())
 
         target.sendPluginMessage(plugin, "BungeeCord", out.toByteArray())
-    }
-
-    /**
-     * Enum of possible bungee message types.
-     */
-    private enum class MessageType {
-        MESSAGE,
-        PRIVATE_MESSAGE,
-        PRIVATE_MESSAGE_ACK,
-        MAIL
     }
 }

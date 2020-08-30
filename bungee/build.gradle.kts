@@ -13,6 +13,7 @@ repositories {
 dependencies {
     // jvm and kotlin dependancies
     implementation(kotlin("stdlib"))
+    implementation(project(":common"))
 
     compileOnly(bungeecord())
 }

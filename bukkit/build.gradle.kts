@@ -11,7 +11,9 @@ repositories {
 }
 
 dependencies {
+    // jvm and kotlin dependancies
     implementation(kotlin("stdlib"))
+    implementation(project(":common"))
 
     compileOnly(paper("1.16.2"))
 
@@ -20,7 +22,6 @@ dependencies {
     implementation("org.postgresql:postgresql:42.2.2")
     implementation("mysql:mysql-connector-java:5.1.48")
     implementation("me.lucko:helper:5.6.2")
-
     implementation("com.okkero.skedule:skedule:1.2.6")
 
     compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7")
