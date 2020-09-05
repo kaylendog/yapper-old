@@ -16,11 +16,11 @@ object ServerUtils : Base {
         sendMessage(sender, colorize(message))
 
     fun extractLocation(a: Location, b: Vector): Location {
-        return a.world.getHighestBlockAt(a.clone().add(
-            b
-                .clone()
-                .normalize()
-                .multiply(-3)
+        return a.world!!.getHighestBlockAt(a.clone().add(
+                b
+                        .clone()
+                        .normalize()
+                        .multiply(-3)
         ), HeightMap.WORLD_SURFACE).location.clone()
             .add(0.0, 1.5, 0.0)
     }

@@ -2,12 +2,10 @@ package com.dumbdogdiner.stickychatbukkit.commands
 
 import com.dumbdogdiner.stickychatbukkit.Base
 import com.dumbdogdiner.stickychatbukkit.utils.ServerUtils
-import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
 
 /**
  * Send a private message to another player.

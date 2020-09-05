@@ -32,7 +32,7 @@ object FormatUtils : Base {
     fun formatGlobalChatMessage(from: Player, content: String): String {
         return PlaceholderUtils.setPlaceholdersSafe(
             from,
-            config.getString("chat.format", "&8%name%: %message%")!!
+            colorize(config.getString("chat.format", "&8%name%: %message%")!!)
         )
             .replace("%name%", if (from.hasPermission("stickychat.colorizeNick")) colorize(
                 from.displayName

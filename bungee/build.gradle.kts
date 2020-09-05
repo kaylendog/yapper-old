@@ -1,13 +1,9 @@
-
-import kr.entree.spigradle.kotlin.bungeecord
-import kr.entree.spigradle.kotlin.sonatype
-
 plugins {
-    id("kr.entree.spigradle.bungee") version "2.1.2"
+    id("com.github.johnrengelman.shadow") version "5.2.0"
 }
 
 repositories {
-    sonatype()
+    maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots/") }
 }
 
 dependencies {
@@ -15,12 +11,15 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(project(":common"))
 
-    compileOnly(bungeecord())
+    compileOnly("net.md-5:bungeecord-api:1.16-R0.4-SNAPSHOT")
 }
 
 tasks {
-    bungee {
-        description = "Proxy support for StickyChat"
-        author = "SkyezerFox"
+    build {
+        dependsOn("shadowJar")
+    }
+
+    shadowJar {
+        archiveClassifier.set("")
     }
 }

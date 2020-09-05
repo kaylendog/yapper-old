@@ -55,7 +55,7 @@ class ChatManager : Base {
         var formattedContent = FormatUtils.formatGlobalChatMessage(player, content)
         sendGlobalChatMessage(player.uniqueId.toString(), player.name, formattedContent)
 
-        if (config.getBoolean("chat.outgoing-cross-server-messaging", true)) {
+        if (config.getBoolean("chat.cross-server-messaging", true)) {
             formattedContent = FormatUtils.formatOutgoingGlobalChatMessage(player, content)
             PluginMessenger.broadcastMessage(player, formattedContent)
         }

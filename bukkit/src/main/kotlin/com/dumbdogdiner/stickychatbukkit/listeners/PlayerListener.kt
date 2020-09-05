@@ -8,9 +8,14 @@ import kotlin.random.Random
 import org.bukkit.Sound
 import org.bukkit.entity.EntityType
 import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.SignChangeEvent
-import org.bukkit.event.player.*
+import org.bukkit.event.player.AsyncPlayerChatEvent
+import org.bukkit.event.player.PlayerEditBookEvent
+import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerMoveEvent
+import org.bukkit.event.player.PlayerQuitEvent
 
 /**
  * Listens for player-related events.
@@ -46,8 +51,12 @@ class PlayerListener : Base, Listener {
         privateMessageManager.forgetLastMessageTarget(e.player)
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW)
     fun handleChatEvent(e: AsyncPlayerChatEvent) {
+        if (e.isCancelled) {
+            return
+        }
+
         chatManager.broadcastPlayerMessage(e.player, e.message)
         e.isCancelled = true
     }

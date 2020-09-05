@@ -20,8 +20,7 @@ import org.jetbrains.exposed.sql.update
 /**
  * Manages the connection between PostgreSQL and the plugin.
  */
-abstract class SqlMethod : Base,
-    StorageMethod {
+abstract class SqlMethod : Base, StorageMethod {
     abstract val driver: String
     abstract val protocol: String
 
@@ -70,9 +69,14 @@ abstract class SqlMethod : Base,
     }
 
     override fun getPlayerNickname(player: Player): String? {
-        return transaction {
-            Nicknames.select { Nicknames.id eq player.uniqueId.toString() }.singleOrNull()?.get(
-                Nicknames.value)
+        try {
+            return transaction {
+                Nicknames.select { Nicknames.id eq player.uniqueId.toString() }.singleOrNull()?.get(
+                        Nicknames.value)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
         }
     }
 

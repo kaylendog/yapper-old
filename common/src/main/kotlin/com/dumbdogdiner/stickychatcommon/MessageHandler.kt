@@ -2,18 +2,12 @@ package com.dumbdogdiner.stickychatcommon
 
 import com.google.common.io.ByteArrayDataInput
 import com.google.common.io.ByteArrayDataOutput
-import java.io.ByteArrayInputStream
-import java.io.DataInputStream
+import com.google.common.io.ByteStreams
 
 interface MessageHandler {
-    fun handlePacket(input: ByteArrayDataInput) {
+    fun handlePacket(data: ByteArrayDataInput) {
         // read type of packet
-        val type = MessageType.values()[input.readShort().toInt()]
-
-        val len = input.readShort()
-        val msgbytes = ByteArray(len.toInt())
-        input.readFully(msgbytes)
-        val data = DataInputStream(ByteArrayInputStream(msgbytes))
+        val type = MessageType.values()[data.readShort().toInt()]
 
         when (type) {
             MessageType.MESSAGE -> handleMessage(data)
@@ -29,7 +23,7 @@ interface MessageHandler {
      * - UTF - Player name
      * - UTF - Message content (pre-colorized)
      */
-    fun handleMessage(data: DataInputStream)
+    fun handleMessage(data: ByteArrayDataInput)
 
     /**
     * Private Message Event
@@ -39,7 +33,7 @@ interface MessageHandler {
     * - Int - Nonce
     */
 
-    fun handlePrivateMessage(data: DataInputStream)
+    fun handlePrivateMessage(data: ByteArrayDataInput)
 
     /**
     * Private Message ACK
@@ -47,7 +41,7 @@ interface MessageHandler {
     * - Int - Nonce
     */
 
-    fun handlePrivateMessageAck(data: DataInputStream)
+    fun handlePrivateMessageAck(data: ByteArrayDataInput)
     /**
     * Mail
     * - UTF - From uuid
@@ -56,7 +50,7 @@ interface MessageHandler {
     * - UTF - Content
     */
 
-    fun handleMailReceive(data: DataInputStream)
+    fun handleMailReceive(data: ByteArrayDataInput)
 
     /**
     * Send a plugin message to Bungee.
@@ -64,4 +58,13 @@ interface MessageHandler {
     fun sendPluginMessage(data: ByteArrayDataOutput)
 
     fun sendTargetedPluginMessage(uuid: String, data: ByteArrayDataOutput)
+
+    /**
+     * Utility method for quickly building output streams.
+     */
+    fun build(type: MessageType): ByteArrayDataOutput {
+        val data = ByteStreams.newDataOutput()
+        data.writeShort(type.ordinal.toInt())
+        return data
+    }
 }

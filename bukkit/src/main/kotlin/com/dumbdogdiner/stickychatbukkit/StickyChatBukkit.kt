@@ -14,10 +14,9 @@ import com.dumbdogdiner.stickychatbukkit.managers.ChatManager
 import com.dumbdogdiner.stickychatbukkit.managers.MailManager
 import com.dumbdogdiner.stickychatbukkit.managers.PrivateMessageManager
 import com.dumbdogdiner.stickychatbukkit.managers.SignSpyManager
-import kr.entree.spigradle.annotations.PluginMain
+import com.dumbdogdiner.stickychatcommon.Constants
 import org.bukkit.plugin.java.JavaPlugin
 
-@PluginMain
 class StickyChatBukkit : JavaPlugin() {
     lateinit var storageManager: StorageManager
 
@@ -66,8 +65,8 @@ class StickyChatBukkit : JavaPlugin() {
         server.pluginManager.registerEvents(DeathListener(), this)
 
         // Plugin messaging
-        server.messenger.registerOutgoingPluginChannel(this, "BungeeCord")
-        server.messenger.registerIncomingPluginChannel(this, "BungeeCord",
+        server.messenger.registerOutgoingPluginChannel(this, Constants.CHANNEL_NAME)
+        server.messenger.registerIncomingPluginChannel(this, Constants.CHANNEL_NAME,
             PluginMessenger
         )
         logger.info("Registered cross-server communication channels")

@@ -3,9 +3,9 @@ package com.dumbdogdiner.stickychatbukkit
 import com.dumbdogdiner.stickychatcommon.Constants
 import com.dumbdogdiner.stickychatcommon.MessageHandler
 import com.dumbdogdiner.stickychatcommon.MessageType
+import com.google.common.io.ByteArrayDataInput
 import com.google.common.io.ByteArrayDataOutput
 import com.google.common.io.ByteStreams
-import java.io.DataInputStream
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.messaging.PluginMessageListener
@@ -18,7 +18,7 @@ object PluginMessenger : Base, PluginMessageListener, MessageHandler {
     private const val CHANNEL_NAME = Constants.CHANNEL_NAME
 
     override fun onPluginMessageReceived(channel: String, player: Player, message: ByteArray) {
-        if (channel != "BungeeCord") {
+        if (channel != CHANNEL_NAME) {
             return
         }
 
@@ -32,8 +32,8 @@ object PluginMessenger : Base, PluginMessageListener, MessageHandler {
      * - UTF - Message content (pre-colorized)
      */
 
-    override fun handleMessage(data: DataInputStream) {
-        if (!config.getBoolean("chat.incoming-cross-server-messaging", true)) {
+    override fun handleMessage(data: ByteArrayDataInput) {
+        if (!config.getBoolean("chat.cross-server-messaging", true)) {
             return
         }
 
@@ -41,9 +41,7 @@ object PluginMessenger : Base, PluginMessageListener, MessageHandler {
     }
 
     fun broadcastMessage(player: Player, message: String) {
-        val out = ByteStreams.newDataOutput()
-        out.writeShort(MessageType.MESSAGE.ordinal)
-
+        val out = build(MessageType.MESSAGE)
         out.writeUTF(player.uniqueId.toString())
         out.writeUTF(player.name)
         out.writeUTF(message)
@@ -59,7 +57,7 @@ object PluginMessenger : Base, PluginMessageListener, MessageHandler {
      * - Int - Nonce
      */
 
-    override fun handlePrivateMessage(data: DataInputStream) {
+    override fun handlePrivateMessage(data: ByteArrayDataInput) {
         val fromUuid = data.readUTF()
         val fromName = data.readUTF()
         val to = data.readUTF()
@@ -72,14 +70,12 @@ object PluginMessenger : Base, PluginMessageListener, MessageHandler {
         val nonce = data.readInt()
 
         privateMessageManager.handleReceivedPrivateMessage(fromUuid, fromName, target, content)
-
         broadcastPrivateMessageAck(target, nonce)
     }
 
-    fun broadcastPrivateMessage(player: Player, target: String, message: String, nonce: Int) {
-        val out = ByteStreams.newDataOutput()
-        out.writeShort(MessageType.PRIVATE_MESSAGE.ordinal)
 
+    fun broadcastPrivateMessage(player: Player, target: String, message: String, nonce: Int) {
+        val out = build(MessageType.PRIVATE_MESSAGE)
         out.writeUTF(player.uniqueId.toString())
         out.writeUTF(target)
         out.writeUTF(message)
@@ -93,15 +89,15 @@ object PluginMessenger : Base, PluginMessageListener, MessageHandler {
      * - UTF - UUID
      * - Int - Nonce
      */
-    override fun handlePrivateMessageAck(data: DataInputStream) {
+    override fun handlePrivateMessageAck(data: ByteArrayDataInput) {
         val uuid = data.readUTF()
         val nonce = data.readInt()
         privateMessageManager.handleReceivedAck(nonce)
     }
 
     private fun broadcastPrivateMessageAck(player: Player, nonce: Int) {
-        val out = ByteStreams.newDataOutput()
-        out.writeShort(MessageType.PRIVATE_MESSAGE_ACK.ordinal)
+        val out = build(MessageType.PRIVATE_MESSAGE_ACK)
+        out.writeUTF(player.uniqueId.toString())
         out.writeInt(nonce)
         sendTargetedPluginMessage(player, out)
     }
@@ -114,7 +110,7 @@ object PluginMessenger : Base, PluginMessageListener, MessageHandler {
      * - UTF - Content
      */
 
-    override fun handleMailReceive(data: DataInputStream) {
+    override fun handleMailReceive(data: ByteArrayDataInput) {
         val fromUuid = data.readUTF()
         val fromName = data.readUTF()
         val to = data.readUTF()
@@ -128,8 +124,7 @@ object PluginMessenger : Base, PluginMessageListener, MessageHandler {
     }
 
     fun sendMail(target: Player, fromUuid: String, fromName: String, toName: String, content: String, createdAt: Long) {
-        val out = ByteStreams.newDataOutput()
-        out.writeShort(MessageType.MAIL.ordinal)
+        val out = build(MessageType.MAIL)
 
         out.writeUTF(fromUuid)
         out.writeUTF(fromName)
@@ -163,15 +158,6 @@ object PluginMessenger : Base, PluginMessageListener, MessageHandler {
      * Send a targeted plugin message via the specified player.
      */
     fun sendTargetedPluginMessage(target: Player, data: ByteArrayDataOutput) {
-        val out = ByteStreams.newDataOutput()
-
-        out.writeUTF("Forward")
-        out.writeUTF("ALL")
-        out.writeUTF(CHANNEL_NAME)
-
-        out.writeShort(data.toByteArray().size)
-        out.write(data.toByteArray())
-
-        target.sendPluginMessage(plugin, "BungeeCord", out.toByteArray())
+        target.sendPluginMessage(plugin, Constants.CHANNEL_NAME, data.toByteArray())
     }
 }

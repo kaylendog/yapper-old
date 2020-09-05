@@ -1,0 +1,21 @@
+name: StickyChatBungee
+authors: [SkyezerFox]
+version: 2.0.0
+main: com.dumbdogdiner.stickychatbukkit.StickyChatBukkit
+commands:
+  mail:
+    description: Send a mail to another player on the network.
+    usage: /mail [filter/player] [player] [unread]
+  message:
+    description: Send a private message to a player currently online.
+    usage: /message [player] <message>
+    aliases: ["msg", "tell", "whisper"]
+  reply:
+    description: Reply to the last private message you received.
+    usage: /reply <message>
+    aliases: ["r"]
+  stickychat:
+    description: StickyChat management and configuration.
+    usage: /stickychat [reload]
+    aliases: ["chat"]
+api-version: "1.16"
