@@ -10,10 +10,7 @@ import org.bukkit.entity.EntityType
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.SignChangeEvent
-import org.bukkit.event.player.AsyncPlayerChatEvent
-import org.bukkit.event.player.PlayerJoinEvent
-import org.bukkit.event.player.PlayerMoveEvent
-import org.bukkit.event.player.PlayerQuitEvent
+import org.bukkit.event.player.*
 
 /**
  * Listens for player-related events.
@@ -82,5 +79,9 @@ class PlayerListener : Base, Listener {
             e.player.playSound(location, Sound.ENTITY_CREEPER_PRIMED, 2f, 1f)
             entity.customName = colorize(entityName)
         }
+    }
+
+    fun handleBookEvent(e: PlayerEditBookEvent) {
+        mailManager.writeLetter(e.player, e.newBookMeta)
     }
 }

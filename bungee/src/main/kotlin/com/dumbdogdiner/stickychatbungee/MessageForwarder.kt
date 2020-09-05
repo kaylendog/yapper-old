@@ -9,7 +9,11 @@ import java.io.ByteArrayInputStream
 import java.io.DataInputStream
 import net.md_5.bungee.api.event.PluginMessageEvent
 import net.md_5.bungee.api.plugin.Listener
+import net.md_5.bungee.event.EventHandler
 
+/**
+ * Forwards messages from a single node to other server nodes.
+ */
 object MessageForwarder : Base, Listener, MessageHandler {
 
     private const val CHANNEL_NAME = Constants.CHANNEL_NAME
@@ -17,10 +21,13 @@ object MessageForwarder : Base, Listener, MessageHandler {
     /**
      * Handle a plugin message received from a server instance.
      */
+    @EventHandler
     fun onPluginMessageReceived(ev: PluginMessageEvent) {
         if (ev.tag != CHANNEL_NAME) {
             return
         }
+
+        logger.info("Received message from node - decoding")
 
         // read type of packet
         val input = ByteStreams.newDataInput(ev.data)
@@ -36,11 +43,15 @@ object MessageForwarder : Base, Listener, MessageHandler {
             MessageType.MESSAGE -> handleMessage(
                 msgin
             )
+            MessageType.PRIVATE_MESSAGE -> handlePrivateMessage(msgin)
+            MessageType.PRIVATE_MESSAGE_ACK -> handlePrivateMessageAck(msgin)
+            MessageType.MAIL -> handleMailReceive(msgin)
         }
-
     }
 
     override fun handleMessage(data: DataInputStream) {
+        logger.info("Got message packet - broadcasting to nodes")
+
         // this is dumb
         val uuid = data.readUTF()
         val name = data.readUTF()
@@ -60,6 +71,8 @@ object MessageForwarder : Base, Listener, MessageHandler {
     }
 
     override fun handlePrivateMessage(data: DataInputStream) {
+        logger.info("Got private message packet - attempting to forward to targeted player")
+
         val uuid = data.readUTF()
         val name = data.readUTF()
         val content = data.readUTF()
@@ -76,10 +89,12 @@ object MessageForwarder : Base, Listener, MessageHandler {
         out.writeShort(msg.toByteArray().size)
         out.write(msg.toByteArray())
 
-        sendPluginMessage(out)
+        sendTargetedPluginMessage(uuid, out)
     }
 
     override fun handlePrivateMessageAck(data: DataInputStream) {
+        logger.info("Got private messace ACK packet - attempting to forward to targeted player")
+
         val uuid = data.readUTF()
         val nonce = data.readInt()
 
@@ -96,6 +111,8 @@ object MessageForwarder : Base, Listener, MessageHandler {
     }
 
     override fun handleMailReceive(data: DataInputStream) {
+        logger.info("Got mail received packet - broadcasting to nodes")
+
         val uuid = data.readUTF()
         val name = data.readUTF()
         val to = data.readUTF()
@@ -134,9 +151,10 @@ object MessageForwarder : Base, Listener, MessageHandler {
             for (player in server.players) {
                 if (player.uniqueId.toString() == uuid) {
                     player.sendData(CHANNEL_NAME, data.toByteArray())
-                    break
+                    return
                 }
             }
         }
+        logger.warning("Failed to find proxied player with uuid '$uuid'")
     }
 }

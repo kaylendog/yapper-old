@@ -12,12 +12,18 @@ import kotlinx.coroutines.launch
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
+import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.BookMeta
 
 /**
  * Manages the sending, receiving, and persistent storage of mail messages.
  */
 class MailManager : Base {
+    private val players = HashMap<Player, ItemStack>()
+    private val destinations = HashMap<Player, String>()
+
     /**
      * Check for new messages sent to the given player.
      */
@@ -30,6 +36,26 @@ class MailManager : Base {
             chatManager.sendSystemMessage(recipient, "&bYou have &e${letters.size} &bnew letter${if (letters.size > 1) {"s"} else ""}!")
             SoundUtils.quietSuccess(recipient)
         }
+    }
+
+    /**
+     * Create a new letter, giving the author a book.
+     */
+    fun createNewLetter(from: Player, to: String) {
+        if (players.containsKey(from)) {
+            return
+        }
+
+        val book = ItemStack(Material.WRITABLE_BOOK, 1)
+        from.openBook(book)
+
+        players[from] = book
+        destinations[from] = to
+    }
+
+    fun writeLetter(from: Player, book: BookMeta) {
+        val book = players.toList().find { (it.second.itemMeta as BookMeta) == book } ?: return
+        logger.info("Got book owo")
     }
 
     /**

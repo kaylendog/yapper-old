@@ -90,10 +90,11 @@ object PluginMessenger : Base, PluginMessageListener, MessageHandler {
 
     /**
      * Private Message ACK
+     * - UTF - UUID
      * - Int - Nonce
      */
-
     override fun handlePrivateMessageAck(data: DataInputStream) {
+        val uuid = data.readUTF()
         val nonce = data.readInt()
         privateMessageManager.handleReceivedAck(nonce)
     }
