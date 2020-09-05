@@ -147,6 +147,11 @@ class PrivateMessageManager : Base {
         messageAckTimeouts.remove(nonce)
     }
 
+    fun handleMessageError(from: String, nonce: Int) {
+        logger.info("[PM][ERROR] Received an error packet from Bungee")
+        doAckTimeout(nonce)
+    }
+
     /**
      * Check and timeout a private message if no ACK has been received.
      */

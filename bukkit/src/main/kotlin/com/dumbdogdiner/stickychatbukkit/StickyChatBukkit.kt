@@ -66,10 +66,8 @@ class StickyChatBukkit : JavaPlugin() {
 
         // Plugin messaging
         server.messenger.registerOutgoingPluginChannel(this, Constants.CHANNEL_NAME)
-        server.messenger.registerIncomingPluginChannel(this, Constants.CHANNEL_NAME,
-            PluginMessenger
-        )
-        logger.info("Registered cross-server communication channels")
+        server.messenger.registerIncomingPluginChannel(this, Constants.CHANNEL_NAME, PluginMessenger)
+        logger.info("Registered cross-server communication channel on '${Constants.CHANNEL_NAME}'")
 
         // Register PAPI expansion if available.
         if (server.pluginManager.getPlugin("PlaceholderAPI") != null) {

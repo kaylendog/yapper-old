@@ -18,10 +18,13 @@ object PluginMessenger : Base, PluginMessageListener, MessageHandler {
     private const val CHANNEL_NAME = Constants.CHANNEL_NAME
 
     override fun onPluginMessageReceived(channel: String, player: Player, message: ByteArray) {
+        System.out.println(channel + " " + player.name)
+
         if (channel != CHANNEL_NAME) {
             return
         }
 
+        logger.info("[MSG] Received plugin message from proxy")
         handlePacket(ByteStreams.newDataInput(message))
     }
 
@@ -73,7 +76,6 @@ object PluginMessenger : Base, PluginMessageListener, MessageHandler {
         broadcastPrivateMessageAck(target, nonce)
     }
 
-
     fun broadcastPrivateMessage(player: Player, target: String, message: String, nonce: Int) {
         val out = build(MessageType.PRIVATE_MESSAGE)
         out.writeUTF(player.uniqueId.toString())
@@ -84,11 +86,6 @@ object PluginMessenger : Base, PluginMessageListener, MessageHandler {
         sendTargetedPluginMessage(player, out)
     }
 
-    /**
-     * Private Message ACK
-     * - UTF - UUID
-     * - Int - Nonce
-     */
     override fun handlePrivateMessageAck(data: ByteArrayDataInput) {
         val uuid = data.readUTF()
         val nonce = data.readInt()
@@ -102,13 +99,11 @@ object PluginMessenger : Base, PluginMessageListener, MessageHandler {
         sendTargetedPluginMessage(player, out)
     }
 
-    /**
-     * Mail
-     * - UTF - From uuid
-     * - UTF - From name
-     * - UTF - To name
-     * - UTF - Content
-     */
+    override fun handlePrivateMessageError(data: ByteArrayDataInput) {
+        val fromUuid = data.readUTF()
+        val nonce = data.readInt()
+        privateMessageManager.handleMessageError(fromUuid, nonce)
+    }
 
     override fun handleMailReceive(data: ByteArrayDataInput) {
         val fromUuid = data.readUTF()

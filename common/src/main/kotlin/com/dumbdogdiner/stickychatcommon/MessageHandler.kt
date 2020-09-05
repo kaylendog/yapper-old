@@ -9,10 +9,13 @@ interface MessageHandler {
         // read type of packet
         val type = MessageType.values()[data.readShort().toInt()]
 
+        System.out.println("handling packet")
+
         when (type) {
             MessageType.MESSAGE -> handleMessage(data)
             MessageType.PRIVATE_MESSAGE -> handlePrivateMessage(data)
             MessageType.PRIVATE_MESSAGE_ACK -> handlePrivateMessageAck(data)
+            MessageType.PRIVATE_MESSAGE_ERROR -> handlePrivateMessageError(data)
             MessageType.MAIL -> handleMailReceive(data)
         }
     }
@@ -42,6 +45,14 @@ interface MessageHandler {
     */
 
     fun handlePrivateMessageAck(data: ByteArrayDataInput)
+
+    /**
+     * Private Message Error
+     * - UTF - From uuid
+     * - Int - Nonce
+     */
+    fun handlePrivateMessageError(data: ByteArrayDataInput) {}
+
     /**
     * Mail
     * - UTF - From uuid

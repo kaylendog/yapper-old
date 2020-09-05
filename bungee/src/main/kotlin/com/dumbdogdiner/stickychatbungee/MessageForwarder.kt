@@ -6,6 +6,7 @@ import com.dumbdogdiner.stickychatcommon.MessageType
 import com.google.common.io.ByteArrayDataInput
 import com.google.common.io.ByteArrayDataOutput
 import com.google.common.io.ByteStreams
+import net.md_5.bungee.api.connection.ProxiedPlayer
 import net.md_5.bungee.api.event.PluginMessageEvent
 import net.md_5.bungee.api.plugin.Listener
 import net.md_5.bungee.event.EventHandler
@@ -30,7 +31,6 @@ object MessageForwarder : Base, Listener, MessageHandler {
 
         // read type of packet
         val input = ByteStreams.newDataInput(ev.data)
-        System.out.println(ev.data.size)
         val type: MessageType = MessageType.values()[input.readShort().toInt()]
 
         when (type) {
@@ -61,11 +61,20 @@ object MessageForwarder : Base, Listener, MessageHandler {
 
     override fun handlePrivateMessage(data: ByteArrayDataInput) {
         logger.info("Got private message packet - attempting to forward to targeted player")
-
         val uuid = data.readUTF()
         val name = data.readUTF()
         val content = data.readUTF()
         val nonce = data.readInt()
+
+        // if the player is not online anywhere, send the error back to the node.
+        val target = proxy.players.find { it.name == name }
+        if (target == null) {
+            logger.warning("Could not find specified player")
+            val msg = build(MessageType.PRIVATE_MESSAGE_ERROR)
+            msg.writeUTF(uuid)
+            msg.writeShort(nonce)
+            return sendTargetedPluginMessage(uuid, msg)
+        }
 
         val msg = build(MessageType.PRIVATE_MESSAGE)
         msg.writeUTF(uuid)
@@ -73,11 +82,11 @@ object MessageForwarder : Base, Listener, MessageHandler {
         msg.writeUTF(content)
         msg.writeShort(nonce)
 
-        sendTargetedPluginMessage(uuid, msg)
+        sendTargetedPluginMessage(target, msg)
     }
 
     override fun handlePrivateMessageAck(data: ByteArrayDataInput) {
-        logger.info("Got private messace ACK packet - attempting to forward to targeted player")
+        logger.info("Got private message ACK packet - attempting to forward to targeted player")
 
         val uuid = data.readUTF()
         val nonce = data.readInt()
@@ -87,6 +96,10 @@ object MessageForwarder : Base, Listener, MessageHandler {
         msg.writeInt(nonce)
 
         sendTargetedPluginMessage(uuid, msg)
+    }
+
+    override fun handlePrivateMessageError(data: ByteArrayDataInput) {
+        return
     }
 
     override fun handleMailReceive(data: ByteArrayDataInput) {
@@ -124,11 +137,32 @@ object MessageForwarder : Base, Listener, MessageHandler {
         for (server in proxy.servers.values) {
             for (player in server.players) {
                 if (player.uniqueId.toString() == uuid) {
-                    player.sendData(CHANNEL_NAME, data.toByteArray())
+                    sendTargetedPluginMessage(player, data)
                     return
                 }
             }
         }
         logger.warning("Failed to find proxied player with uuid '$uuid'")
+    }
+
+    /**
+     * SEnd a plugin message to the targeted player.
+     */
+    fun sendTargetedPluginMessage(player: ProxiedPlayer, data: ByteArrayDataOutput) {
+        player.sendData(CHANNEL_NAME, data.toByteArray())
+    }
+
+    /**
+     * Send a plugin message to the player with the specified name - not guaranteed to be received.
+     */
+    fun sendNamedPluginMessage(name: String, data: ByteArrayDataOutput) {
+        for (server in proxy.servers.values) {
+            for (player in server.players) {
+                if (player.name == name) {
+                    player.sendData(CHANNEL_NAME, data.toByteArray())
+                }
+            }
+        }
+        logger.warning("Failed to find proxied player with name '$name'")
     }
 }
