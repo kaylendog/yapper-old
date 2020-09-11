@@ -19,7 +19,7 @@ class MessageCommand : Base, TabExecutor {
             return true
         }
 
-        when (val player = server.onlinePlayers.find { it.name == args[0] }) {
+        when (val player = server.onlinePlayers.find { it.name.equals(args[0], true)}) {
             null -> sendExternalMessage(sender, args[0], args.drop(1).joinToString(""))
             else -> sendLocalMessage(sender, player, args.drop(1).joinToString(""))
         }
