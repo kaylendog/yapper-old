@@ -28,19 +28,7 @@ object MessageForwarder : Base, Listener, MessageHandler {
         }
 
         logger.info("Received message from node - decoding")
-
-        // read type of packet
-        val input = ByteStreams.newDataInput(ev.data)
-        val type: MessageType = MessageType.values()[input.readShort().toInt()]
-
-        when (type) {
-            MessageType.MESSAGE -> handleMessage(
-                input
-            )
-            MessageType.PRIVATE_MESSAGE -> handlePrivateMessage(input)
-            MessageType.PRIVATE_MESSAGE_ACK -> handlePrivateMessageAck(input)
-            MessageType.MAIL -> handleMailReceive(input)
-        }
+        handlePacket(ByteStreams.newDataInput(ev.data))
     }
 
     override fun handleMessage(data: ByteArrayDataInput) {
@@ -125,7 +113,13 @@ object MessageForwarder : Base, Listener, MessageHandler {
      */
     override fun sendPluginMessage(data: ByteArrayDataOutput) {
         proxy.servers.values.forEach {
-            it.players.firstOrNull()?.sendData(CHANNEL_NAME, data.toByteArray())
+            if (it.players.isEmpty()) {
+                logger.warning("Could not forward message to server '${it.name}' - no players are online")
+            } else {
+                val player = it.players.first()
+                player.sendData(CHANNEL_NAME, data.toByteArray())
+                logger.info("Sent packet to server '${it.name}' via proxied player '${player.name}'")
+            }
         }
     }
 
@@ -150,6 +144,7 @@ object MessageForwarder : Base, Listener, MessageHandler {
      */
     fun sendTargetedPluginMessage(player: ProxiedPlayer, data: ByteArrayDataOutput) {
         player.sendData(CHANNEL_NAME, data.toByteArray())
+        logger.info("Sent packet to proxied player '${player.name}'")
     }
 
     /**

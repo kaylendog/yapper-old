@@ -14,7 +14,8 @@ object Letters : Table(name = FormatUtils.formatTableName("letters")) {
     val toUuid = varchar("toUuid", 36).nullable()
     val toName = varchar("toName", 16)
 
-    val content = text("content")
+    val title = text("title")
+    val pages = text("pages")
 
     val createdAt = long("createdAt")
 

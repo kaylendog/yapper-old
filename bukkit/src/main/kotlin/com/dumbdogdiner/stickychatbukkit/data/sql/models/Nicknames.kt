@@ -8,6 +8,6 @@ import org.jetbrains.exposed.sql.Table
  */
 object Nicknames : Table(name = FormatUtils.formatTableName("nicknames")) {
     val id = varchar("id", 36)
-    val value = text("value")
+    val value = text("value").nullable()
     override val primaryKey = PrimaryKey(id)
 }

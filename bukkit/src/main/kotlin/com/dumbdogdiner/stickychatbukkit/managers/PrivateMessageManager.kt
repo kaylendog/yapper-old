@@ -39,9 +39,11 @@ class PrivateMessageManager : Base {
         val target = server.onlinePlayers.find { it.name == to }
         if (target != null) {
             sendLocalPrivateMessage(from, target, content)
-            return
+            lastMessageTarget[target] = from.name
+        } else {
+            sendRemotePrivateMessage(from, to, content)
         }
-        sendRemotePrivateMessage(from, to, content)
+        lastMessageTarget[from] = to
     }
 
     /**
@@ -120,8 +122,10 @@ class PrivateMessageManager : Base {
             Priority.DIRECT,
             createPrivateMessageTextComponent(fromUuid, fromName, FormatUtils.formatIncomingPrivateMessage(fromUuid, fromName, to, content))
         )
-        SoundUtils.info(to)
 
+        lastMessageTarget[to] = fromName
+
+        SoundUtils.info(to)
         logger.info("[PM] '$fromName' => '${to.name}': '$content'")
     }
 

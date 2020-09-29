@@ -5,6 +5,7 @@ import com.dumbdogdiner.stickychatbukkit.data.Letter
 import com.dumbdogdiner.stickychatbukkit.data.StorageMethod
 import com.dumbdogdiner.stickychatbukkit.data.sql.models.Letters
 import com.dumbdogdiner.stickychatbukkit.data.sql.models.Nicknames
+import com.google.gson.Gson
 import kotlin.properties.Delegates
 import org.bukkit.entity.Player
 import org.jetbrains.exposed.sql.Database
@@ -80,8 +81,17 @@ abstract class SqlMethod : Base, StorageMethod {
         }
     }
 
-    override fun setPlayerNickname(player: Player, new: String): Boolean {
+    override fun setPlayerNickname(player: Player, new: String?): Boolean {
         transaction {
+            val updated = Nicknames.update({ Nicknames.id.eq(player.uniqueId.toString()) }) {
+                it[value] = new
+            }
+
+            // if found a result
+            if (updated != 0) {
+                return@transaction
+            }
+
             Nicknames.insert {
                 it[id] = player.uniqueId.toString()
                 it[value] = new
@@ -96,13 +106,16 @@ abstract class SqlMethod : Base, StorageMethod {
         }
     }
 
-    override fun savePartialLetter(from: Player, toName: String, content: String, createdAt: Long): Boolean {
+    override fun savePartialLetter(from: Player, toName: String, title: String, pages: List<String>, createdAt: Long): Boolean {
+        val data = Gson().toJson(pages)
+
         transaction {
             Letters.insert {
                 it[fromUuid] = from.uniqueId.toString()
                 it[fromName] = from.name
                 it[Letters.toName] = toName
-                it[Letters.content] = content
+                it[Letters.title] = title
+                it[Letters.pages] = data.toString()
                 it[Letters.createdAt] = createdAt
                 it[unread] = true
             }
@@ -110,15 +123,14 @@ abstract class SqlMethod : Base, StorageMethod {
         return true
     }
 
-    override fun hydratePartialLetter(fromUuid: String, fromName: String, to: Player, createdAt: Long): Boolean {
+    override fun hydratePartialLetters(to: Player) {
         transaction {
             Letters.update({
-                Letters.fromUuid.eq(fromUuid) and Letters.toName.eq(to.name) and Letters.createdAt.eq(createdAt)
+                Letters.toName.eq(to.name)
             }) {
                 it[toUuid] = to.uniqueId.toString()
             }
         }
-        return true
     }
 
     override fun getLetter(id: Int): Letter? {
@@ -131,7 +143,8 @@ abstract class SqlMethod : Base, StorageMethod {
             letter[Letters.fromName],
             letter[Letters.toUuid],
             letter[Letters.toName],
-            letter[Letters.content],
+            letter[Letters.title],
+            Gson().fromJson<List<String>>(letter[Letters.pages], List::class.java),
             letter[Letters.createdAt]
         )
     }
@@ -146,7 +159,8 @@ abstract class SqlMethod : Base, StorageMethod {
                         it[Letters.fromName],
                         it[Letters.toUuid],
                         it[Letters.toName],
-                        it[Letters.content],
+                        it[Letters.title],
+                        Gson().fromJson<List<String>>(it[Letters.pages], List::class.java),
                         it[Letters.createdAt]
                     )
                 }
@@ -156,14 +170,15 @@ abstract class SqlMethod : Base, StorageMethod {
     override fun fetchLettersForPlayer(player: Player, filterUnread: Boolean): List<Letter> {
         return transaction {
             Letters
-                .select { Letters.toUuid.eq(player.uniqueId.toString()) and Letters.unread.eq(true) }
+                .select { Letters.toName.eq(player.name) and Letters.unread.eq(true) }
                 .map {
                     Letter(
                         it[Letters.fromUuid],
                         it[Letters.fromName],
                         it[Letters.toUuid],
                         it[Letters.toName],
-                        it[Letters.content],
+                        it[Letters.title],
+                        Gson().fromJson<List<String>>(it[Letters.pages], List::class.java),
                         it[Letters.createdAt]
                     )
                 }

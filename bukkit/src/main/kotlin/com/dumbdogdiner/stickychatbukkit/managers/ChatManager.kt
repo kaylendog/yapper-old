@@ -35,11 +35,24 @@ class ChatManager : Base {
         server.logger.info(baseComponent.toPlainText())
     }
 
+
+    val LINK_REGEX = Regex("[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)")
+
     /**
      * Broadcast a global chat message to this server.
      */
     fun sendGlobalChatMessage(fromUuid: String, fromName: String, content: String) {
         val message = TextComponent()
+
+        content.split(" ").forEach {
+            if (it.matches(LINK_REGEX)) {
+                val linkComponent = TextComponent()
+                linkComponent.clickEvent = ClickEvent(ClickEvent.Action.OPEN_URL, it)
+                message.addExtra(linkComponent)
+            }
+            message.text += it
+        }
+
         message.text = content
         message.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, arrayOf(createHoverComponent(fromName, fromUuid)))
         message.clickEvent = ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg $fromName ")
@@ -126,6 +139,7 @@ class ChatManager : Base {
      */
     private fun createHoverComponent(name: String, uuid: String): TextComponent {
         val component = TextComponent()
+
         // Todo: Check if extras can be looped over for colorization?
         component.text = colorize("&bMessage from &e$name\n")
         component.addExtra(colorize("&bUUID: &e$uuid\n"))

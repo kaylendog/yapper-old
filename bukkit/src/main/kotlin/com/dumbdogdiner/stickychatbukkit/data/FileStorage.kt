@@ -11,7 +11,7 @@ class FileStorage : StorageMethod {
         TODO("Not yet implemented")
     }
 
-    override fun setPlayerNickname(player: Player, new: String): Boolean {
+    override fun setPlayerNickname(player: Player, new: String?): Boolean {
         TODO("Not yet implemented")
     }
 
@@ -19,11 +19,11 @@ class FileStorage : StorageMethod {
         TODO("Not yet implemented")
     }
 
-    override fun savePartialLetter(from: Player, toName: String, content: String, createdAt: Long): Boolean {
+    override fun savePartialLetter(from: Player, toName: String, title: String, pages: List<String>, createdAt: Long): Boolean {
         TODO("Not yet implemented")
     }
 
-    override fun hydratePartialLetter(fromUuid: String, fromName: String, to: Player, createdAt: Long): Boolean {
+    override fun hydratePartialLetters(to: Player) {
         TODO("Not yet implemented")
     }
 

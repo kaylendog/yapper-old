@@ -26,7 +26,12 @@ class StorageCache : Base {
     /**
      * Set a player's nickname.
      */
-    fun setPlayerNickname(p: Player, v: String) {
+    fun setPlayerNickname(p: Player, v: String?) {
+        if (v == null) {
+            displayNameCache.remove(p.uniqueId.toString())
+            return
+        }
+
         displayNameCache[p.uniqueId.toString()] = v
     }
 

@@ -4,6 +4,7 @@ import com.dumbdogdiner.stickychatbukkit.Base
 import com.dumbdogdiner.stickychatbukkit.utils.FormatUtils.colorize
 import com.dumbdogdiner.stickychatbukkit.utils.FormatUtils.entityName
 import com.dumbdogdiner.stickychatbukkit.utils.ServerUtils
+import org.bukkit.Bukkit
 import kotlin.random.Random
 import org.bukkit.Sound
 import org.bukkit.entity.EntityType
@@ -51,9 +52,13 @@ class PlayerListener : Base, Listener {
         privateMessageManager.forgetLastMessageTarget(e.player)
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOWEST)
     fun handleChatEvent(e: AsyncPlayerChatEvent) {
         if (e.isCancelled) {
+            return
+        }
+        // idek if this works but im getting shouted at and dont have much time
+        if (e.recipients == Bukkit.getOnlinePlayers().toSet()) {
             return
         }
 
@@ -90,6 +95,7 @@ class PlayerListener : Base, Listener {
         }
     }
 
+    @EventHandler
     fun handleBookEvent(e: PlayerEditBookEvent) {
         mailManager.writeLetter(e.player, e.newBookMeta)
     }

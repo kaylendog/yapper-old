@@ -48,6 +48,8 @@ class StorageManager : Base,
      * Fetch a player's nickname.
      */
     override fun getPlayerNickname(player: Player): String? {
+        logger.info("[nick] Fetching nickname for player '${player.name}' (${player.uniqueId})...")
+
         val cached = cache.getPlayerNickname(player)
         if (cached != null) {
             return cached
@@ -59,7 +61,7 @@ class StorageManager : Base,
     /**
      * Set a player's nickname.
      */
-    override fun setPlayerNickname(player: Player, new: String): Boolean {
+    override fun setPlayerNickname(player: Player, new: String?): Boolean {
         cache.setPlayerNickname(player, new)
         GlobalScope.launch {
             storageMethod.setPlayerNickname(player, new)
@@ -78,23 +80,16 @@ class StorageManager : Base,
         return true
     }
 
-    /**
-     * Store a mail message.
-     */
-    override fun savePartialLetter(from: Player, toName: String, content: String, createdAt: Long): Boolean {
+    override fun savePartialLetter(from: Player, toName: String, title: String, pages: List<String>, createdAt: Long): Boolean {
         logger.info("Saving letter from '${from.name}' (${from.uniqueId}) to player '$toName'")
         GlobalScope.launch {
-            storageMethod.savePartialLetter(from, toName, content, createdAt)
+            storageMethod.savePartialLetter(from, toName, title, pages, createdAt)
         }
         return true
     }
 
-    override fun hydratePartialLetter(fromUuid: String, fromName: String, to: Player, createdAt: Long): Boolean {
-        logger.info("Hydrating letter from '$fromName' ($fromUuid) to player '${to.name}' (${to.uniqueId})")
-        GlobalScope.launch {
-            storageMethod.hydratePartialLetter(fromUuid, fromName, to, createdAt)
-        }
-        return true
+    override fun hydratePartialLetters(to: Player) {
+        return storageMethod.hydratePartialLetters(to)
     }
 
     /**

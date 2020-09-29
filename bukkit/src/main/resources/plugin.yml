@@ -18,4 +18,8 @@ commands:
     description: StickyChat management and configuration.
     usage: /stickychat [reload]
     aliases: ["chat"]
+  nickname:
+    description: Set your nickname, or another player's.
+    usage: /nickname <name|player> [name]
+    aliases: ["nick"]
 api-version: "1.16"

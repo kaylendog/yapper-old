@@ -25,7 +25,7 @@ interface StorageMethod : Base {
     /**
      * Set a player's nickname.
      */
-    fun setPlayerNickname(player: Player, new: String): Boolean
+    fun setPlayerNickname(player: Player, new: String?): Boolean
 
     /**
      * Clear a player's nickname.
@@ -36,12 +36,12 @@ interface StorageMethod : Base {
      * Save a letter for which the UUID of the target player cannot be found - for use
      * when sending a letter.
      */
-    fun savePartialLetter(from: Player, toName: String, content: String, createdAt: Long): Boolean
+    fun savePartialLetter(from: Player, toName: String, title: String, pages: List<String>, createdAt: Long): Boolean
 
     /**
-     * Hydrate a partial letter of its missing fields once they can be retrieved.
+     * Hydrate all partial letters for the given player.
      */
-    fun hydratePartialLetter(fromUuid: String, fromName: String, to: Player, createdAt: Long): Boolean
+    fun hydratePartialLetters(to: Player)
 
     /**
      * Fetch a mail message from disk.
