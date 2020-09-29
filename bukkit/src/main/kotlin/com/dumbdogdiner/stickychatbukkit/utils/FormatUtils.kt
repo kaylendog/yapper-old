@@ -27,6 +27,22 @@ object FormatUtils : Base {
     }
 
     /**
+     * Format a message into a staff chat message.
+     */
+    fun formatStaffChatMessage(from: Player, content: String): String {
+        return PlaceholderUtils.setPlaceholdersSafe(
+            from,
+            colorize(config.getString("chat.staff-cat-format", "&e[SC] &8%name%: %message%")!!)
+        )
+            .replace("%name%", if (from.hasPermission("stickychat.colorizeNick")) colorize(
+                    from.displayName
+            ) else from.displayName)
+            .replace("%message%", if (from.hasPermission("stickychat.colorizeMessage")) colorize(
+                    content
+            ) else content)
+    }
+
+    /**
      * Format a global chat message from a player.
      */
     fun formatGlobalChatMessage(from: Player, content: String): String {

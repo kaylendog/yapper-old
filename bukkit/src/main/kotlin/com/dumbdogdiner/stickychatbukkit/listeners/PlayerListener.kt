@@ -62,8 +62,15 @@ class PlayerListener : Base, Listener {
             return
         }
 
-        chatManager.broadcastPlayerMessage(e.player, e.message)
         e.isCancelled = true
+
+        // check for staff chat
+        if (staffChatManager.getStaffChatEnabled(e.player) || staffChatManager.isStaffChatOverride(e.player, e.message)) {
+            staffChatManager.sendStaffChatMessage(e.player, e.message)
+            return
+        }
+
+        chatManager.broadcastPlayerMessage(e.player, e.message)
     }
 
     /**

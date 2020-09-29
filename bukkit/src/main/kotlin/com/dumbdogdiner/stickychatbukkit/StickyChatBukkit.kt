@@ -1,19 +1,12 @@
 package com.dumbdogdiner.stickychatbukkit
 
-import com.dumbdogdiner.stickychatbukkit.commands.ChatCommand
-import com.dumbdogdiner.stickychatbukkit.commands.MailCommand
-import com.dumbdogdiner.stickychatbukkit.commands.MessageCommand
-import com.dumbdogdiner.stickychatbukkit.commands.NickCommand
-import com.dumbdogdiner.stickychatbukkit.commands.ReplyCommand
+import com.dumbdogdiner.stickychatbukkit.commands.*
 import com.dumbdogdiner.stickychatbukkit.data.StorageManager
 import com.dumbdogdiner.stickychatbukkit.files.DeathMessages
 import com.dumbdogdiner.stickychatbukkit.listeners.DeathListener
 import com.dumbdogdiner.stickychatbukkit.listeners.PlayerListener
 import com.dumbdogdiner.stickychatbukkit.listeners.SignListener
-import com.dumbdogdiner.stickychatbukkit.managers.ChatManager
-import com.dumbdogdiner.stickychatbukkit.managers.MailManager
-import com.dumbdogdiner.stickychatbukkit.managers.PrivateMessageManager
-import com.dumbdogdiner.stickychatbukkit.managers.SignSpyManager
+import com.dumbdogdiner.stickychatbukkit.managers.*
 import com.dumbdogdiner.stickychatcommon.Constants
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -22,6 +15,7 @@ class StickyChatBukkit : JavaPlugin() {
 
     lateinit var chatManager: ChatManager
     lateinit var mailManager: MailManager
+    lateinit var staffChatManager: StaffChatManager
     lateinit var privateMessageManager: PrivateMessageManager
     lateinit var signSpyManager: SignSpyManager
 
@@ -43,6 +37,7 @@ class StickyChatBukkit : JavaPlugin() {
 
         chatManager = ChatManager()
         mailManager = MailManager()
+        staffChatManager = StaffChatManager()
         privateMessageManager = PrivateMessageManager()
         signSpyManager = SignSpyManager()
     }
@@ -54,6 +49,7 @@ class StickyChatBukkit : JavaPlugin() {
 
         // Register commands
         getCommand("stickychat")?.setExecutor(ChatCommand())
+        getCommand("staffchat")?.setExecutor(StaffChatCommand())
         getCommand("message")?.setExecutor(MessageCommand())
         getCommand("reply")?.setExecutor(ReplyCommand())
         getCommand("nickname")?.setExecutor(NickCommand())

@@ -47,6 +47,10 @@ chat:
   outgoing-cross-server-messaging: true
   cross-server-format: "&8[&a%server% &8- &b%name%&8] &7%message%"
 
+  # Configuration for staff chat
+  staff-chat-format: "&d[SC]&7%name% &8» &7%message%"
+  staff-chat-prefix: +
+
 # Configuration for private messages.
 #
 # Available formats:

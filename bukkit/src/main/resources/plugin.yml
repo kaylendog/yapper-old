@@ -22,4 +22,8 @@ commands:
     description: Set your nickname, or another player's.
     usage: /nickname <name|player> [name]
     aliases: ["nick"]
+  staffchat:
+    description: Enable or disable staff chat.
+    usage: /staffchat
+    aliases: ["sc"]
 api-version: "1.16"

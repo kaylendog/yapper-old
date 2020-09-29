@@ -34,6 +34,9 @@ interface Base {
     val signSpyManager
         get() = plugin.signSpyManager
 
+    val staffChatManager
+        get() = plugin.staffChatManager
+
     val messenger
         get() = PluginMessenger
 }
