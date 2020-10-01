@@ -36,7 +36,7 @@ class PrivateMessageManager : Base {
      * Send a private message to a player.
      */
     fun sendPrivateMessage(from: Player, to: String, content: String) {
-        val target = server.onlinePlayers.find { it.name == to }
+        val target = server.onlinePlayers.find { it.name.toLowerCase() == to.toLowerCase() }
         if (target != null) {
             sendLocalPrivateMessage(from, target, content)
             lastMessageTarget[target] = from.name
