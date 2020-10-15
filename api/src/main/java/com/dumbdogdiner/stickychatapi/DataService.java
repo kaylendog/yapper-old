@@ -10,6 +10,34 @@ import java.util.List;
  */
 public interface DataService {
     /**
+     * Get the priority of this player.
+     *
+     * @return {@link Priority}
+     */
+    Priority getPriority();
+
+    /**
+     * Set the priority of this player.
+     *
+     * @param priority Their new priority
+     */
+    void setPriority(Priority priority);
+
+    /**
+     * Checks if this player is muted. Returns true if they are.
+     *
+     * @return {@link Boolean}
+     */
+    Boolean getMuted();
+
+    /**
+     * Set whether this player is muted.
+     *
+     * @param muted Whether this player is muted
+     */
+    void setMuted(Boolean muted);
+
+    /**
      * Gets the list of players this player has blocked.
      * @return {@link List}
      */
@@ -32,32 +60,11 @@ public interface DataService {
     void setBlocked(Player player, Boolean blocked);
 
     /**
-     * Checks if this player is muted. Returns true if they are.
+     * Gets whether this player can use staff chat.
      *
      * @return {@link Boolean}
      */
-    Boolean getMuted();
-
-    /**
-     * Set whether this player is muted.
-     *
-     * @param muted Whether this player is muted
-     */
-    void setMuted(Boolean muted);
-
-    /**
-     * Get the priority of this player.
-     *
-     * @return {@link Priority}
-     */
-    Priority getPriority();
-
-    /**
-     * Set the priority of this player.
-     *
-     * @param priority Their new priority
-     */
-    void setPriority(Priority priority);
+    Boolean hasStaffChatPermission();
 
     /**
      * Save this data persistently. Returns true if the save

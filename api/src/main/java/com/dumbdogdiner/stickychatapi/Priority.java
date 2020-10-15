@@ -27,5 +27,15 @@ public enum Priority {
     /**
      * Reserved for system messages sent via the server or plugins implementing the chat API.
      */
-    SYSTEM
+    SYSTEM;
+
+    /**
+     * Returns true if the target priority is less than or equal to this priority.
+     *
+     * @param target The target priority
+     * @return {@link Boolean}
+     */
+    Boolean isGreaterThan(Priority target) {
+        return this.ordinal() >= target.ordinal();
+    }
 }

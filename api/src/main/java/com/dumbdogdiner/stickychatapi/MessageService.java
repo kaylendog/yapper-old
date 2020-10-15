@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychatapi;
 
-import org.bukkit.entity.Player;
-
 /**
  * Manages the sending of
  * direct messages to other players for a specific player.
@@ -20,11 +18,21 @@ public interface MessageService {
     MessageResult send(String message);
 
     /**
-     * Mute this player. Returns false if they are already muted.
+     * Mute this player. This assumes the mute reason is {@link MuteReason#DEFAULT}.
+     * Returns false if this player is already muted.
      *
      * @return {@link Boolean}
      */
     Boolean mute();
+
+    /**
+     * Mute this player, providing the specified reason. Returns false if
+     * this player is already muted.
+     *
+     * @param reason The reason for this mute
+     * @return {@link Boolean}
+     */
+    Boolean mute(MuteReason reason);
 
     /**
      * Unmute this player. Returns false if they are not muted.

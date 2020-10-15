@@ -64,7 +64,7 @@ public interface DirectMessageService {
      * @return {@link Boolean}
      */
     default Boolean isBlocked(Player target) {
-        var data = ChatService.getService().getDataService(target);
+        var data = StickyChat.getService().getDataService(target);
         for (var offlinePlayer : data.getBlockedPlayers()) {
             if (target.getUniqueId().equals(offlinePlayer.getUniqueId())) {
                 return true;
