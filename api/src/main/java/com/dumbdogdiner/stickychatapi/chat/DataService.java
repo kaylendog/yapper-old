@@ -1,5 +1,6 @@
-package com.dumbdogdiner.stickychatapi;
+package com.dumbdogdiner.stickychatapi.chat;
 
+import com.dumbdogdiner.stickychatapi.Priority;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 

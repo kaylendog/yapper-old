@@ -35,7 +35,7 @@ public enum Priority {
      * @param target The target priority
      * @return {@link Boolean}
      */
-    Boolean isGreaterThan(Priority target) {
+    public Boolean isGreaterThan(Priority target) {
         return this.ordinal() >= target.ordinal();
     }
 }

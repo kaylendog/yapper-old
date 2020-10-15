@@ -1,4 +1,6 @@
-package com.dumbdogdiner.stickychatapi;
+package com.dumbdogdiner.stickychatapi.result;
+
+import com.dumbdogdiner.stickychatapi.chat.MessageService;
 
 /**
  * An enum of possible return types from the {@link MessageService}.

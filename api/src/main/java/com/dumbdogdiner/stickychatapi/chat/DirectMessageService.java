@@ -1,5 +1,8 @@
-package com.dumbdogdiner.stickychatapi;
+package com.dumbdogdiner.stickychatapi.chat;
 
+import com.dumbdogdiner.stickychatapi.StickyChat;
+import com.dumbdogdiner.stickychatapi.result.DirectMessageResult;
+import com.dumbdogdiner.stickychatapi.result.MessageResult;
 import org.bukkit.entity.Player;
 
 /**

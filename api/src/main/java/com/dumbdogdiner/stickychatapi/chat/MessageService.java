@@ -1,5 +1,9 @@
-package com.dumbdogdiner.stickychatapi;
+package com.dumbdogdiner.stickychatapi.chat;
 
+import com.dumbdogdiner.stickychatapi.Priority;
+import com.dumbdogdiner.stickychatapi.StickyChat;
+import com.dumbdogdiner.stickychatapi.result.MessageResult;
+import com.dumbdogdiner.stickychatapi.result.MuteReason;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

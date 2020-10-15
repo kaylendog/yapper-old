@@ -1,4 +1,4 @@
-package com.dumbdogdiner.stickychatapi;
+package com.dumbdogdiner.stickychatapi.result;
 
 /**
  * Reasons a player has been muted.
