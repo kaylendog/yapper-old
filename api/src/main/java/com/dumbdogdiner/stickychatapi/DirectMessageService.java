@@ -3,11 +3,11 @@ package com.dumbdogdiner.stickychatapi;
 import org.bukkit.entity.Player;
 
 /**
- * Manages the sending of direct messages to other players for
- * a specific player. Classes implementing this interface should
- * instantiate new instances for each player who requests a direct
- * message. These should be cached, and returned when access is
- * requested. When sending messages to players
+ * Analogous to {@link MessageService}, manages the sending of
+ * direct messages to other players for a specific player.
+ * Classes implementing this interface should instantiate new
+ * instances for each player who requests a direct message.
+ * These should be cached, and returned when access is requested.
  */
 public interface DirectMessageService {
     /**
@@ -17,7 +17,7 @@ public interface DirectMessageService {
      *
      * @param target The player receiving the message
      * @param message The message to send
-     * @return {@link java.lang.Boolean}
+     * @return {@link MessageResult}
      */
     DirectMessageResult send(Player target, String message);
 
@@ -31,8 +31,9 @@ public interface DirectMessageService {
     DirectMessageResult sendToLast(String message);
 
     /**
-     * Handle a received DM from the specified player. Returns a direct message
-     * result.
+     * Handle a received DM from the specified player. Implementations of this method
+     * should check the priority of the player, as well as whether the sender is blocked.
+     * Returns a direct message result.
      *
      * @param from The player who sent the message
      * @param message The message being sent
