@@ -17,7 +17,6 @@ public interface Formatter {
     /**
      * Format a message sent in staff chat.
      *
-     * @param from The sender of the message
      * @param message The message
      * @return {@link String}
      */

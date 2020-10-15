@@ -5,6 +5,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.List;
+
 /**
  * Represents a generic implementation of a chat system.
  */
@@ -52,23 +54,25 @@ public interface ChatService {
     DirectMessageService getDirectMessageService(Player player);
 
     /**
+     * Get the data service for the target player. If this does
+     * not already exist, it should be created.
+     *
+     * @param player The player who's data service to get
+     * @return {@link DataService}
+     */
+    DataService getDataService(Player player);
+
+    /**
+     * Return all data services for all cached players.
+     *
+     * @return {@link List}
+     */
+    List<DataService> getDataServices();
+
+    /**
      * Get the formatter of this chat service.
      * @return {@link Formatter}
      */
     Formatter getFormatter();
-
-    /**
-     * Get the priority of the target player.
-     * @param player The target player
-     * @return {@link Priority}
-     */
-    Priority getPriority(Player player);
-
-    /**
-     * Set the priority of the target player.
-     * @param player The target player
-     * @param priority Their new priority
-     */
-    void setPriority(Player player, Priority priority);
 }
 

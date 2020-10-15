@@ -56,4 +56,20 @@ public interface DirectMessageService {
      * @return {@link java.lang.Boolean}
      */
     Boolean unblock(Player target);
+
+    /**
+     * Check if the target player is blocked. Returns true if they are.
+     *
+     * @param target The player to test
+     * @return {@link Boolean}
+     */
+    default Boolean isBlocked(Player target) {
+        var data = ChatService.getService().getDataService(target);
+        for (var offlinePlayer : data.getBlockedPlayers()) {
+            if (target.getUniqueId().equals(offlinePlayer.getUniqueId())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
