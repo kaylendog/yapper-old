@@ -1,12 +1,18 @@
 package com.dumbdogdiner.stickychatbukkit
 
-import com.dumbdogdiner.stickychatbukkit.commands.*
+import com.dumbdogdiner.stickychatbukkit.commands.ChatCommand
+import com.dumbdogdiner.stickychatbukkit.commands.MessageCommand
+import com.dumbdogdiner.stickychatbukkit.commands.ReplyCommand
+import com.dumbdogdiner.stickychatbukkit.commands.StaffChatCommand
 import com.dumbdogdiner.stickychatbukkit.data.StorageManager
 import com.dumbdogdiner.stickychatbukkit.files.DeathMessages
 import com.dumbdogdiner.stickychatbukkit.listeners.DeathListener
 import com.dumbdogdiner.stickychatbukkit.listeners.PlayerListener
 import com.dumbdogdiner.stickychatbukkit.listeners.SignListener
-import com.dumbdogdiner.stickychatbukkit.managers.*
+import com.dumbdogdiner.stickychatbukkit.managers.ChatManager
+import com.dumbdogdiner.stickychatbukkit.managers.PrivateMessageManager
+import com.dumbdogdiner.stickychatbukkit.managers.SignSpyManager
+import com.dumbdogdiner.stickychatbukkit.managers.StaffChatManager
 import com.dumbdogdiner.stickychatcommon.Constants
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -14,7 +20,7 @@ class StickyChatBukkit : JavaPlugin() {
     lateinit var storageManager: StorageManager
 
     lateinit var chatManager: ChatManager
-    lateinit var mailManager: MailManager
+//    lateinit var mailManager: MailManager
     lateinit var staffChatManager: StaffChatManager
     lateinit var privateMessageManager: PrivateMessageManager
     lateinit var signSpyManager: SignSpyManager
@@ -36,7 +42,7 @@ class StickyChatBukkit : JavaPlugin() {
         storageManager.init()
 
         chatManager = ChatManager()
-        mailManager = MailManager()
+//        mailManager = MailManager()
         staffChatManager = StaffChatManager()
         privateMessageManager = PrivateMessageManager()
         signSpyManager = SignSpyManager()
@@ -52,8 +58,8 @@ class StickyChatBukkit : JavaPlugin() {
         getCommand("staffchat")?.setExecutor(StaffChatCommand())
         getCommand("message")?.setExecutor(MessageCommand())
         getCommand("reply")?.setExecutor(ReplyCommand())
-        getCommand("nickname")?.setExecutor(NickCommand())
-        getCommand("mail")?.setExecutor(MailCommand())
+//        getCommand("nickname")?.setExecutor(NickCommand())
+//        getCommand("mail")?.setExecutor(MailCommand())
 
         // Register events
         server.pluginManager.registerEvents(PlayerListener(), this)
@@ -61,8 +67,8 @@ class StickyChatBukkit : JavaPlugin() {
         server.pluginManager.registerEvents(DeathListener(), this)
 
         // Plugin messaging
-        server.messenger.registerOutgoingPluginChannel(this, Constants.CHANNEL_NAME)
-        server.messenger.registerIncomingPluginChannel(this, Constants.CHANNEL_NAME, PluginMessenger)
+//        server.messenger.registerOutgoingPluginChannel(this, Constants.CHANNEL_NAME)
+//        server.messenger.registerIncomingPluginChannel(this, Constants.CHANNEL_NAME, PluginMessenger)
 
         logger.info("Registered cross-server communication channel on '${Constants.CHANNEL_NAME}'")
 

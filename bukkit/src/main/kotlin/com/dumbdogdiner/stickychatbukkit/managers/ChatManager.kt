@@ -1,7 +1,7 @@
 package com.dumbdogdiner.stickychatbukkit.managers
 
 import com.dumbdogdiner.stickychatbukkit.Base
-import com.dumbdogdiner.stickychatbukkit.PluginMessenger
+// import com.dumbdogdiner.stickychatbukkit.PluginMessenger
 import com.dumbdogdiner.stickychatbukkit.utils.FormatUtils
 import com.dumbdogdiner.stickychatbukkit.utils.FormatUtils.colorize
 import com.dumbdogdiner.stickychatbukkit.utils.Priority
@@ -22,7 +22,7 @@ class ChatManager : Base {
     private val playerChatPriority = HashMap<Player, Priority>()
 
     init {
-        logger.info("Cross-server messaging has been ${ if (config.getBoolean("chat.cross-server-messaging", true)) {"enabled"} else {"disabled"}}")
+        logger.info("Cross-server messaging has been ${if (config.getBoolean("chat.cross-server-messaging", true)) {"enabled"} else {"disabled"}}")
     }
 
     /**
@@ -34,7 +34,6 @@ class ChatManager : Base {
         }
         server.logger.info(baseComponent.toPlainText())
     }
-
 
     val LINK_REGEX = Regex("[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)")
 
@@ -70,7 +69,7 @@ class ChatManager : Base {
 
         if (config.getBoolean("chat.cross-server-messaging", true)) {
             formattedContent = FormatUtils.formatOutgoingGlobalChatMessage(player, content)
-            PluginMessenger.broadcastMessage(player, formattedContent)
+//            PluginMessenger.broadcastMessage(player, formattedContent)
         }
     }
 

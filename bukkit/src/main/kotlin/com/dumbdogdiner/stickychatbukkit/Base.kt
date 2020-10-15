@@ -25,8 +25,8 @@ interface Base {
     val chatManager
         get() = plugin.chatManager
 
-    val mailManager
-        get() = plugin.mailManager
+//    val mailManager
+//        get() = plugin.mailManager
 
     val privateMessageManager
         get() = plugin.privateMessageManager
@@ -37,6 +37,6 @@ interface Base {
     val staffChatManager
         get() = plugin.staffChatManager
 
-    val messenger
-        get() = PluginMessenger
+//    val messenger
+//        get() = PluginMessenger
 }

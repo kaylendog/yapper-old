@@ -4,8 +4,8 @@ import com.dumbdogdiner.stickychatbukkit.Base
 import com.dumbdogdiner.stickychatbukkit.utils.FormatUtils.colorize
 import com.dumbdogdiner.stickychatbukkit.utils.FormatUtils.entityName
 import com.dumbdogdiner.stickychatbukkit.utils.ServerUtils
-import org.bukkit.Bukkit
 import kotlin.random.Random
+import org.bukkit.Bukkit
 import org.bukkit.Sound
 import org.bukkit.entity.EntityType
 import org.bukkit.event.EventHandler
@@ -13,7 +13,6 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.SignChangeEvent
 import org.bukkit.event.player.AsyncPlayerChatEvent
-import org.bukkit.event.player.PlayerEditBookEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.event.player.PlayerQuitEvent
@@ -39,8 +38,8 @@ class PlayerListener : Base, Listener {
             e.joinMessage = ""
         }
 
-        storageManager.getPlayerNickname(e.player)
-        mailManager.checkForMail(e.player)
+//        storageManager.getPlayerNickname(e.player)
+//        mailManager.checkForMail(e.player)
     }
 
     @EventHandler
@@ -102,8 +101,8 @@ class PlayerListener : Base, Listener {
         }
     }
 
-    @EventHandler
-    fun handleBookEvent(e: PlayerEditBookEvent) {
-        mailManager.writeLetter(e.player, e.newBookMeta)
-    }
+//    @EventHandler
+//    fun handleBookEvent(e: PlayerEditBookEvent) {
+//        mailManager.writeLetter(e.player, e.newBookMeta)
+//    }
 }

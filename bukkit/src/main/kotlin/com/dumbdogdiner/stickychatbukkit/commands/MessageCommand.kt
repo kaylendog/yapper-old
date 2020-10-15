@@ -2,6 +2,7 @@ package com.dumbdogdiner.stickychatbukkit.commands
 
 import com.dumbdogdiner.stickychatbukkit.Base
 import com.dumbdogdiner.stickychatbukkit.utils.ServerUtils
+import com.dumbdogdiner.stickychatbukkit.utils.SoundUtils
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
@@ -19,6 +20,7 @@ class MessageCommand : Base, TabExecutor {
 
         if (args.size < 2) {
             ServerUtils.sendColorizedMessage(sender, "&cInvalid command usage - " + (plugin.getCommand("message")?.usage))
+            SoundUtils.error(sender)
             return true
         }
 

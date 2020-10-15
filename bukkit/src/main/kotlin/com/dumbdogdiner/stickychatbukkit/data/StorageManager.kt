@@ -1,7 +1,6 @@
 package com.dumbdogdiner.stickychatbukkit.data
 
 import com.dumbdogdiner.stickychatbukkit.Base
-import com.dumbdogdiner.stickychatbukkit.data.h2.H2Method
 import com.dumbdogdiner.stickychatbukkit.data.sql.MySqlMethod
 import com.dumbdogdiner.stickychatbukkit.data.sql.PostgresMethod
 import kotlinx.coroutines.GlobalScope
@@ -15,8 +14,7 @@ import org.bukkit.entity.Player
 class StorageManager : Base,
     StorageMethod {
     private val cache = StorageCache()
-    private var storageMethod: StorageMethod =
-        FileStorage()
+    private lateinit var storageMethod: StorageMethod
 
     /**
      * Initialize the storage manager.
@@ -26,11 +24,10 @@ class StorageManager : Base,
 
         storageMethod = when (method.orEmpty().toLowerCase()) {
             "postgresql" -> PostgresMethod()
-            "h2" -> H2Method()
             "mysql" -> MySqlMethod()
             else -> {
-                logger.info("No, or invalid storage method specified - using default FileStorage method")
-                FileStorage()
+                logger.severe("No, or invalid storage method specified")
+                throw RuntimeException("No, or invalid storage method specified")
             }
         }
 
@@ -38,7 +35,7 @@ class StorageManager : Base,
     }
 
     /**
-     * Fetch a player displayname.
+     * Fetch a player display name.
      */
     override fun getPlayerDisplayname(player: Player): String {
         return getPlayerNickname(player) ?: player.name

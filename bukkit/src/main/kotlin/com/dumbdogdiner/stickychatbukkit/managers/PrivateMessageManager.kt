@@ -102,8 +102,8 @@ class PrivateMessageManager : Base {
                 nonce
             )
 
-        messenger.broadcastPrivateMessage(from, to, content, nonce)
-        logger.info("[PM] Broadcasted private message from '${from.name}' to target '$to'")
+//        messenger.broadcastPrivateMessage(from, to, content, nonce)
+//        logger.info("[PM] Broadcasted private message from '${from.name}' to target '$to'")
 
         // Timeout after 1000ms
         messageAckTimeouts[nonce] = GlobalScope.launch(BukkitDispatcher(plugin)) {
