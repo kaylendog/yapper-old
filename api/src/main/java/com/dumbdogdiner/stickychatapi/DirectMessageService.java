@@ -11,6 +11,13 @@ import org.bukkit.entity.Player;
  */
 public interface DirectMessageService {
     /**
+     * Get the player this service refers to.
+     *
+     * @return {@link Player}
+     */
+    Player getPlayer();
+
+    /**
      * Send a DM to the target player. Calling this method should invoke
      * {@link DirectMessageService#receive(Player, String)} of the DM
      * service of the target player.
@@ -19,7 +26,7 @@ public interface DirectMessageService {
      * @param message The message to send
      * @return {@link MessageResult}
      */
-    DirectMessageResult send(Player target, String message);
+    DirectMessageResult sendTo(Player target, String message);
 
     /**
      * Send a DM to the last player who this player sent a message to, or received a

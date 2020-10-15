@@ -1,10 +1,19 @@
 package com.dumbdogdiner.stickychatapi;
 
+import org.bukkit.entity.Player;
+
 /**
  * Manages the switching between regular chat and staff chat, as well
  * as messages within staff chat.
  */
 public interface StaffChatService {
+    /**
+     * Get the player this service refers to.
+     *
+     * @return {@link Player}
+     */
+    Player getPlayer();
+
     /**
      * Check if this player has staff chat enabled. Returns true if that is the case.
      *

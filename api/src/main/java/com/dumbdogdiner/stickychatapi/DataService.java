@@ -10,6 +10,13 @@ import java.util.List;
  */
 public interface DataService {
     /**
+     * Get the player this service refers to.
+     *
+     * @return {@link Player}
+     */
+    Player getPlayer();
+
+    /**
      * Get the priority of this player.
      *
      * @return {@link Priority}
