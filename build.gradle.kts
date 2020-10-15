@@ -13,7 +13,7 @@ allprojects {
 
 subprojects {
     group = "com.dumbdogdiner"
-    version = "2.0.0-alpha-rc4"
+    version = "3.0.0"
 
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
