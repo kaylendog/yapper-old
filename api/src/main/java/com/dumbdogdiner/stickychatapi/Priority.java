@@ -4,9 +4,28 @@ package com.dumbdogdiner.stickychatapi;
  * An enum of priorities messages can be sent with.
  */
 public enum Priority {
+    /**
+     * Default priority of sent messages.
+     */
+
     DEFAULT,
+    /**
+     * Reserved for messages with low priority, such as adverts/reminders etc.
+     */
     LOW,
+
+    /**
+     * Reserved for messages with high priority, such as staff announcements, warnings etc.
+     */
     IMPORTANT,
+
+    /**
+     * Reserved for messages sent directly via DMs
+     */
     DIRECT,
+
+    /**
+     * Reserved for system messages sent via the server or plugins implementing the chat API.
+     */
     SYSTEM
 }
