@@ -1,9 +1,10 @@
-package com.dumbdogdiner.stickychatapi.chat;
+package com.dumbdogdiner.stickychat.api.chat;
 
-import com.dumbdogdiner.stickychatapi.StickyChat;
-import com.dumbdogdiner.stickychatapi.result.DirectMessageResult;
-import com.dumbdogdiner.stickychatapi.result.MessageResult;
+import com.dumbdogdiner.stickychat.api.result.DirectMessageResult;
+import com.dumbdogdiner.stickychat.api.result.MessageResult;
+import com.dumbdogdiner.stickychat.api.StickyChat;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Analogous to {@link MessageService}, manages the sending of
@@ -18,6 +19,7 @@ public interface DirectMessageService {
      *
      * @return {@link Player}
      */
+    @NotNull
     Player getPlayer();
 
     /**
@@ -29,16 +31,18 @@ public interface DirectMessageService {
      * @param message The message to send
      * @return {@link MessageResult}
      */
-    DirectMessageResult sendTo(Player target, String message);
+    @NotNull
+    DirectMessageResult sendTo(@NotNull Player target, @NotNull String message);
 
     /**
      * Send a DM to the last player who this player sent a message to, or received a
      * message from. Returns true if the message was sent successfully.
      *
      * @param message The message to send
-     * @return {@link java.lang.Boolean}
+     * @return {@link Boolean}
      */
-    DirectMessageResult sendToLast(String message);
+    @NotNull
+    DirectMessageResult sendToLast(@NotNull String message);
 
     /**
      * Handle a received DM from the specified player. Implementations of this method
@@ -49,23 +53,26 @@ public interface DirectMessageService {
      * @param message The message being sent
      * @return {@link DirectMessageResult}
      */
-    DirectMessageResult receive(Player from, String message);
+    @NotNull
+    DirectMessageResult receive(@NotNull Player from, @NotNull String message);
 
     /**
      * Block the target player. Returns false if the player is already blocked.
      *
      * @param target The player to block
-     * @return {@link java.lang.Boolean}
+     * @return {@link Boolean}
      */
-    Boolean block(Player target);
+    @NotNull
+    Boolean block(@NotNull Player target);
 
     /**
      * Unblock the target player. Returns false if the player is not blocked.
      *
      * @param target The player to unblock
-     * @return {@link java.lang.Boolean}
+     * @return {@link Boolean}
      */
-    Boolean unblock(Player target);
+    @NotNull
+    Boolean unblock(@NotNull Player target);
 
     /**
      * Check if the target player is blocked. Returns true if they are.
@@ -73,7 +80,8 @@ public interface DirectMessageService {
      * @param target The player to test
      * @return {@link Boolean}
      */
-    default Boolean isBlocked(Player target) {
+    @NotNull
+    default Boolean isBlocked(@NotNull Player target) {
         var data = StickyChat.getService().getDataService(target);
         for (var offlinePlayer : data.getBlockedPlayers()) {
             if (target.getUniqueId().equals(offlinePlayer.getUniqueId())) {

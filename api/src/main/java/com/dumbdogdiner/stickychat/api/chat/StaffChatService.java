@@ -1,4 +1,4 @@
-package com.dumbdogdiner.stickychatapi.chat;
+package com.dumbdogdiner.stickychat.api.chat;
 
 import org.bukkit.entity.Player;
 

@@ -1,8 +1,9 @@
-package com.dumbdogdiner.stickychatapi;
+package com.dumbdogdiner.stickychat.api;
 
-import com.dumbdogdiner.stickychatapi.misc.SignNotification;
+import com.dumbdogdiner.stickychat.api.misc.SignNotification;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * An interface for chat formatting.
@@ -14,7 +15,8 @@ public interface Formatter {
      * @param message The message
      * @return {@link String}
      */
-    String formatMessage(String message);
+    @NotNull
+    String formatMessage(@NotNull String message);
 
     /**
      * Format a message sent in staff chat.
@@ -22,7 +24,8 @@ public interface Formatter {
      * @param message The message
      * @return {@link String}
      */
-    String formatStaffChatMessage(String message);
+    @NotNull
+    String formatStaffChatMessage(@NotNull String message);
 
     /**
      * Format an incoming direct message sent between two players.
@@ -31,7 +34,8 @@ public interface Formatter {
      * @param message The message
      * @return {@link String}
      */
-    String formatOutgoingDM(Player to, String message);
+    @NotNull
+    String formatOutgoingDM(@NotNull Player to, @NotNull String message);
 
     /**
      * Format a direct message sent between two players.
@@ -40,7 +44,8 @@ public interface Formatter {
      * @param message The message
      * @return {@link String}
      */
-    String formatIncomingDM(Player from, String message);
+    @NotNull
+    String formatIncomingDM(@NotNull Player from, @NotNull String message);
 
     /**
      * Format a SignSpy notification.
@@ -48,5 +53,6 @@ public interface Formatter {
      * @param notification - The notification to format
      * @return {@link BaseComponent}
      */
-    BaseComponent formatSignSpyNotification(SignNotification notification);
+    @NotNull
+    BaseComponent formatSignSpyNotification(@NotNull SignNotification notification);
 }

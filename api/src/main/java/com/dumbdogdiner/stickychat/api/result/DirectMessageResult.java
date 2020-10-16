@@ -1,7 +1,7 @@
-package com.dumbdogdiner.stickychatapi.result;
+package com.dumbdogdiner.stickychat.api.result;
 
-import com.dumbdogdiner.stickychatapi.chat.DirectMessageService;
-import com.dumbdogdiner.stickychatapi.Priority;
+import com.dumbdogdiner.stickychat.api.chat.DirectMessageService;
+import com.dumbdogdiner.stickychat.api.Priority;
 
 /**
  * An enum of possible return types from the {@link DirectMessageService}.

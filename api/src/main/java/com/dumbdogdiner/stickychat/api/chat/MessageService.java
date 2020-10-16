@@ -1,10 +1,11 @@
-package com.dumbdogdiner.stickychatapi.chat;
+package com.dumbdogdiner.stickychat.api.chat;
 
-import com.dumbdogdiner.stickychatapi.Priority;
-import com.dumbdogdiner.stickychatapi.StickyChat;
-import com.dumbdogdiner.stickychatapi.result.MessageResult;
-import com.dumbdogdiner.stickychatapi.result.MuteReason;
+import com.dumbdogdiner.stickychat.api.result.MessageResult;
+import com.dumbdogdiner.stickychat.api.result.MuteReason;
+import com.dumbdogdiner.stickychat.api.Priority;
+import com.dumbdogdiner.stickychat.api.StickyChat;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public interface MessageService {
      *
      * @return {@link Player}
      */
+    @NotNull
     Player getPlayer();
 
     /**
@@ -31,7 +33,8 @@ public interface MessageService {
      * @param priority The priority of the message
      * @return {@link List}
      */
-    static List<Player> getRecipients(Player from, Priority priority) {
+    @NotNull
+    static List<Player> getRecipients(@NotNull Player from, @NotNull Priority priority) {
         var recipients = new ArrayList<Player>();
         StickyChat.getService().getDataServices().forEach((data) -> {
             if (priority.isGreaterThan(data.getPriority()) && !data.getBlocked(from)) {
@@ -48,7 +51,8 @@ public interface MessageService {
      * @param message The message to send
      * @return {@link MessageResult}
      */
-    MessageResult broadcast(String message);
+    @NotNull
+    MessageResult broadcast(@NotNull String message);
 
     /**
      * Mute this player. This assumes the mute reason is {@link MuteReason#DEFAULT}.
@@ -65,12 +69,14 @@ public interface MessageService {
      * @param reason The reason for this mute
      * @return {@link Boolean}
      */
-    Boolean mute(MuteReason reason);
+    @NotNull
+    Boolean mute(@NotNull MuteReason reason);
 
     /**
      * Unmute this player. Returns false if they are not muted.
      *
      * @return {@link Boolean}
      */
+    @NotNull
     Boolean unmute();
 }

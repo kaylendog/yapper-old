@@ -1,4 +1,4 @@
-package com.dumbdogdiner.stickychatapi.result;
+package com.dumbdogdiner.stickychat.api.result;
 
 /**
  * Reasons a player has been muted.

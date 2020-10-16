@@ -1,4 +1,6 @@
-package com.dumbdogdiner.stickychatapi.misc;
+package com.dumbdogdiner.stickychat.api.misc;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Manages timed broadcasts and MOTDs.
@@ -11,14 +13,15 @@ public interface BroadcastService {
      * @param timer The timer to register
      * @return {@link Integer}
      */
-    Integer registerTimer(BroadcastTimer timer);
+    @NotNull
+    Integer registerTimer(@NotNull BroadcastTimer timer);
 
     /**
      * Get the timer with the specified ID.
      * @param id The ID of the timer
      * @return {@link BroadcastTimer}
      */
-    BroadcastTimer getTimer(Integer id);
+    BroadcastTimer getTimer(@NotNull Integer id);
 
     /**
      * Check if the target timer is registered.
@@ -26,14 +29,15 @@ public interface BroadcastService {
      * @param timer The timer to check
      * @return {@link Boolean}
      */
-    Boolean isRegistered(BroadcastTimer timer);
+    @NotNull
+    Boolean isRegistered(@NotNull BroadcastTimer timer);
 
     /**
      * Trigger the timer with the specified ID.
      *
      * @param id The ID of the timer to trigger
      */
-    default void triggerTimer(Integer id) {
+    default void triggerTimer(@NotNull Integer id) {
         var timer = getTimer(id);
         if (timer == null) {
             throw new RuntimeException("Attempted to trigger unregistered timer.");
@@ -46,5 +50,5 @@ public interface BroadcastService {
      *
      * @param timer The timer to trigger
      */
-    void triggerTimer(BroadcastTimer timer);
+    void triggerTimer(@NotNull BroadcastTimer timer);
 }

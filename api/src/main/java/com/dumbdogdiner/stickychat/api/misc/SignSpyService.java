@@ -1,7 +1,9 @@
-package com.dumbdogdiner.stickychatapi.misc;
+package com.dumbdogdiner.stickychat.api.misc;
 
-import com.dumbdogdiner.stickychatapi.StickyChat;
+import com.dumbdogdiner.stickychat.api.DataService;
+import com.dumbdogdiner.stickychat.api.StickyChat;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +12,8 @@ import java.util.List;
  * Manages player spying on placed signs.
  */
 public interface SignSpyService {
-    static List<Player> getSignSpyRecipients(SignNotification notification) {
+    @NotNull
+    static List<Player> getSignSpyRecipients(@NotNull SignNotification notification) {
         var recipients = new ArrayList<Player>();
         StickyChat.getService().getDataServices().forEach((data) -> {
             if (data.getSignSpyEnabled()) {
@@ -25,6 +28,7 @@ public interface SignSpyService {
      *
      * @return {@link Player}
      */
+    @NotNull
     Player getPlayer();
 
     /**
@@ -32,8 +36,10 @@ public interface SignSpyService {
      *
      * @return {@link String}
      */
+    @NotNull
     String getPermissionNode();
 
+    @NotNull
     default Boolean hasSignSpyPermission() {
         return this.getPlayer().hasPermission(this.getPermissionNode());
     }
@@ -43,26 +49,29 @@ public interface SignSpyService {
      *
      * @return {@link Boolean}
      */
+    @NotNull
     default Boolean hasSignSpyEnabled() {
         return StickyChat.getService().getDataService(this.getPlayer()).getSignSpyEnabled();
     }
 
     /**
      * Enable SignSpy for this player. This should call
-     * {@link com.dumbdogdiner.stickychatapi.DataService#setSignSpyEnabled(Boolean)},
+     * {@link DataService#setSignSpyEnabled(Boolean)},
      * as well as inform the user of this action.
      *
      * @return {@link Boolean}
      */
+    @NotNull
     Boolean enableSignSpy();
 
     /**
      * Disable SignSpy for this player.This should call
-     * {@link com.dumbdogdiner.stickychatapi.DataService#setSignSpyEnabled(Boolean)},
+     * {@link DataService#setSignSpyEnabled(Boolean)},
      * as well as inform the user of this action.
      *
      * @return {@link Boolean}
      */
+    @NotNull
     Boolean disableSignSpy();
 
     /**
@@ -71,6 +80,7 @@ public interface SignSpyService {
      *
      * @return {@link Boolean}
      */
+    @NotNull
     default Boolean toggleSignSpy() {
         if (this.hasSignSpyEnabled()) {
             this.disableSignSpy();
@@ -85,5 +95,5 @@ public interface SignSpyService {
      * .
      * @param notification The notification to send.
      */
-    void sendNotification(SignNotification notification);
+    void sendNotification(@NotNull SignNotification notification);
 }

@@ -1,8 +1,9 @@
-package com.dumbdogdiner.stickychatapi.misc;
+package com.dumbdogdiner.stickychat.api.misc;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a SignSpy notification.
@@ -13,6 +14,7 @@ public interface SignNotification {
      *
      * @return {@link Player}
      */
+    @NotNull
     Player getPlayer();
 
     /**
@@ -20,6 +22,7 @@ public interface SignNotification {
      *
      * @return {@link Location}
      */
+    @NotNull
     Location getLocation();
 
     /**
@@ -35,7 +38,7 @@ public interface SignNotification {
      *
      * @param silent Whether the block should be destroyed silently.
      */
-    default void destroy(Boolean silent) {
+    default void destroy(@NotNull Boolean silent) {
         if (silent) {
             getLocation().getBlock().setType(Material.AIR);
         } else {

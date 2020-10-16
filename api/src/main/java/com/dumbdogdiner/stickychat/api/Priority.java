@@ -1,4 +1,6 @@
-package com.dumbdogdiner.stickychatapi;
+package com.dumbdogdiner.stickychat.api;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * An enum of priorities messages can be sent with.
@@ -35,7 +37,8 @@ public enum Priority {
      * @param target The target priority
      * @return {@link Boolean}
      */
-    public Boolean isGreaterThan(Priority target) {
+    @NotNull
+    public Boolean isGreaterThan(@NotNull Priority target) {
         return this.ordinal() >= target.ordinal();
     }
 }

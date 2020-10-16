@@ -1,8 +1,8 @@
-package com.dumbdogdiner.stickychatapi;
+package com.dumbdogdiner.stickychat.api;
 
-import com.dumbdogdiner.stickychatapi.Priority;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -15,6 +15,7 @@ public interface DataService {
      *
      * @return {@link Player}
      */
+    @NotNull
     Player getPlayer();
 
     /**
@@ -22,6 +23,7 @@ public interface DataService {
      *
      * @return {@link Priority}
      */
+    @NotNull
     Priority getPriority();
 
     /**
@@ -29,13 +31,14 @@ public interface DataService {
      *
      * @param priority Their new priority
      */
-    void setPriority(Priority priority);
+    void setPriority(@NotNull Priority priority);
 
     /**
      * Checks if this player is muted. Returns true if they are.
      *
      * @return {@link Boolean}
      */
+    @NotNull
     Boolean getMuted();
 
     /**
@@ -43,12 +46,13 @@ public interface DataService {
      *
      * @param muted Whether this player is muted
      */
-    void setMuted(Boolean muted);
+    void setMuted(@NotNull Boolean muted);
 
     /**
      * Gets the list of players this player has blocked.
      * @return {@link List}
      */
+    @NotNull
     List<OfflinePlayer> getBlockedPlayers();
 
     /**
@@ -57,7 +61,8 @@ public interface DataService {
      * @param player The target player
      * @return {@link Boolean}
      */
-    Boolean getBlocked(Player player);
+    @NotNull
+    Boolean getBlocked(@NotNull Player player);
 
     /**
      * Set whether the target player has this player blocked.
@@ -65,13 +70,14 @@ public interface DataService {
      * @param player The target player
      * @param blocked Whether this player is blocked
      */
-    void setBlocked(Player player, Boolean blocked);
+    void setBlocked(@NotNull Player player, @NotNull Boolean blocked);
 
     /**
      * Get whether this player has SignSpy enabled.
      *
      * @return {@link Boolean}
      */
+    @NotNull
     Boolean getSignSpyEnabled();
 
     /**
@@ -81,7 +87,8 @@ public interface DataService {
      * @param enabled Whether this player has sign spy enabled
      * @return {@link Boolean}
      */
-    Boolean setSignSpyEnabled(Boolean enabled);
+    @NotNull
+    Boolean setSignSpyEnabled(@NotNull Boolean enabled);
 
     /**
      * Save this data persistently. Returns true if the save
@@ -89,5 +96,6 @@ public interface DataService {
      *
      * @return {Boolean}
      */
+    @NotNull
     Boolean save();
 }
