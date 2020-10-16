@@ -101,4 +101,3 @@ public interface StickyChat {
      */
     Boolean enableChat();
 }
-

@@ -10,10 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Manages the sending of
- * direct messages to other players for a specific player.
+ * Manages the sending of messages to other players for a specific player.
  * Classes implementing this interface should instantiate new
- * instances for each player who requests a direct message.
+ * instances for each player who requests to send a message.
  * These should be cached, and returned when access is requested.
  */
 public interface MessageService {
