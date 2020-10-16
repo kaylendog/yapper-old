@@ -1,5 +1,7 @@
-package com.dumbdogdiner.stickychatapi.chat;
+package com.dumbdogdiner.stickychatapi;
 
+import com.dumbdogdiner.stickychatapi.misc.SignNotification;
+import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.entity.Player;
 
 /**
@@ -39,4 +41,12 @@ public interface Formatter {
      * @return {@link String}
      */
     String formatIncomingDM(Player from, String message);
+
+    /**
+     * Format a SignSpy notification.
+     *
+     * @param notification - The notification to format
+     * @return {@link BaseComponent}
+     */
+    BaseComponent formatSignSpyNotification(SignNotification notification);
 }

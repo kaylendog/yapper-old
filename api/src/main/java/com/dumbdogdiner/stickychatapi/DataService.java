@@ -1,4 +1,4 @@
-package com.dumbdogdiner.stickychatapi.chat;
+package com.dumbdogdiner.stickychatapi;
 
 import com.dumbdogdiner.stickychatapi.Priority;
 import org.bukkit.OfflinePlayer;
@@ -68,11 +68,20 @@ public interface DataService {
     void setBlocked(Player player, Boolean blocked);
 
     /**
-     * Gets whether this player can use staff chat.
+     * Get whether this player has SignSpy enabled.
      *
      * @return {@link Boolean}
      */
-    Boolean hasStaffChatPermission();
+    Boolean getSignSpyEnabled();
+
+    /**
+     * Set whether this player has SignSpy enabled. Returns true if
+     * sign spy was enabled.
+     *
+     * @param enabled Whether this player has sign spy enabled
+     * @return {@link Boolean}
+     */
+    Boolean setSignSpyEnabled(Boolean enabled);
 
     /**
      * Save this data persistently. Returns true if the save
