@@ -94,6 +94,7 @@ public interface StickyChat {
     /**
      * Get the formatter for the target player.
      *
+     * @param player The player who's formatter to get
      * @return {@link Formatter}
      */
     @NotNull

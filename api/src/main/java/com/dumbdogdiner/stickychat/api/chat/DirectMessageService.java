@@ -93,7 +93,7 @@ public interface DirectMessageService extends WithPlayer {
     /**
      * Return a list of players this player can message.
      *
-     * @return {@link List<Player>}
+     * @return {@link List}
      */
     default List<Player> getMessageablePlayers() {
         var players = new ArrayList<Player>();

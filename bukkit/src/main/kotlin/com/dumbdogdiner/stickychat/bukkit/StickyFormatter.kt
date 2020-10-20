@@ -36,7 +36,7 @@ class StickyFormatter private constructor(private val player: Player) : Formatte
      * from the cached configuration and interpolates placeholders as required.
      */
     override fun formatStaffChatMessage(message: String): String {
-       return "[SC] ${player.name}: $message"
+        return "[SC] ${player.name}: $message"
     }
 
     override fun formatOutgoingDM(to: Player, message: String): String {

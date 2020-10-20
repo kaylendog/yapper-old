@@ -72,5 +72,4 @@ class StickyDirectMessageService private constructor(private val player: Player)
         this.dataService.setBlocked(target, false)
         return true
     }
-
 }

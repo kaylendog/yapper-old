@@ -15,24 +15,19 @@ dependencies {
     // jvm and kotlin dependancies
     implementation(kotlin("stdlib"))
     implementation(project(":StickyChatAPI"))
-    implementation("com.github.DumbDogDiner:StickyAPI:1.3.0")
 
-    dependencies {
+    compileOnly("org.spigotmc:spigot-api:1.16.3-R0.1-SNAPSHOT")
 
-    }
+//    implementation("org.jetbrains.exposed:exposed-core:0.26.1")
+//    implementation("org.jetbrains.exposed:exposed-jdbc:0.26.1")
+//    implementation("org.postgresql:postgresql:42.2.2")
+//    implementation("mysql:mysql-connector-java:5.1.48")
+//    implementation("com.okkero.skedule:skedule:1.2.6")
+//    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7")
+//    implementation("me.lucko:helper:5.6.5")
 
-    compileOnly("org.spigotmc:spigot-api:1.16.2-R0.1-SNAPSHOT")
-
-    implementation("org.jetbrains.exposed:exposed-core:0.26.1")
-    implementation("org.jetbrains.exposed:exposed-jdbc:0.26.1")
-    implementation("org.postgresql:postgresql:42.2.2")
-    implementation("mysql:mysql-connector-java:5.1.48")
-    implementation("com.okkero.skedule:skedule:1.2.6")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7")
-    implementation("me.lucko:helper:5.6.5")
-
-    compileOnly("net.luckperms:api:5.0")
-    compileOnly("me.clip:placeholderapi:2.10.6")
+//    compileOnly("net.luckperms:api:5.0")
+//    compileOnly("me.clip:placeholderapi:2.10.6")
 }
 
 tasks {

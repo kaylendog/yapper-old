@@ -1,7 +1,7 @@
 name: stickychat.bukkit
 authors: [SkyezerFox]
 version: 3.0.0
-main: com.dumbdogdiner.stickychat.bukkit.stickychat.bukkit
+main: com.dumbdogdiner.stickychat.bukkit.StickyChatPlugin
 commands:
 #  mail:
 #    description: Send a mail to another player on the network.
@@ -14,16 +14,16 @@ commands:
     description: Reply to the last private message you received.
     usage: /reply <message>
     aliases: ["r"]
-  stickychat:
-    description: StickyChat management and configuration.
-    usage: /stickychat [reload]
-    aliases: ["chat"]
+#  stickychat:
+#    description: StickyChat management and configuration.
+#    usage: /stickychat [reload]
+#    aliases: ["chat"]
 #  nickname:
 #    description: Set your nickname, or another player's.
 #    usage: /nickname <name|player> [name]
 #    aliases: ["nick"]
-  staffchat:
-    description: Enable or disable staff chat.
-    usage: /staffchat
-    aliases: ["sc"]
+#  staffchat:
+#    description: Enable or disable staff chat.
+#    usage: /staffchat
+#    aliases: ["sc"]
 api-version: "1.16"

@@ -8,6 +8,8 @@ import com.dumbdogdiner.stickychat.api.chat.MessageService
 import com.dumbdogdiner.stickychat.api.chat.StaffChatService
 import com.dumbdogdiner.stickychat.bukkit.chat.StickyDirectMessageService
 import com.dumbdogdiner.stickychat.bukkit.chat.StickyMessageService
+import com.dumbdogdiner.stickychat.bukkit.commands.MessageCommand
+import com.dumbdogdiner.stickychat.bukkit.commands.ReplyCommand
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
@@ -19,7 +21,10 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
     }
 
     override fun onEnable() {
-        logger.info("Setting up services...")
+        logger.info("Registering commands...")
+        getCommand("message")?.setExecutor(MessageCommand())
+        getCommand("reply")?.setExecutor(ReplyCommand())
+        logger.info("Done")
     }
 
     override fun getMessageService(player: Player): MessageService {

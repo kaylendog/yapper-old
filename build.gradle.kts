@@ -12,7 +12,7 @@ allprojects {
 }
 
 subprojects {
-    group = "com.dumbdogdiner"
+    group = "com.dumbdogdiner.stickychat"
     version = "3.0.0"
 
     apply(plugin = "org.jetbrains.kotlin.jvm")
@@ -22,12 +22,5 @@ subprojects {
     repositories {
         jcenter()
         mavenCentral()
-    }
-}
-
-// this feels more hacky than necessary
-rootProject.childProjects.forEach { _ ->
-    getTasksByName("build", false).forEach {
-        it.dependsOn("ktlintFormat", "ktlintKotlinScriptCheck")
     }
 }
