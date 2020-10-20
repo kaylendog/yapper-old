@@ -1,7 +1,7 @@
-name: StickyChatBukkit
+name: stickychat.bukkit
 authors: [SkyezerFox]
 version: 3.0.0
-main: com.dumbdogdiner.stickychatbukkit.StickyChatBukkit
+main: com.dumbdogdiner.stickychat.bukkit.stickychat.bukkit
 commands:
 #  mail:
 #    description: Send a mail to another player on the network.

@@ -8,12 +8,18 @@ repositories {
     maven {
         url = uri("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     }
+    maven { url = uri("https://jitpack.io") }
 }
 
 dependencies {
     // jvm and kotlin dependancies
     implementation(kotlin("stdlib"))
-    implementation(project(":common"))
+    implementation(project(":StickyChatAPI"))
+    implementation("com.github.DumbDogDiner:StickyAPI:1.3.0")
+
+    dependencies {
+
+    }
 
     compileOnly("org.spigotmc:spigot-api:1.16.2-R0.1-SNAPSHOT")
 
@@ -33,6 +39,13 @@ tasks {
     build {
         dependsOn("shadowJar")
     }
+
+    compileKotlin {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
+
     shadowJar {
         archiveClassifier.set("")
     }

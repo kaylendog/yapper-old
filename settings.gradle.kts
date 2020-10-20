@@ -2,9 +2,9 @@ rootProject.name = "StickyChat"
 
 // declare subprojects
 include("common")
+include("api")
 include("bukkit")
 include("bungee")
-include("api")
 
 // project(":common").name = "StickyChatCommon"
 project(":bukkit").name = "StickyChatBukkit"
