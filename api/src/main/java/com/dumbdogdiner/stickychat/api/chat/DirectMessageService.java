@@ -120,9 +120,6 @@ public interface DirectMessageService extends WithPlayer {
         if (data.getPriority().isGreaterThan(Priority.DIRECT)) {
             return false;
         }
-        if (data.getBlocked(target)) {
-            return false;
-        }
-        return true;
+        return !data.getBlocked(target);
     }
 }
