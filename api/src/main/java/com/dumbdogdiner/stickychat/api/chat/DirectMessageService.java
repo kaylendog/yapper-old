@@ -1,10 +1,15 @@
 package com.dumbdogdiner.stickychat.api.chat;
 
+import com.dumbdogdiner.stickychat.api.Priority;
+import com.dumbdogdiner.stickychat.api.WithPlayer;
 import com.dumbdogdiner.stickychat.api.result.DirectMessageResult;
 import com.dumbdogdiner.stickychat.api.result.MessageResult;
 import com.dumbdogdiner.stickychat.api.StickyChat;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Analogous to {@link MessageService}, manages the sending of
@@ -13,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
  * instances for each player who requests a direct message.
  * These should be cached, and returned when access is requested.
  */
-public interface DirectMessageService {
+public interface DirectMessageService extends WithPlayer {
     /**
      * Get the player this service refers to.
      *
@@ -82,12 +87,42 @@ public interface DirectMessageService {
      */
     @NotNull
     default Boolean isBlocked(@NotNull Player target) {
-        var data = StickyChat.getService().getDataService(target);
-        for (var offlinePlayer : data.getBlockedPlayers()) {
-            if (target.getUniqueId().equals(offlinePlayer.getUniqueId())) {
-                return true;
+        return this.getDataService().getBlocked(target);
+    }
+
+    /**
+     * Return a list of players this player can message.
+     *
+     * @return {@link List<Player>}
+     */
+    default List<Player> getMessageablePlayers() {
+        var players = new ArrayList<Player>();
+        for (var data : StickyChat.getService().getDataServices()) {
+            if (data.getPlayer().getUniqueId().equals(this.getPlayer().getUniqueId())) {
+                continue;
             }
+            if (data.getBlocked(this.getPlayer())) {
+                continue;
+            }
+            players.add(data.getPlayer());
         }
-        return false;
+        return players;
+    }
+
+    /**
+     * Test if this player can message the target player.
+     *
+     * @param target The player to test
+     * @return {@link Boolean}
+     */
+    default Boolean canMessagePlayer(Player target) {
+        var data = StickyChat.getService().getDataService(target);
+        if (data.getPriority().isGreaterThan(Priority.DIRECT)) {
+            return false;
+        }
+        if (data.getBlocked(target)) {
+            return false;
+        }
+        return true;
     }
 }

@@ -1,5 +1,6 @@
 package com.dumbdogdiner.stickychat.api.chat;
 
+import com.dumbdogdiner.stickychat.api.WithPlayer;
 import com.dumbdogdiner.stickychat.api.result.MessageResult;
 import com.dumbdogdiner.stickychat.api.result.MuteReason;
 import com.dumbdogdiner.stickychat.api.Priority;
@@ -16,7 +17,7 @@ import java.util.List;
  * instances for each player who requests to send a message.
  * These should be cached, and returned when access is requested.
  */
-public interface MessageService {
+public interface MessageService extends WithPlayer {
     /**
      * Get the player this service refers to.
      *

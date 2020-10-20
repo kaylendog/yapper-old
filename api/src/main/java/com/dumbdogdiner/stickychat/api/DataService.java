@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Handles the loading, saving, and management of player data.
  */
-public interface DataService {
+public interface DataService extends WithPlayer {
     /**
      * Get the player this service refers to.
      *

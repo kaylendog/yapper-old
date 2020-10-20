@@ -92,11 +92,12 @@ public interface StickyChat {
     List<DataService> getDataServices();
 
     /**
-     * Get the formatter of this chat service.
+     * Get the formatter for the target player.
+     *
      * @return {@link Formatter}
      */
     @NotNull
-    Formatter getFormatter();
+    Formatter getFormatter(Player player);
 
     /**
      * Disable chat globally. Returns true if successful.
