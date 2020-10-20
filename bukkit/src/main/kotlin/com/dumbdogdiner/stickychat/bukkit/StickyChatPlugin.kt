@@ -6,12 +6,17 @@ import com.dumbdogdiner.stickychat.api.StickyChat
 import com.dumbdogdiner.stickychat.api.chat.DirectMessageService
 import com.dumbdogdiner.stickychat.api.chat.MessageService
 import com.dumbdogdiner.stickychat.api.chat.StaffChatService
+import com.dumbdogdiner.stickychat.api.integration.IntegrationManager
+import com.dumbdogdiner.stickychat.api.misc.BroadcastService
+import com.dumbdogdiner.stickychat.api.misc.DeathMessageService
 import com.dumbdogdiner.stickychat.bukkit.chat.StickyDirectMessageService
 import com.dumbdogdiner.stickychat.bukkit.chat.StickyMessageService
 import com.dumbdogdiner.stickychat.bukkit.commands.MessageCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.ReplyCommand
+import com.dumbdogdiner.stickychat.bukkit.listeners.MessageListener
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 
 class StickyChatPlugin : StickyChat, JavaPlugin() {
@@ -24,7 +29,15 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
         logger.info("Registering commands...")
         getCommand("message")?.setExecutor(MessageCommand())
         getCommand("reply")?.setExecutor(ReplyCommand())
+
+        logger.info("Registering events...")
+        server.pluginManager.registerEvents(MessageListener(), this)
+
         logger.info("Done")
+    }
+
+    override fun getProvider(): Plugin {
+        return this
     }
 
     override fun getMessageService(player: Player): MessageService {
@@ -50,11 +63,23 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
         return Bukkit.getOnlinePlayers().map { getDataService(it) }.toMutableList()
     }
 
+    override fun getBroadcastService(): BroadcastService {
+        TODO("Not yet implemented")
+    }
+
+    override fun getDeathMessageService(): DeathMessageService {
+        TODO("Not yet implemented")
+    }
+
     /**
      * Get the formatter for the target player.
      */
     override fun getFormatter(player: Player): Formatter {
         return StickyFormatter.get(player)
+    }
+
+    override fun getIntegrationManager(): IntegrationManager {
+        TODO("Not yet implemented")
     }
 
     override fun disableChat(): Boolean {

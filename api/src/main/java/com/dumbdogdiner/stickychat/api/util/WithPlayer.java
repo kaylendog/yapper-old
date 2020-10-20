@@ -1,5 +1,8 @@
-package com.dumbdogdiner.stickychat.api;
+package com.dumbdogdiner.stickychat.api.util;
 
+import com.dumbdogdiner.stickychat.api.DataService;
+import com.dumbdogdiner.stickychat.api.Formatter;
+import com.dumbdogdiner.stickychat.api.StickyChat;
 import com.dumbdogdiner.stickychat.api.chat.DirectMessageService;
 import com.dumbdogdiner.stickychat.api.chat.MessageService;
 import com.dumbdogdiner.stickychat.api.chat.StaffChatService;

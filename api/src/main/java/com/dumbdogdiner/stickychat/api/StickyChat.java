@@ -4,8 +4,13 @@ import com.dumbdogdiner.stickychat.api.chat.DirectMessageService;
 import com.dumbdogdiner.stickychat.api.chat.MessageService;
 import com.dumbdogdiner.stickychat.api.chat.StaffChatService;
 
+import com.dumbdogdiner.stickychat.api.integration.Integration;
+import com.dumbdogdiner.stickychat.api.integration.IntegrationManager;
+import com.dumbdogdiner.stickychat.api.misc.BroadcastService;
+import com.dumbdogdiner.stickychat.api.misc.DeathMessageService;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -38,6 +43,13 @@ public interface StickyChat {
         }
         return provider.getProvider();
     }
+
+    /**
+     * Return a reference to the plugin providing the StickyChat implementation.
+     *
+     * @return {@link Plugin}
+     */
+    Plugin getProvider();
 
     /**
      * Fetch the message service for the target player.
@@ -92,6 +104,21 @@ public interface StickyChat {
     List<DataService> getDataServices();
 
     /**
+     * Get the broadcast service.
+     *
+     * @return {@link BroadcastService}
+     */
+    BroadcastService getBroadcastService();
+
+    /**
+     * Get the death message service.
+     *
+     * @return
+     */
+    DeathMessageService getDeathMessageService();
+
+
+    /**
      * Get the formatter for the target player.
      *
      * @param player The player who's formatter to get
@@ -99,6 +126,23 @@ public interface StickyChat {
      */
     @NotNull
     Formatter getFormatter(Player player);
+
+    /**
+     * Get the integration manager.
+     *
+     * @return {@link IntegrationManager}
+     */
+    IntegrationManager getIntegrationManager();
+
+    /**
+     * Get the integration for the target plugin.
+     *
+     * @param plugin The target plugin
+     * @return {@link Integration}
+     */
+    default Integration getIntegration(Plugin plugin) {
+        return this.getIntegrationManager().getIntegration(plugin);
+    }
 
     /**
      * Disable chat globally. Returns true if successful.

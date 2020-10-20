@@ -13,39 +13,39 @@ public interface Formatter {
      * Format a message sent to the entire server.
      *
      * @param message The message
-     * @return {@link String}
+     * @return {@link BaseComponent}
      */
     @NotNull
-    String formatMessage(@NotNull String message);
+    BaseComponent formatMessage(@NotNull String message);
 
     /**
      * Format a message sent in staff chat.
      *
      * @param message The message
-     * @return {@link String}
+     * @return {@link BaseComponent}
      */
     @NotNull
-    String formatStaffChatMessage(@NotNull String message);
+    BaseComponent formatStaffChatMessage(@NotNull String message);
 
     /**
      * Format an incoming direct message sent between two players.
      *
      * @param to The recipient of the message
      * @param message The message
-     * @return {@link String}
+     * @return {@link BaseComponent}
      */
     @NotNull
-    String formatOutgoingDM(@NotNull Player to, @NotNull String message);
+    BaseComponent formatOutgoingDM(@NotNull Player to, @NotNull String message);
 
     /**
      * Format a direct message sent between two players.
      *
      * @param from The sender of the message
      * @param message The message
-     * @return {@link String}
+     * @return {@link BaseComponent}
      */
     @NotNull
-    String formatIncomingDM(@NotNull Player from, @NotNull String message);
+    BaseComponent formatIncomingDM(@NotNull Player from, @NotNull String message);
 
     /**
      * Format a SignSpy notification.

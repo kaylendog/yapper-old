@@ -27,7 +27,7 @@ class StickyFormatter private constructor(private val player: Player) : Formatte
      * Format a chat message for this player. Fetches the chat format
      * from the cached configuration and interpolates placeholders as required.
      */
-    override fun formatMessage(message: String): String {
+    override fun formatMessage(message: String): BaseComponent {
         return "${player.name}: $message"
     }
 

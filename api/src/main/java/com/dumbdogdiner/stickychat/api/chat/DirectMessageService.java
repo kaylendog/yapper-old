@@ -1,10 +1,12 @@
 package com.dumbdogdiner.stickychat.api.chat;
 
 import com.dumbdogdiner.stickychat.api.Priority;
-import com.dumbdogdiner.stickychat.api.WithPlayer;
+import com.dumbdogdiner.stickychat.api.util.WithPlayer;
 import com.dumbdogdiner.stickychat.api.result.DirectMessageResult;
 import com.dumbdogdiner.stickychat.api.result.MessageResult;
 import com.dumbdogdiner.stickychat.api.StickyChat;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -59,7 +61,20 @@ public interface DirectMessageService extends WithPlayer {
      * @return {@link DirectMessageResult}
      */
     @NotNull
-    DirectMessageResult receive(@NotNull Player from, @NotNull String message);
+    default DirectMessageResult receive(@NotNull Player from, @NotNull String message) {
+        return this.receive(from, new TextComponent(message));
+    }
+
+    /**
+     * Handle a received DM from the specified player. Implementations of this method
+     * should check the priority of the player, as well as whether the sender is blocked.
+     * Returns a direct message result.
+     *
+     * @param from The player who sent the message
+     * @param message The message being sent
+     * @return {@link DirectMessageResult}
+     */
+    DirectMessageResult receive(@NotNull Player from, @NotNull BaseComponent message);
 
     /**
      * Block the target player. Returns false if the player is already blocked.
@@ -78,6 +93,24 @@ public interface DirectMessageService extends WithPlayer {
      */
     @NotNull
     Boolean unblock(@NotNull Player target);
+
+    /**
+     * Send this player a system message.
+     *
+     * @param message The message to send
+     * @return {@link DirectMessageResult}
+     */
+    default DirectMessageResult sendSystemMessage(String message) {
+        return this.sendSystemMessage(new TextComponent(message));
+    }
+
+    /**
+     * Send this player a system
+     *
+     * @param message The message to send
+     * @return {@link DirectMessageResult}
+     */
+    DirectMessageResult sendSystemMessage(BaseComponent message);
 
     /**
      * Check if the target player is blocked. Returns true if they are.

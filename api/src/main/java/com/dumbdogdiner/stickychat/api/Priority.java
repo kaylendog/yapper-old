@@ -39,6 +39,6 @@ public enum Priority {
      */
     @NotNull
     public Boolean isGreaterThan(@NotNull Priority target) {
-        return this.ordinal() >= target.ordinal();
+        return this.ordinal() > target.ordinal();
     }
 }

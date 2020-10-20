@@ -2,11 +2,14 @@ package com.dumbdogdiner.stickychat.bukkit
 
 import com.dumbdogdiner.stickychat.api.DataService
 import com.dumbdogdiner.stickychat.api.Priority
+import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 
 class StickyDataService private constructor(private val player: Player) : DataService {
     private var priority = Priority.DEFAULT
+    private var muted = false
+    private var blockedPlayers = mutableListOf<OfflinePlayer>()
 
     companion object {
         private val dataServices = HashMap<Player, StickyDataService>()
@@ -33,19 +36,19 @@ class StickyDataService private constructor(private val player: Player) : DataSe
     }
 
     override fun setPriority(priority: Priority) {
-        TODO("Not yet implemented")
+        this.priority = priority
     }
 
     override fun getMuted(): Boolean {
-        TODO("Not yet implemented")
+        return this.muted
     }
 
     override fun getBlockedPlayers(): MutableList<OfflinePlayer> {
-        TODO("Not yet implemented")
+        return this.blockedPlayers
     }
 
     override fun getBlocked(player: Player): Boolean {
-        TODO("Not yet implemented")
+        return this.blockedPlayers.find { it.uniqueId == player.uniqueId } != null
     }
 
     override fun getSignSpyEnabled(): Boolean {
@@ -61,10 +64,13 @@ class StickyDataService private constructor(private val player: Player) : DataSe
     }
 
     override fun setBlocked(player: Player, blocked: Boolean) {
-        TODO("Not yet implemented")
+        if (this.blockedPlayers.contains(Bukkit.getOfflinePlayer(player.uniqueId))) {
+            return
+        }
+        this.blockedPlayers.add(Bukkit.getOfflinePlayer(player.uniqueId))
     }
 
     override fun setMuted(muted: Boolean) {
-        TODO("Not yet implemented")
+        this.muted = muted
     }
 }

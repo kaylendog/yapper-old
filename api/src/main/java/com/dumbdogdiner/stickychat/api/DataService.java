@@ -1,5 +1,6 @@
 package com.dumbdogdiner.stickychat.api;
 
+import com.dumbdogdiner.stickychat.api.util.WithPlayer;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -89,6 +90,22 @@ public interface DataService extends WithPlayer {
      */
     @NotNull
     Boolean setSignSpyEnabled(@NotNull Boolean enabled);
+
+    /**
+     * Get whether this player has staff chat enabled.
+     *
+     * @return {@link Boolean}
+     */
+    Boolean getStaffChatEnabled();
+
+    /**
+     * Set whether this player has staff chat enabled. Returns true
+     * if it was enabled.
+     *
+     * @param enabled Whether this player has staff chat enabled
+     * @return {@link Boolean}
+     */
+    Boolean setStaffChatEnabled(@NotNull Boolean enabled);
 
     /**
      * Save this data persistently. Returns true if the save

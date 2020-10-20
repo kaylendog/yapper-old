@@ -1,6 +1,6 @@
 package com.dumbdogdiner.stickychat.api.chat;
 
-import com.dumbdogdiner.stickychat.api.WithPlayer;
+import com.dumbdogdiner.stickychat.api.util.WithPlayer;
 import com.dumbdogdiner.stickychat.api.result.MessageResult;
 import com.dumbdogdiner.stickychat.api.result.MuteReason;
 import com.dumbdogdiner.stickychat.api.Priority;
