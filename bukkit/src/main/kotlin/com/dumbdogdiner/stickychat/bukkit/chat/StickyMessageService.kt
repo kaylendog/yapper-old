@@ -33,7 +33,7 @@ class StickyMessageService private constructor(private val player: Player) : Mes
         }
 
         val recipients = MessageService.getRecipients(this.getPlayer(), Priority.DEFAULT)
-        recipients.forEach { it.sendMessage(this.formatter.formatMessage(message)) }
+        recipients.forEach { it.spigot().sendMessage(this.formatter.formatMessage(message)) }
         return MessageResult.OK
     }
 

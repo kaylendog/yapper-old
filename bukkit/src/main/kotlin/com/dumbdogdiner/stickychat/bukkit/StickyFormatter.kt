@@ -28,23 +28,23 @@ class StickyFormatter private constructor(private val player: Player) : Formatte
      * from the cached configuration and interpolates placeholders as required.
      */
     override fun formatMessage(message: String): BaseComponent {
-        return "${player.name}: $message"
+        return TextComponent("${player.name}: $message")
     }
 
     /**
      * Format a staff chat message for this player. Fetches the SC format
      * from the cached configuration and interpolates placeholders as required.
      */
-    override fun formatStaffChatMessage(message: String): String {
-        return "[SC] ${player.name}: $message"
+    override fun formatStaffChatMessage(message: String): TextComponent {
+        return TextComponent("[SC] ${player.name}: $message")
     }
 
-    override fun formatOutgoingDM(to: Player, message: String): String {
-        return "[DM] ${this.player.name} -> ${to.name}: $message"
+    override fun formatOutgoingDM(to: Player, message: String): TextComponent {
+        return TextComponent("[DM] ${this.player.name} -> ${to.name}: $message")
     }
 
-    override fun formatIncomingDM(from: Player, message: String): String {
-        return "[DM] ${from.name} -> ${this.player.name}: $message"
+    override fun formatIncomingDM(from: Player, message: String): TextComponent {
+        return TextComponent("[DM] ${from.name} -> ${this.player.name}: $message")
     }
 
     override fun formatSignSpyNotification(notification: SignNotification): BaseComponent {

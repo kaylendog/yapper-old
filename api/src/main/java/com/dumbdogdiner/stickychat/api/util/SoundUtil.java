@@ -27,36 +27,35 @@ public class SoundUtil {
      * @param pitch The pitch of the sound
      * @param delay T
      */
-    public void queueSound(Player player, Sound sound, float volume, float pitch, Long delay) {
+    public static void queueSound(Player player, Sound sound, float volume, float pitch, Long delay) {
         Bukkit
             .getScheduler()
-            .scheduleSyncDelayedTask(StickyChat.getService().getProvider(), () -> player.playSound(player.getLocation(), sound, volume, pitch), delay);
+            .scheduleSyncDelayedTask(StickyChat.getService().getProvider(), () -> player.playSound(player.getLocation(), sound, volume, pitch), delay * 20 / 1000);
     }
 
     /**
      * Send an info notification to the target player.
      * @param player {@link org.bukkit.entity.Player} The target player
      */
-    public void sendInfo(Player player) {
+    public static void sendInfo(Player player) {
         queueSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1f, 1f, 0L);
-        queueSound(player, Sound.ENTITY_FOX_AMBIENT, 1f, 1f, 500L);
+        queueSound(player, Sound.ENTITY_FOX_AMBIENT, 1f, 1f, 0L);
     }
 
     /**
      * Send a quiet notification to the target player.
      * @param player {@link org.bukkit.entity.Player} The target player
      */
-    public void sendQuiet(Player player) {
-        queueSound(player, Sound.BLOCK_NOTE_BLOCK_HARP, 1f,1f,0L);
-        // This makes it too loud?
-        // queueSound(player, Sound.ENTITY_FOX_SLEEP, 1f, 1f, 500L);
+    public static void sendQuiet(Player player) {
+        queueSound(player, Sound.BLOCK_NOTE_BLOCK_HARP, 0.5f,1.5f,0L);
+         queueSound(player, Sound.ENTITY_FOX_SLEEP, 0.5f, 1f, 500L);
     }
 
     /**
      * Send an error notification to the target player.
      * @param player {@link org.bukkit.entity.Player} The target player
      */
-    public void sendError(Player player) {
+    public static void sendError(Player player) {
         queueSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1f,  0.944f, 0L);
         queueSound(player, Sound.ENTITY_ITEM_BREAK, 1f, 1f, 0L);
         queueSound(player, Sound.ENTITY_FOX_HURT, 1f, 1f, 0L);
@@ -66,7 +65,7 @@ public class SoundUtil {
      * Send a success notification to the target player.
      * @param player {@link org.bukkit.entity.Player} The target player
      */
-    public void sendSuccess(Player player) {
+    public static void sendSuccess(Player player) {
         queueSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1f, 2f, 0L);
         queueSound(player, Sound.ENTITY_FOX_SCREECH, 1f, 1f, 500L);
     }
@@ -77,7 +76,7 @@ public class SoundUtil {
      * @param type {@link NotificationType} The type of sound
      * @return {@link java.lang.Boolean}
      */
-    public Boolean send(CommandSender sender, NotificationType type) {
+    public static Boolean send(CommandSender sender, NotificationType type) {
         if (!validate(sender)) {
             return false;
         }

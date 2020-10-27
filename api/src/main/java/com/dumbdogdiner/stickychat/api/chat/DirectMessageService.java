@@ -61,20 +61,7 @@ public interface DirectMessageService extends WithPlayer {
      * @return {@link DirectMessageResult}
      */
     @NotNull
-    default DirectMessageResult receive(@NotNull Player from, @NotNull String message) {
-        return this.receive(from, new TextComponent(message));
-    }
-
-    /**
-     * Handle a received DM from the specified player. Implementations of this method
-     * should check the priority of the player, as well as whether the sender is blocked.
-     * Returns a direct message result.
-     *
-     * @param from The player who sent the message
-     * @param message The message being sent
-     * @return {@link DirectMessageResult}
-     */
-    DirectMessageResult receive(@NotNull Player from, @NotNull BaseComponent message);
+    DirectMessageResult receive(@NotNull Player from, @NotNull String message);
 
     /**
      * Block the target player. Returns false if the player is already blocked.
@@ -110,7 +97,8 @@ public interface DirectMessageService extends WithPlayer {
      * @param message The message to send
      * @return {@link DirectMessageResult}
      */
-    DirectMessageResult sendSystemMessage(BaseComponent message);
+    @NotNull
+    DirectMessageResult sendSystemMessage(@NotNull BaseComponent message);
 
     /**
      * Check if the target player is blocked. Returns true if they are.

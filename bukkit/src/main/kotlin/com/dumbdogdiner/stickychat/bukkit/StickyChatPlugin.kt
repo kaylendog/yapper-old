@@ -5,30 +5,48 @@ import com.dumbdogdiner.stickychat.api.Formatter
 import com.dumbdogdiner.stickychat.api.StickyChat
 import com.dumbdogdiner.stickychat.api.chat.DirectMessageService
 import com.dumbdogdiner.stickychat.api.chat.MessageService
+import com.dumbdogdiner.stickychat.api.chat.NicknameService
 import com.dumbdogdiner.stickychat.api.chat.StaffChatService
 import com.dumbdogdiner.stickychat.api.integration.IntegrationManager
 import com.dumbdogdiner.stickychat.api.misc.BroadcastService
 import com.dumbdogdiner.stickychat.api.misc.DeathMessageService
 import com.dumbdogdiner.stickychat.bukkit.chat.StickyDirectMessageService
 import com.dumbdogdiner.stickychat.bukkit.chat.StickyMessageService
+import com.dumbdogdiner.stickychat.bukkit.chat.StickyNicknameService
+import com.dumbdogdiner.stickychat.bukkit.chat.StickyStaffChatService
 import com.dumbdogdiner.stickychat.bukkit.commands.MessageCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.ReplyCommand
+import com.dumbdogdiner.stickychat.bukkit.commands.VersionCommand
+import com.dumbdogdiner.stickychat.bukkit.integration.StickyIntegrationManager
 import com.dumbdogdiner.stickychat.bukkit.listeners.MessageListener
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 
+@kr.entree.spigradle.annotations.SpigotPlugin
 class StickyChatPlugin : StickyChat, JavaPlugin() {
+    companion object {
+        lateinit var plugin: StickyChatPlugin
+    }
+
+    val integrationManager = StickyIntegrationManager()
+
     override fun onLoad() {
+        plugin = this
         logger.info("Registering chat service...")
         StickyChat.registerService(this, this)
     }
 
     override fun onEnable() {
         logger.info("Registering commands...")
+        getCommand("version")?.setExecutor(VersionCommand())
         getCommand("message")?.setExecutor(MessageCommand())
         getCommand("reply")?.setExecutor(ReplyCommand())
+
+        logger.info("Setting up self-hosted API integration...")
+        val integration = this.integrationManager.getIntegration(this)
+        integration.prefix = "&d&lStickyChat &r&8>&r "
 
         logger.info("Registering events...")
         server.pluginManager.registerEvents(MessageListener(), this)
@@ -51,7 +69,11 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
     }
 
     override fun getStaffChatService(player: Player): StaffChatService {
-        TODO("Not yet implemented")
+        return StickyStaffChatService.get(player)
+    }
+
+    override fun getNicknameService(player: Player): NicknameService {
+        return StickyNicknameService.get(player)
     }
 
     override fun getDataService(player: Player): DataService {
@@ -79,7 +101,7 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
     }
 
     override fun getIntegrationManager(): IntegrationManager {
-        TODO("Not yet implemented")
+        return this.integrationManager
     }
 
     override fun disableChat(): Boolean {

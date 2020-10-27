@@ -2,6 +2,7 @@ package com.dumbdogdiner.stickychat.api;
 
 import com.dumbdogdiner.stickychat.api.chat.DirectMessageService;
 import com.dumbdogdiner.stickychat.api.chat.MessageService;
+import com.dumbdogdiner.stickychat.api.chat.NicknameService;
 import com.dumbdogdiner.stickychat.api.chat.StaffChatService;
 
 import com.dumbdogdiner.stickychat.api.integration.Integration;
@@ -45,6 +46,15 @@ public interface StickyChat {
     }
 
     /**
+     * Get the running version of the API.
+     *
+     * @return {@link String}
+     */
+    static String getVersion() {
+       return StickyChat.class.getPackage().getImplementationVersion();
+    }
+
+    /**
      * Return a reference to the plugin providing the StickyChat implementation.
      *
      * @return {@link Plugin}
@@ -84,6 +94,15 @@ public interface StickyChat {
      */
     @NotNull
     StaffChatService getStaffChatService(@NotNull Player player);
+
+    /**
+     * Get the nickname service for the target player.
+     * If this does not exist already, it should be created.
+     * @param player The target player
+     * @return {@link NicknameService}
+     */
+    @NotNull
+    NicknameService getNicknameService(@NotNull Player player);
 
     /**
      * Get the data service for the target player. If this does

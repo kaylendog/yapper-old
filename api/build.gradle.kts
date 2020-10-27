@@ -1,3 +1,5 @@
+version = "1.0.0"
+
 repositories {
     maven { url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") }
 }

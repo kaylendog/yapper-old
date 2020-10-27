@@ -4,9 +4,12 @@ import com.dumbdogdiner.stickychat.api.Priority
 import com.dumbdogdiner.stickychat.api.StickyChat
 import com.dumbdogdiner.stickychat.api.chat.DirectMessageService
 import com.dumbdogdiner.stickychat.api.result.DirectMessageResult
+import com.dumbdogdiner.stickychat.api.util.SoundUtil
+import com.dumbdogdiner.stickychat.bukkit.WithPlugin
+import net.md_5.bungee.api.chat.BaseComponent
 import org.bukkit.entity.Player
 
-class StickyDirectMessageService private constructor(private val player: Player) : DirectMessageService {
+class StickyDirectMessageService private constructor(private val player: Player) : WithPlugin, DirectMessageService {
     companion object {
         private val services = HashMap<Player, StickyDirectMessageService>()
 
@@ -32,10 +35,16 @@ class StickyDirectMessageService private constructor(private val player: Player)
     override fun sendTo(target: Player, message: String): DirectMessageResult {
         val result = StickyChat.getService().getDirectMessageService(target).receive(this.player, message)
         if (result != DirectMessageResult.OK) {
+            this.integration.sendSystemMessage(this.player, "Could not send direct message!")
             return result
         }
-        this.player.sendMessage(this.formatter.formatOutgoingDM(target, message))
+        this.player.spigot().sendMessage(this.formatter.formatOutgoingDM(target, message))
         this.lastPlayer = target
+
+        if (result == DirectMessageResult.OK) {
+            SoundUtil.sendQuiet(this.getPlayer())
+        }
+
         return result
     }
 
@@ -53,7 +62,8 @@ class StickyDirectMessageService private constructor(private val player: Player)
         if (this.dataService.priority.isGreaterThan(Priority.DIRECT)) {
             return DirectMessageResult.FAIL_PRIORITY
         }
-        this.player.sendMessage(this.formatter.formatIncomingDM(from, message))
+        this.player.spigot().sendMessage(this.formatter.formatIncomingDM(from, message))
+        SoundUtil.sendQuiet(this.getPlayer())
         return DirectMessageResult.OK
     }
 
@@ -71,5 +81,10 @@ class StickyDirectMessageService private constructor(private val player: Player)
         }
         this.dataService.setBlocked(target, false)
         return true
+    }
+
+    override fun sendSystemMessage(message: BaseComponent): DirectMessageResult {
+        player.spigot().sendMessage(message)
+        return DirectMessageResult.OK
     }
 }

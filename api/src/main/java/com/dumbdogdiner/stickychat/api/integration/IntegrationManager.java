@@ -1,6 +1,7 @@
 package com.dumbdogdiner.stickychat.api.integration;
 
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Manages integrations of StickyChat with other plugins.
@@ -12,5 +13,6 @@ public interface IntegrationManager {
      * @param plugin The plugin who's integration is being retrieved
      * @return {@link Integration}
      */
-    Integration getIntegration(Plugin plugin);
+    @NotNull
+    Integration getIntegration(@NotNull Plugin plugin);
 }

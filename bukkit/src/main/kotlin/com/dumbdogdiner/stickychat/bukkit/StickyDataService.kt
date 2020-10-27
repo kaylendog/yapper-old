@@ -55,6 +55,14 @@ class StickyDataService private constructor(private val player: Player) : DataSe
         TODO("Not yet implemented")
     }
 
+    override fun getStaffChatEnabled(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun setStaffChatEnabled(enabled: Boolean): Boolean {
+        TODO("Not yet implemented")
+    }
+
     override fun save(): Boolean {
         TODO("Not yet implemented")
     }

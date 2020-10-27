@@ -5,14 +5,7 @@
 # Main Configuration File
 #
 
-# Which storage method to use for data storage.
-# Currently supports:
-#   - PostgreSQL
-#   - MySQL
-storage-method: PostgreSQL
-
 # Configure remote database settings.
-# - You don't need to touch any of the settings here if you're using a local storage method!
 data:
   database: minecraft
   tableprefix: stickychat_
@@ -20,7 +13,6 @@ data:
   port: 5432
   username: postgres
   password: password
-
 
 # Configure the name of this server
 server: "server"
