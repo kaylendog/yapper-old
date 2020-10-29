@@ -1,7 +1,8 @@
 package com.dumbdogdiner.stickychat.api.chat;
 
-
 import com.dumbdogdiner.stickychat.api.StickyChat;
+import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -34,6 +35,28 @@ public interface Channel {
     }
 
     /**
+     * Deserialize a configuration section into a channel object.
+     *
+     * @param key The key of the config section
+     * @param section The section to deserialize
+     * @return {@link Channel}
+     */
+    static Channel deserialize(String key, ConfigurationSection section) {
+        var type = Type.valueOf(section.getString("type"));
+        var name = section.getString("name");
+        return StickyChat.getService().getChannelService().restoreChannel(UUID.fromString(key), type, name);
+    }
+
+    /**
+     * Get the channel manager this channel belongs to.
+     *
+     * @return {@link ChannelManager}
+     */
+    public default ChannelManager getManager() {
+        return StickyChat.getService().getChannelManager();
+    };
+
+    /**
      * Return the unique ID for this channel.
      *
      * @return {@link UUID}
@@ -41,11 +64,32 @@ public interface Channel {
     public UUID getUniqueId();
 
     /**
+     * Return the type of this channel.
+     *
+     * @return {@link Type}
+     */
+    public Type getType();
+
+    /**
      * Set the type of this channel. Implementations should not allow more than one global, or staff chat channel instance.
      *
-     * @param type
+     * @param type The new type
      */
     public void setType(Type type);
+
+    /**
+     * Get the name of this channel.
+     *
+     * @return {@link String}
+     */
+    public String getName();
+
+    /**
+     * Set the name of this channel.
+     *
+     * @param name The new name of this channel
+     */
+    public void setName(String name);
 
     /**
      * Get a list of players in this channel.
@@ -83,4 +127,16 @@ public interface Channel {
      * Close this channel and move all players to global.
      */
     public void close();
+
+    /**
+     * Serialize this channel into a YAML configuration section.
+     *
+     * @param config The configuration this channel is being serialized into
+     * @return {@link ConfigurationSection}
+     */
+    public default ConfigurationSection serialize(Configuration config) {
+        var section = config.createSection(this.getUniqueId().toString());
+        section.set("type", this.getType().name());
+        return section;
+    }
 }

@@ -8,6 +8,11 @@ import org.jetbrains.annotations.NotNull;
  * Handles the storage of data for broadcasts.
  */
 public class BroadcastTimer {
+    /**
+     * Create a broadcast timer from
+     * @param text
+     * @return
+     */
     public BroadcastTimer fromText(@NotNull String text) {
         var component = new TextComponent();
         component.setText(text);

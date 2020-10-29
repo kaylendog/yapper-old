@@ -7,6 +7,14 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface BroadcastService {
     /**
+     * Load all the timers from plugin configuration. Return the
+     * number of timers that were loaded.
+     *
+     * @return {@link Integer}
+     */
+    Integer loadAllTimers();
+
+    /**
      * Register a new {@link BroadcastTimer}. Returns the ID of the
      * registered timer.
      *

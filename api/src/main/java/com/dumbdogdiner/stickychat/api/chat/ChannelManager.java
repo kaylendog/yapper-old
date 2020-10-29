@@ -14,9 +14,20 @@ public interface ChannelManager {
      * Create a new channel of the specified type.
      *
      * @param type The type of the channel
+     * @param name THe name of the channel
      * @return {@link Channel}
      */
-    public Channel createChannel(Channel.Type type);
+    public Channel createChannel(Channel.Type type, String name);
+
+    /**
+     * Restore a channel.
+     *
+     * @param uuid The unique id of this channel
+     * @param type The type of this channel
+     * @param name The name of this channel
+     * @return
+     */
+    public Channel restoreChannel(UUID uuid, Channel.Type type, String name);
 
     /**
      * Remove the channel with the target UUID.
