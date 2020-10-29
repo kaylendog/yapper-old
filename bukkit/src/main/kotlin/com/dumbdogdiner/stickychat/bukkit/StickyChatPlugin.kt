@@ -15,6 +15,7 @@ import com.dumbdogdiner.stickychat.bukkit.chat.StickyMessageService
 import com.dumbdogdiner.stickychat.bukkit.chat.StickyNicknameService
 import com.dumbdogdiner.stickychat.bukkit.chat.StickyStaffChatService
 import com.dumbdogdiner.stickychat.bukkit.commands.MessageCommand
+import com.dumbdogdiner.stickychat.bukkit.commands.NicknameCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.ReplyCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.VersionCommand
 import com.dumbdogdiner.stickychat.bukkit.integration.StickyIntegrationManager
@@ -43,6 +44,7 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
         getCommand("version")?.setExecutor(VersionCommand())
         getCommand("message")?.setExecutor(MessageCommand())
         getCommand("reply")?.setExecutor(ReplyCommand())
+        getCommand("nickname")?.setExecutor(NicknameCommand())
 
         logger.info("Setting up self-hosted API integration...")
         val integration = this.integrationManager.getIntegration(this)

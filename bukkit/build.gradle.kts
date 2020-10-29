@@ -58,9 +58,15 @@ tasks {
             }
             create("message") {
                 aliases = mutableListOf("tell", "msg", "whisper")
+                usage = "/message <player> <message>"
             }
             create("reply") {
                 aliases = mutableListOf("r")
+                usage = "/reply <message>"
+            }
+            create("nickname") {
+                aliases = mutableListOf("nick")
+                usage = "/nickname <get|set> [value|player] [nick]"
             }
         }
 

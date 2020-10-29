@@ -1,9 +1,6 @@
 package com.dumbdogdiner.stickychat.api;
 
-import com.dumbdogdiner.stickychat.api.chat.DirectMessageService;
-import com.dumbdogdiner.stickychat.api.chat.MessageService;
-import com.dumbdogdiner.stickychat.api.chat.NicknameService;
-import com.dumbdogdiner.stickychat.api.chat.StaffChatService;
+import com.dumbdogdiner.stickychat.api.chat.*;
 
 import com.dumbdogdiner.stickychat.api.integration.Integration;
 import com.dumbdogdiner.stickychat.api.integration.IntegrationManager;
@@ -123,6 +120,30 @@ public interface StickyChat {
     List<DataService> getDataServices();
 
     /**
+     * Get the channel manager.
+     *
+     * @return {@link ChannelManager}
+     */
+    ChannelManager getChannelManager();
+
+    /**
+     * Get the channel service for the target player.
+     *
+     * @param player The player who's channel service this method should return
+     * @return {@link ChannelService}
+     */
+    ChannelService getChannelService(Player player);
+
+    /**
+     * Get the formatter for the target player.
+     *
+     * @param player The player who's formatter to get
+     * @return {@link Formatter}
+     */
+    @NotNull
+    Formatter getFormatter(Player player);
+
+    /**
      * Get the broadcast service.
      *
      * @return {@link BroadcastService}
@@ -137,14 +158,6 @@ public interface StickyChat {
     DeathMessageService getDeathMessageService();
 
 
-    /**
-     * Get the formatter for the target player.
-     *
-     * @param player The player who's formatter to get
-     * @return {@link Formatter}
-     */
-    @NotNull
-    Formatter getFormatter(Player player);
 
     /**
      * Get the integration manager.

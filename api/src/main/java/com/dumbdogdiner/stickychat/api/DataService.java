@@ -1,5 +1,6 @@
 package com.dumbdogdiner.stickychat.api;
 
+import com.dumbdogdiner.stickychat.api.chat.Channel;
 import com.dumbdogdiner.stickychat.api.util.WithPlayer;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -106,6 +107,20 @@ public interface DataService extends WithPlayer {
      * @return {@link Boolean}
      */
     Boolean setStaffChatEnabled(@NotNull Boolean enabled);
+
+    /**
+     * Return the channel this player is currently part of.
+     *
+     * @return {@link Channel}
+     */
+    Channel getChannel();
+
+    /**
+     * Set the channel this player is part of.
+     *
+     * @param channel The channel this player is part of
+     */
+    void setChannel(Channel channel);
 
     /**
      * Save this data persistently. Returns true if the save

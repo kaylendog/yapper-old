@@ -3,10 +3,13 @@ package com.dumbdogdiner.stickychat.bukkit
 import com.dumbdogdiner.stickychat.api.Formatter
 import com.dumbdogdiner.stickychat.api.misc.SignNotification
 import net.md_5.bungee.api.chat.BaseComponent
+import net.md_5.bungee.api.chat.ClickEvent
+import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
+import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.entity.Player
 
-class StickyFormatter private constructor(private val player: Player) : Formatter {
+class StickyFormatter private constructor(private val player: Player) : WithPlugin, Formatter {
     companion object {
         private val formatters = HashMap<Player, StickyFormatter>()
 
@@ -21,6 +24,12 @@ class StickyFormatter private constructor(private val player: Player) : Formatte
             formatters[player] = formatter
             return formatter
         }
+
+        private val linkRegex = Regex("https?://[-a-zA-Z0-9@:%._+~#=]{1,256}.(?:[-a-zA-Z0-9@:%._+~#=/?=%&]{3,})+")
+    }
+
+    override fun getPlayer(): Player {
+        return this.player
     }
 
     /**
@@ -28,7 +37,24 @@ class StickyFormatter private constructor(private val player: Player) : Formatte
      * from the cached configuration and interpolates placeholders as required.
      */
     override fun formatMessage(message: String): BaseComponent {
-        return TextComponent("${player.name}: $message")
+        val words = message.split(" ")
+        val text = TextComponent()
+
+        words.forEach {
+            val component = TextComponent(it)
+            if (it.matches(linkRegex)) {
+                component.clickEvent = ClickEvent(ClickEvent.Action.OPEN_URL, it)
+                component.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("Click to open link"))
+            }
+            // TODO: This adds an extra space char at the end - how to fix?
+            component.text += " "
+            text.addExtra(component)
+        }
+
+        val root = TextComponent()
+        root.addExtra("${this.nicknameService.displayname}: ")
+        root.addExtra(text)
+        return root
     }
 
     /**

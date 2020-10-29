@@ -1,6 +1,7 @@
 package com.dumbdogdiner.stickychat.api;
 
 import com.dumbdogdiner.stickychat.api.misc.SignNotification;
+import com.dumbdogdiner.stickychat.api.util.WithPlayer;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -9,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * An interface for chat formatting.
  */
-public interface Formatter {
+public interface Formatter extends WithPlayer {
     /**
      * Colorize a string using `&` color codes.
      * @param string The string to colorize
