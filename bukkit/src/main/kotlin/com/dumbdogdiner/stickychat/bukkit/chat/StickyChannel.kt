@@ -1,8 +1,8 @@
 package com.dumbdogdiner.stickychat.bukkit.chat
 
 import com.dumbdogdiner.stickychat.api.chat.Channel
+import java.util.UUID
 import org.bukkit.entity.Player
-import java.util.*
 
 class StickyChannel(private val uniqueId: UUID, private var type: Channel.Type, private var name: String) : Channel {
     private val players = mutableListOf<Player>()

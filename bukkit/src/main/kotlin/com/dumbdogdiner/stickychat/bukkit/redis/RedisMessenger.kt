@@ -2,10 +2,10 @@ package com.dumbdogdiner.stickychat.bukkit.redis
 
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin
 import com.google.common.io.ByteStreams
+import java.nio.charset.Charset
 import redis.clients.jedis.JedisPool
 import redis.clients.jedis.JedisPoolConfig
 import redis.clients.jedis.JedisPubSub
-import java.nio.charset.Charset
 
 /**
  * Handles pub/sub messaging between servers.

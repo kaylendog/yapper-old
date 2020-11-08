@@ -76,7 +76,7 @@ class StickyDataService private constructor(private val player: Player) : WithPl
         return this.channel
     }
 
-    override fun setChannel(channel: Channel?) {
+    override fun setChannel(channel: Channel) {
         this.channel = channel
     }
 

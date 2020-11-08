@@ -115,7 +115,7 @@ public interface DataService extends WithPlayer {
      *
      * @param channel The channel this player is part of
      */
-    void setChannel(Channel channel);
+    void setChannel(@NotNull Channel channel);
 
     /**
      * Save this data persistently. Returns true if the save

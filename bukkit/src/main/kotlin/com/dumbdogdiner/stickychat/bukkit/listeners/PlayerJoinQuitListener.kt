@@ -13,7 +13,6 @@ class PlayerJoinQuitListener : WithPlugin, Listener {
     @EventHandler
     fun onPlayerJoin(e: PlayerJoinEvent) {
         logger.info("Looking up settings and nickname for ${e.player.name} (${e.player.uniqueId})")
-
     }
 
     @EventHandler

@@ -3,10 +3,15 @@ package com.dumbdogdiner.stickychat.bukkit
 import com.dumbdogdiner.stickychat.api.DataService
 import com.dumbdogdiner.stickychat.api.Formatter
 import com.dumbdogdiner.stickychat.api.StickyChat
-import com.dumbdogdiner.stickychat.api.chat.*
+import com.dumbdogdiner.stickychat.api.chat.ChannelManager
+import com.dumbdogdiner.stickychat.api.chat.DirectMessageService
+import com.dumbdogdiner.stickychat.api.chat.MessageService
+import com.dumbdogdiner.stickychat.api.chat.NicknameService
+import com.dumbdogdiner.stickychat.api.chat.StaffChatService
 import com.dumbdogdiner.stickychat.api.integration.IntegrationManager
 import com.dumbdogdiner.stickychat.api.misc.BroadcastService
 import com.dumbdogdiner.stickychat.api.misc.DeathMessageService
+import com.dumbdogdiner.stickychat.bukkit.chat.StickyChannelManager
 import com.dumbdogdiner.stickychat.bukkit.chat.StickyDirectMessageService
 import com.dumbdogdiner.stickychat.bukkit.chat.StickyMessageService
 import com.dumbdogdiner.stickychat.bukkit.chat.StickyNicknameService
@@ -31,6 +36,7 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
 
     val integrationManager = StickyIntegrationManager()
     val redisMessenger = RedisMessenger()
+    val channelManager = StickyChannelManager()
 
     override fun onLoad() {
         plugin = this
@@ -93,7 +99,7 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
     }
 
     override fun getChannelManager(): ChannelManager {
-        TODO("Not yet implemented")
+        return this.channelManager
     }
 
     override fun getBroadcastService(): BroadcastService {
@@ -104,9 +110,6 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
         TODO("Not yet implemented")
     }
 
-    /**
-     * Get the formatter for the target player.
-     */
     override fun getFormatter(player: Player): Formatter {
         return StickyFormatter.get(player)
     }
@@ -116,10 +119,10 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
     }
 
     override fun disableChat(): Boolean {
-        TODO("Not yet implemented")
+        return false
     }
 
     override fun enableChat(): Boolean {
-        TODO("Not yet implemented")
+        return false
     }
 }

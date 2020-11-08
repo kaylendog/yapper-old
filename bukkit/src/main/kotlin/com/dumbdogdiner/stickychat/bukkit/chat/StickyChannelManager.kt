@@ -2,12 +2,12 @@ package com.dumbdogdiner.stickychat.bukkit.chat
 
 import com.dumbdogdiner.stickychat.api.chat.Channel
 import com.dumbdogdiner.stickychat.api.chat.ChannelManager
-import java.util.*
+import java.util.UUID
 import kotlin.collections.HashMap
 
 class StickyChannelManager : ChannelManager {
     private val channels = HashMap<UUID, StickyChannel>()
-    private val global = StickyChannel(UUID(0,0), Channel.Type.GLOBAL, "global")
+    private val global = StickyChannel(UUID(0, 0), Channel.Type.GLOBAL, "global")
 
     init {
         channels[global.uniqueId] = global
