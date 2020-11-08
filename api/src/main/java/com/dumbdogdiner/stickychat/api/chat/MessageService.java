@@ -50,6 +50,7 @@ public interface MessageService extends WithPlayer {
      *
      * @return {@link Channel}
      */
+    @NotNull
     Channel getChannel();
 
     /**
@@ -58,7 +59,8 @@ public interface MessageService extends WithPlayer {
      * @param channel The channel to move to
      * @return {@link Boolean}
      */
-    Boolean moveChannel(Channel channel);
+    @NotNull
+    Boolean moveChannel(@NotNull Channel channel);
 
     /**
      * Send a message to global chat. This method should check if the player
@@ -76,6 +78,7 @@ public interface MessageService extends WithPlayer {
      *
      * @return {@link Boolean}
      */
+    @NotNull
     Boolean mute();
 
     /**

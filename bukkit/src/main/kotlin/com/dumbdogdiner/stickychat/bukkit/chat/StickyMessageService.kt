@@ -1,12 +1,15 @@
 package com.dumbdogdiner.stickychat.bukkit.chat
 
 import com.dumbdogdiner.stickychat.api.Priority
+import com.dumbdogdiner.stickychat.api.chat.Channel
 import com.dumbdogdiner.stickychat.api.chat.MessageService
 import com.dumbdogdiner.stickychat.api.result.MessageResult
 import com.dumbdogdiner.stickychat.api.result.MuteReason
+import com.dumbdogdiner.stickychat.bukkit.WithPlugin
+import com.dumbdogdiner.stickychat.bukkit.redis.PacketBuilder
 import org.bukkit.entity.Player
 
-class StickyMessageService private constructor(private val player: Player) : MessageService {
+class StickyMessageService private constructor(private val player: Player) : WithPlugin, MessageService {
     companion object {
         private val services = HashMap<Player, StickyMessageService>()
 
@@ -27,6 +30,16 @@ class StickyMessageService private constructor(private val player: Player) : Mes
         return player
     }
 
+    override fun getChannel(): Channel {
+        return this.dataService.channel
+    }
+
+    override fun moveChannel(channel: Channel): Boolean {
+        this.dataService.channel = channel
+        this.integration.sendSystemMessage(this.player, "Changed channels to {}.")
+        return true
+    }
+
     override fun broadcast(message: String): MessageResult {
         if (this.dataService.muted) {
             return MessageResult.FAIL_MUTED
@@ -34,6 +47,7 @@ class StickyMessageService private constructor(private val player: Player) : Mes
 
         val recipients = MessageService.getRecipients(this.getPlayer(), Priority.DEFAULT)
         recipients.forEach { it.spigot().sendMessage(this.formatter.formatMessage(message)) }
+        this.plugin.redisMessenger.sendRaw("stickychat", PacketBuilder(PacketBuilder.Type.MESSAGE).sender(this.player.name).content(message).build())
         return MessageResult.OK
     }
 

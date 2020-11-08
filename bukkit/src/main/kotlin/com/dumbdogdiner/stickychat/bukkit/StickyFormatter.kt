@@ -40,14 +40,16 @@ class StickyFormatter private constructor(private val player: Player) : WithPlug
         val words = message.split(" ")
         val text = TextComponent()
 
-        words.forEach {
+        words.forEachIndexed { i, it ->
             val component = TextComponent(it)
             if (it.matches(linkRegex)) {
                 component.clickEvent = ClickEvent(ClickEvent.Action.OPEN_URL, it)
                 component.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("Click to open link"))
             }
-            // TODO: This adds an extra space char at the end - how to fix?
-            component.text += " "
+            // TODO: I don't like this, but it works
+            if (i != words.size - 1) {
+                component.text = component.text.trim() + " "
+            }
             text.addExtra(component)
         }
 

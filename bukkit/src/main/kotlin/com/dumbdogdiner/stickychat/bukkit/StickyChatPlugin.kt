@@ -3,10 +3,7 @@ package com.dumbdogdiner.stickychat.bukkit
 import com.dumbdogdiner.stickychat.api.DataService
 import com.dumbdogdiner.stickychat.api.Formatter
 import com.dumbdogdiner.stickychat.api.StickyChat
-import com.dumbdogdiner.stickychat.api.chat.DirectMessageService
-import com.dumbdogdiner.stickychat.api.chat.MessageService
-import com.dumbdogdiner.stickychat.api.chat.NicknameService
-import com.dumbdogdiner.stickychat.api.chat.StaffChatService
+import com.dumbdogdiner.stickychat.api.chat.*
 import com.dumbdogdiner.stickychat.api.integration.IntegrationManager
 import com.dumbdogdiner.stickychat.api.misc.BroadcastService
 import com.dumbdogdiner.stickychat.api.misc.DeathMessageService
@@ -20,6 +17,7 @@ import com.dumbdogdiner.stickychat.bukkit.commands.ReplyCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.VersionCommand
 import com.dumbdogdiner.stickychat.bukkit.integration.StickyIntegrationManager
 import com.dumbdogdiner.stickychat.bukkit.listeners.MessageListener
+import com.dumbdogdiner.stickychat.bukkit.redis.RedisMessenger
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
@@ -32,6 +30,7 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
     }
 
     val integrationManager = StickyIntegrationManager()
+    val redisMessenger = RedisMessenger()
 
     override fun onLoad() {
         plugin = this
@@ -50,10 +49,16 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
         val integration = this.integrationManager.getIntegration(this)
         integration.prefix = "&d&lStickyChat &r&8>&r "
 
+        redisMessenger.init()
+
         logger.info("Registering events...")
         server.pluginManager.registerEvents(MessageListener(), this)
 
         logger.info("Done")
+    }
+
+    override fun onDisable() {
+        redisMessenger.close()
     }
 
     override fun getProvider(): Plugin {
@@ -85,6 +90,10 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
 
     override fun getDataServices(): MutableList<DataService> {
         return Bukkit.getOnlinePlayers().map { getDataService(it) }.toMutableList()
+    }
+
+    override fun getChannelManager(): ChannelManager {
+        TODO("Not yet implemented")
     }
 
     override fun getBroadcastService(): BroadcastService {

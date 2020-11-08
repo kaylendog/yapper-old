@@ -83,14 +83,11 @@ public interface DataService extends WithPlayer {
     Boolean getSignSpyEnabled();
 
     /**
-     * Set whether this player has SignSpy enabled. Returns true if
-     * sign spy was enabled.
+     * Set whether this player has SignSpy enabled.
      *
      * @param enabled Whether this player has sign spy enabled
-     * @return {@link Boolean}
      */
-    @NotNull
-    Boolean setSignSpyEnabled(@NotNull Boolean enabled);
+    void setSignSpyEnabled(@NotNull Boolean enabled);
 
     /**
      * Get whether this player has staff chat enabled.
@@ -100,13 +97,11 @@ public interface DataService extends WithPlayer {
     Boolean getStaffChatEnabled();
 
     /**
-     * Set whether this player has staff chat enabled. Returns true
-     * if it was enabled.
+     * Set whether this player has staff chat enabled.
      *
      * @param enabled Whether this player has staff chat enabled
-     * @return {@link Boolean}
      */
-    Boolean setStaffChatEnabled(@NotNull Boolean enabled);
+    void setStaffChatEnabled(@NotNull Boolean enabled);
 
     /**
      * Return the channel this player is currently part of.

@@ -22,8 +22,10 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(project(":StickyChatAPI"))
 
-    compileOnly(spigot("1.16.3-R0.1-SNAPSHOT"))
+    // shaded dependencies
+    implementation("redis.clients:jedis:3.3.0")
 
+    compileOnly(spigot("1.16.3-R0.1-SNAPSHOT"))
     compileOnly("me.clip:placeholderapi:2.10.9")
 }
 

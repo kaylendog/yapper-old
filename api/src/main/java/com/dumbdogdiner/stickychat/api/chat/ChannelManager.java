@@ -34,6 +34,12 @@ public interface ChannelManager {
     public Channel restoreChannel(@NotNull UUID uuid, @NotNull Channel.Type type, @NotNull String name);
 
     /**
+     * Get the global channel all players can talk in.
+     * @return
+     */
+    public Channel getGlobalChannel();
+
+    /**
      * Remove the channel with the target UUID. Returns true if the target channel
      * was removed.
      *
