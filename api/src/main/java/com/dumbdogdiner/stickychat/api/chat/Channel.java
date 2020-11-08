@@ -4,10 +4,14 @@ import com.dumbdogdiner.stickychat.api.StickyChat;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Represents a channel in which players can send messages.
+ */
 public interface Channel {
     /**
      * Enum of possible channel types.
@@ -41,10 +45,11 @@ public interface Channel {
      * @param section The section to deserialize
      * @return {@link Channel}
      */
-    static Channel deserialize(String key, ConfigurationSection section) {
+    @NotNull
+    static Channel deserialize(@NotNull String key, @NotNull ConfigurationSection section) {
         var type = Type.valueOf(section.getString("type"));
         var name = section.getString("name");
-        return StickyChat.getService().getChannelService().restoreChannel(UUID.fromString(key), type, name);
+        return StickyChat.getService().getChannelManager().restoreChannel(UUID.fromString(key), type, name);
     }
 
     /**
@@ -52,6 +57,7 @@ public interface Channel {
      *
      * @return {@link ChannelManager}
      */
+    @NotNull
     public default ChannelManager getManager() {
         return StickyChat.getService().getChannelManager();
     };
@@ -61,6 +67,7 @@ public interface Channel {
      *
      * @return {@link UUID}
      */
+    @NotNull
     public UUID getUniqueId();
 
     /**
@@ -68,6 +75,7 @@ public interface Channel {
      *
      * @return {@link Type}
      */
+    @NotNull
     public Type getType();
 
     /**
@@ -75,13 +83,14 @@ public interface Channel {
      *
      * @param type The new type
      */
-    public void setType(Type type);
+    public void setType(@NotNull Type type);
 
     /**
      * Get the name of this channel.
      *
      * @return {@link String}
      */
+    @NotNull
     public String getName();
 
     /**
@@ -89,13 +98,14 @@ public interface Channel {
      *
      * @param name The new name of this channel
      */
-    public void setName(String name);
+    public void setName(@NotNull String name);
 
     /**
      * Get a list of players in this channel.
      *
      * @return {@link List<Player>}
      */
+    @NotNull
     public List<Player> getPlayers();
 
     /**
@@ -104,7 +114,8 @@ public interface Channel {
      * @param player The player to add
      * @return {@link Boolean}
      */
-    public Boolean addPlayer(Player player);
+    @NotNull
+    public Boolean addPlayer(@NotNull Player player);
 
     /**
      * Remove a player from this channel.
@@ -112,7 +123,8 @@ public interface Channel {
      * @param player The player to remove
      * @return {@link Boolean}
      */
-    public Boolean removePlayer(Player player);
+    @NotNull
+    public Boolean removePlayer(@NotNull Player player);
 
     /**
      * Send a message to this channel.
@@ -134,7 +146,8 @@ public interface Channel {
      * @param config The configuration this channel is being serialized into
      * @return {@link ConfigurationSection}
      */
-    public default ConfigurationSection serialize(Configuration config) {
+    @NotNull
+    public default ConfigurationSection serialize(@NotNull Configuration config) {
         var section = config.createSection(this.getUniqueId().toString());
         section.set("type", this.getType().name());
         return section;

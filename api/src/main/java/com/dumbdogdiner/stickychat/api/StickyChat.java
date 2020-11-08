@@ -127,14 +127,6 @@ public interface StickyChat {
     ChannelManager getChannelManager();
 
     /**
-     * Get the channel service for the target player.
-     *
-     * @param player The player who's channel service this method should return
-     * @return {@link ChannelService}
-     */
-    ChannelService getChannelService(Player player);
-
-    /**
      * Get the formatter for the target player.
      *
      * @param player The player who's formatter to get

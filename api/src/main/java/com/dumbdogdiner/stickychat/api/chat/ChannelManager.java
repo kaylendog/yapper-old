@@ -2,6 +2,8 @@ package com.dumbdogdiner.stickychat.api.chat;
 
 import com.dumbdogdiner.stickychat.api.StickyChat;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,7 +19,8 @@ public interface ChannelManager {
      * @param name THe name of the channel
      * @return {@link Channel}
      */
-    public Channel createChannel(Channel.Type type, String name);
+    @NotNull
+    public Channel createChannel(@NotNull Channel.Type type, @NotNull String name);
 
     /**
      * Restore a channel.
@@ -27,14 +30,17 @@ public interface ChannelManager {
      * @param name The name of this channel
      * @return
      */
-    public Channel restoreChannel(UUID uuid, Channel.Type type, String name);
+    @NotNull
+    public Channel restoreChannel(@NotNull UUID uuid, @NotNull Channel.Type type, @NotNull String name);
 
     /**
-     * Remove the channel with the target UUID.
+     * Remove the channel with the target UUID. Returns true if the target channel
+     * was removed.
      *
      * @param id
+     * @return {@link Boolean}
      */
-    public void removeChannel(UUID id);
+    public Boolean removeChannel(UUID id);
 
     /**
      * Get the channel with the target UUID.
@@ -42,7 +48,8 @@ public interface ChannelManager {
      * @param id The UUID of the channel
      * @return {@link Channel}
      */
-    public Channel getChannel(UUID id);
+    @Nullable
+    public Channel getChannel(@NotNull UUID id);
 
     /**
      * Get the channel for the target player.
@@ -50,8 +57,9 @@ public interface ChannelManager {
      * @param player The target player
      * @return {@link Channel}
      */
-    default public Channel getChannel(Player player) {
-        return StickyChat.getService().getChannelService(player).getChannel();
+    @NotNull
+    default public Channel getChannel(@NotNull Player player) {
+        return StickyChat.getService().getMessageService(player).getChannel();
     }
 
     /**
@@ -59,5 +67,6 @@ public interface ChannelManager {
      *
      * @return {@link List<Channel>}
      */
+    @NotNull
     public List<Channel> getChannels();
 }

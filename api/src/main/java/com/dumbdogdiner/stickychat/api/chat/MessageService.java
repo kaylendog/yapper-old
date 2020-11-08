@@ -46,6 +46,21 @@ public interface MessageService extends WithPlayer {
     }
 
     /**
+     * Return the channel this player is currently in.
+     *
+     * @return {@link Channel}
+     */
+    Channel getChannel();
+
+    /**
+     * Set the channel for this player.
+     *
+     * @param channel The channel to move to
+     * @return {@link Boolean}
+     */
+    Boolean moveChannel(Channel channel);
+
+    /**
      * Send a message to global chat. This method should check if the player
      * can send messages when invoked.
      *
