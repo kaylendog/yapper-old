@@ -28,6 +28,11 @@ public enum DirectMessageResult {
     FAIL_NONEXISTENT,
 
     /**
+     * Could not send the message, as the player tried to message themself.
+     */
+    FAIL_SELF,
+
+    /**
      * Could not send the message, as the sender is muted.
      */
     FAIL_MUTED,

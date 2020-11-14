@@ -26,6 +26,11 @@ public interface NicknameService extends WithPlayer {
      */
     public void setNickname(@NotNull String nickname);
 
+    /**
+     * Remove this player's nickname.
+     */
+    public void removeNickname();
+
     @NotNull
     public Boolean hasNickname();
 

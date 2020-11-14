@@ -9,6 +9,7 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,31 @@ public interface DirectMessageService extends WithPlayer {
      */
     @NotNull
     DirectMessageResult sendTo(@NotNull Player target, @NotNull String message);
+
+    /**
+     * Gets the last player this player sent a message to.
+     * @return {@link Player}
+     */
+    @Nullable
+    Player getLast();
+
+    /**
+     * Get the direct message service of the player this player last sent a message to.
+     * Returns null if this player could not be found.
+     * @return {@link DirectMessageService}
+     */
+    @Nullable
+    default DirectMessageService getLastDirectMessageService() {
+        if (this.getLast() == null) {
+            return null;
+        }
+        return StickyChat.getService().getDirectMessageService(this.getLast());
+    }
+
+    /**
+     * Set the last player this player sent a message to.
+     */
+    void setLastPlayer(@NotNull Player player);
 
     /**
      * Send a DM to the last player who this player sent a message to, or received a

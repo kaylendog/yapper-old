@@ -82,10 +82,18 @@ public class SoundUtil {
         }
         var player = (Player) sender;
         switch (type) {
-            case ERROR -> sendError(player);
-            case INFO -> sendInfo(player);
-            case QUIET -> sendQuiet(player);
-            case SUCCESS -> sendSuccess(player);
+            case ERROR:
+                sendError(player);
+                break;
+            case INFO:
+                sendInfo(player);
+                break;
+            case QUIET:
+                sendQuiet(player);
+                break;
+            case SUCCESS:
+                sendSuccess(player);
+                break;
         }
         return true;
     }

@@ -2,8 +2,6 @@ package com.dumbdogdiner.stickychat.bukkit.commands
 
 import com.dumbdogdiner.stickychat.api.StickyChat
 import com.dumbdogdiner.stickychat.api.result.DirectMessageResult
-import com.dumbdogdiner.stickychat.api.util.NotificationType
-import com.dumbdogdiner.stickychat.api.util.SoundUtil
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
@@ -12,13 +10,17 @@ import org.bukkit.command.TabExecutor
 import org.bukkit.entity.Player
 
 class MessageCommand : WithPlugin, TabExecutor {
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): List<String> {
         if (sender !is Player) {
-            return Bukkit.getOnlinePlayers().map { it.name }.toMutableList()
+            return Bukkit.getOnlinePlayers().map { it.name }
         }
 
-        if (args.size < 2) {
-            return StickyChat.getService().getDirectMessageService(sender).messageablePlayers.map { it.name }.toMutableList()
+        if (args.size == 2) {
+            return StickyChat
+                .getService()
+                .getDirectMessageService(sender).messageablePlayers
+                    .map { it.name }
+                    .filter { it.startsWith(args[0]) }
         }
 
         return mutableListOf()
@@ -31,8 +33,7 @@ class MessageCommand : WithPlugin, TabExecutor {
 
         val player = Bukkit.getOnlinePlayers().find { it.name.toLowerCase() == args[0].toLowerCase() }
         if (player == null) {
-            this.integration.sendSystemMessage(sender, "Could not send message - player does not exist!")
-            SoundUtil.send(sender, NotificationType.ERROR)
+            this.integration.sendSystemError(sender, "Could not send message - player does not exist!")
             return true
         }
 

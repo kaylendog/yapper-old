@@ -3,6 +3,7 @@ package com.dumbdogdiner.stickychat.api.integration;
 import com.dumbdogdiner.stickychat.api.Formatter;
 import com.dumbdogdiner.stickychat.api.StickyChat;
 import com.dumbdogdiner.stickychat.api.result.DirectMessageResult;
+import com.dumbdogdiner.stickychat.api.util.SoundUtil;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.CommandSender;
@@ -77,5 +78,28 @@ public interface Integration {
      */
     default DirectMessageResult sendSystemMessage(Player player, String message) {
         return this.sendSystemMessage(player, new TextComponent(message));
+    }
+
+    /**
+     * Send the target a system error.
+     *
+     * @param sender The target to send the error to
+     * @param error The error to send
+     * @return {@link DirectMessageResult}
+     */
+    default DirectMessageResult sendSystemError(CommandSender sender, String error) {
+        return this.sendSystemMessage(sender, Formatter.colorize("&c" + error));
+    }
+
+    /**
+     * Send the target player a system error message.
+     *
+     * @param player The player to send the error to
+     * @param error The error to send
+     * @return {@link DirectMessageResult}
+     */
+    default DirectMessageResult sendSystemError(Player player, String error) {
+        SoundUtil.sendError(player);
+        return this.sendSystemMessage(player, Formatter.colorize("&c" + error));
     }
 }

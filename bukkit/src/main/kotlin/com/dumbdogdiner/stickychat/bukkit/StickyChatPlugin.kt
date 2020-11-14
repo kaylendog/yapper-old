@@ -11,17 +11,20 @@ import com.dumbdogdiner.stickychat.api.chat.StaffChatService
 import com.dumbdogdiner.stickychat.api.integration.IntegrationManager
 import com.dumbdogdiner.stickychat.api.misc.BroadcastService
 import com.dumbdogdiner.stickychat.api.misc.DeathMessageService
+import com.dumbdogdiner.stickychat.api.util.Placeholders
 import com.dumbdogdiner.stickychat.bukkit.chat.StickyChannelManager
 import com.dumbdogdiner.stickychat.bukkit.chat.StickyDirectMessageService
 import com.dumbdogdiner.stickychat.bukkit.chat.StickyMessageService
 import com.dumbdogdiner.stickychat.bukkit.chat.StickyNicknameService
 import com.dumbdogdiner.stickychat.bukkit.chat.StickyStaffChatService
+import com.dumbdogdiner.stickychat.bukkit.commands.ChannelCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.MessageCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.NicknameCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.ReplyCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.VersionCommand
 import com.dumbdogdiner.stickychat.bukkit.integration.StickyIntegrationManager
 import com.dumbdogdiner.stickychat.bukkit.listeners.MessageListener
+import com.dumbdogdiner.stickychat.bukkit.listeners.PlayerJoinQuitListener
 import com.dumbdogdiner.stickychat.bukkit.redis.RedisMessenger
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -40,6 +43,10 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
 
     override fun onLoad() {
         plugin = this
+        // load configuration
+        saveDefaultConfig()
+        reloadConfig()
+
         logger.info("Registering chat service...")
         StickyChat.registerService(this, this)
     }
@@ -50,15 +57,22 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
         getCommand("message")?.setExecutor(MessageCommand())
         getCommand("reply")?.setExecutor(ReplyCommand())
         getCommand("nickname")?.setExecutor(NicknameCommand())
+        getCommand("channel")?.setExecutor(ChannelCommand())
 
         logger.info("Setting up self-hosted API integration...")
         val integration = this.integrationManager.getIntegration(this)
-        integration.prefix = "&d&lStickyChat &r&8>&r "
+        integration.prefix = this.config.getString("chat.prefix", "&b&lStickyChat &r&8» &r")!!
 
         redisMessenger.init()
 
         logger.info("Registering events...")
         server.pluginManager.registerEvents(MessageListener(), this)
+        server.pluginManager.registerEvents(PlayerJoinQuitListener(), this)
+
+        // check for PlaceholderAPI.
+        if (!Placeholders.hasPlaceholderApiEnabled()) {
+            this.logger.warning("[PAPI] PlaceholderAPI not found - placeholders have been disabled")
+        }
 
         logger.info("Done")
     }

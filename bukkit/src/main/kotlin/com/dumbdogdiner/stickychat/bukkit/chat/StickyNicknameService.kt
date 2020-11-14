@@ -34,6 +34,10 @@ class StickyNicknameService(private val player: Player) : NicknameService {
         cachedNickname = nickname
     }
 
+    override fun removeNickname() {
+        cachedNickname = null
+    }
+
     override fun hasNickname(): Boolean {
         return cachedNickname != null
     }

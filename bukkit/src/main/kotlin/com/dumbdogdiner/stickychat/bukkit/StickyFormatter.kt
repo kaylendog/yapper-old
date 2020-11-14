@@ -2,6 +2,8 @@ package com.dumbdogdiner.stickychat.bukkit
 
 import com.dumbdogdiner.stickychat.api.Formatter
 import com.dumbdogdiner.stickychat.api.misc.SignNotification
+import com.dumbdogdiner.stickychat.api.util.Placeholders
+import com.dumbdogdiner.stickychat.api.util.StringModifier
 import net.md_5.bungee.api.chat.BaseComponent
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
@@ -37,12 +39,21 @@ class StickyFormatter private constructor(private val player: Player) : WithPlug
      * from the cached configuration and interpolates placeholders as required.
      */
     override fun formatMessage(message: String): BaseComponent {
-        val words = message.split(" ")
+        val interp = StringModifier(this.config.getString("chat.format", "{name}: {message}"))
+                .apply { Placeholders.setPlaceholdersSafe(this.player, it) }
+                .apply { Formatter.colorize(it) }
+                .replace("{name}", this.player.name)
+                .replace("{message}", message)
+                .get()
+
+        val words = interp.split(" ")
         val text = TextComponent()
 
         words.forEachIndexed { i, it ->
             val component = TextComponent(it)
+            println(it)
             if (it.matches(linkRegex)) {
+                println("match")
                 component.clickEvent = ClickEvent(ClickEvent.Action.OPEN_URL, it)
                 component.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("Click to open link"))
             }
@@ -53,10 +64,7 @@ class StickyFormatter private constructor(private val player: Player) : WithPlug
             text.addExtra(component)
         }
 
-        val root = TextComponent()
-        root.addExtra("${this.nicknameService.displayname}: ")
-        root.addExtra(text)
-        return root
+        return text
     }
 
     /**
@@ -68,11 +76,25 @@ class StickyFormatter private constructor(private val player: Player) : WithPlug
     }
 
     override fun formatOutgoingDM(to: Player, message: String): TextComponent {
-        return TextComponent("[DM] ${this.player.name} -> ${to.name}: $message")
+        val format = this.config.getString("chat.outgoing.format", "&8[&e&lPM&r&8] &a{from_name} &8» &r{message}")!!
+        return TextComponent(
+            StringModifier(this.config.getString("chat.outgoing.format", "&8[&e&lPM&r&8] &a{from_name} &8» &r{message}")!!)
+                .apply { Formatter.colorize(it) }
+                .replace("{from_name}", this.player.name)
+                .replace("{message}", message)
+                .get()
+        )
     }
 
     override fun formatIncomingDM(from: Player, message: String): TextComponent {
-        return TextComponent("[DM] ${from.name} -> ${this.player.name}: $message")
+        val format = this.config.getString("chat.incoming.format", "&8[&e&lPM&r&8] &a{from_name} &8» &r{message}")!!
+        return TextComponent(
+            StringModifier(this.config.getString("chat.incoming.format", "&8[&e&lPM&r&8] &a{from_name} &8» &r{message}")!!)
+                .apply { Formatter.colorize(it) }
+                .replace("{from_name}", from.name)
+                .replace("{message}", message)
+                .get()
+        )
     }
 
     override fun formatSignSpyNotification(notification: SignNotification): BaseComponent {

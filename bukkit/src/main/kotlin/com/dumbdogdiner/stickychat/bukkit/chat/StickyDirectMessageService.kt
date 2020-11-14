@@ -33,6 +33,12 @@ class StickyDirectMessageService private constructor(private val player: Player)
     }
 
     override fun sendTo(target: Player, message: String): DirectMessageResult {
+        if (target == this.player) {
+            this.integration.sendSystemMessage(this.player, "You cannot message yourself, dork!")
+            SoundUtil.sendError(this.player)
+            return DirectMessageResult.FAIL_SELF
+        }
+
         val result = StickyChat.getService().getDirectMessageService(target).receive(this.player, message)
         if (result != DirectMessageResult.OK) {
             this.integration.sendSystemMessage(this.player, "Could not send direct message!")
@@ -40,12 +46,21 @@ class StickyDirectMessageService private constructor(private val player: Player)
         }
         this.player.spigot().sendMessage(this.formatter.formatOutgoingDM(target, message))
         this.lastPlayer = target
+        this.lastDirectMessageService?.setLastPlayer(this.player)
 
         if (result == DirectMessageResult.OK) {
             SoundUtil.sendQuiet(this.getPlayer())
         }
 
         return result
+    }
+
+    override fun getLast(): Player? {
+        return this.lastPlayer
+    }
+
+    override fun setLastPlayer(player: Player) {
+        this.lastPlayer = player
     }
 
     override fun sendToLast(message: String): DirectMessageResult {

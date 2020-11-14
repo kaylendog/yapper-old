@@ -12,11 +12,11 @@ import org.bukkit.event.player.PlayerQuitEvent
 class PlayerJoinQuitListener : WithPlugin, Listener {
     @EventHandler
     fun onPlayerJoin(e: PlayerJoinEvent) {
-        logger.info("Looking up settings and nickname for ${e.player.name} (${e.player.uniqueId})")
+        logger.info("Looking up settings and nickname for '${e.player.name}' (${e.player.uniqueId})...")
     }
 
     @EventHandler
     fun onPlayerLeave(e: PlayerQuitEvent) {
-        logger.info("Saving settings for ${e.player} (${e.player.uniqueId})")
+        logger.info("Saving settings for ${e.player} (${e.player.uniqueId})...")
     }
 }

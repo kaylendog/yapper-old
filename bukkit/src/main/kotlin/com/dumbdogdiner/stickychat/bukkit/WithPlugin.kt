@@ -7,6 +7,9 @@ interface WithPlugin {
     val logger
         get() = this.plugin.logger
 
+    val config
+        get() = this.plugin.config
+
     val integration
         get() = this.plugin.integrationManager.getIntegration(this.plugin)
 }

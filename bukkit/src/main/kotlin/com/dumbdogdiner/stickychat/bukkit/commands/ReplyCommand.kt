@@ -19,7 +19,7 @@ class ReplyCommand : TabExecutor {
         if (args.isEmpty()) {
             return false
         }
-        val message = args.drop(1).joinToString(" ")
+        val message = args.joinToString(" ")
         val result = StickyChat.getService().getDirectMessageService(sender).sendToLast(message)
         if (result != DirectMessageResult.OK) {
             return false

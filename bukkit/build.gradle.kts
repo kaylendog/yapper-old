@@ -1,8 +1,8 @@
-import kr.entree.spigradle.kotlin.spigot
-import kr.entree.spigradle.kotlin.spigotmc
+import kr.entree.spigradle.kotlin.paper
+import kr.entree.spigradle.kotlin.papermc
 
 plugins {
-    kotlin("jvm") version "1.3.72"
+    kotlin("jvm")
     id("com.github.johnrengelman.shadow") version "5.2.0"
     id("kr.entree.spigradle") version "2.2.3"
     id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
@@ -11,37 +11,46 @@ plugins {
 version = "3.0.0"
 
 repositories {
-    spigotmc()
+    papermc()
     maven {
         url = uri("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     }
 }
 
 dependencies {
-    // jvm and kotlin dependancies
+    // jvm and kotlin dependencies
     implementation(kotlin("stdlib"))
     implementation(project(":StickyChatAPI"))
 
     // shaded dependencies
     implementation("redis.clients:jedis:3.3.0")
 
-    compileOnly(spigot("1.16.3-R0.1-SNAPSHOT"))
+    // server dependencies
+    compileOnly(paper("1.16.4-R0.1-SNAPSHOT"))
     compileOnly("me.clip:placeholderapi:2.10.9")
+
+    // testing dependencies
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
+    testImplementation("com.google.guava:guava:30.0-jre")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
 tasks {
+
+    check {
+        dependsOn("ktlintFormat")
+    }
+
     build {
         dependsOn("shadowJar")
     }
 
-    compileKotlin {
-        kotlinOptions {
-            jvmTarget = "1.8"
+    test {
+        dependsOn("compileTestKotlin")
+        useJUnitPlatform()
+        testLogging {
+            events("passed", "skipped", "failed")
         }
-    }
-
-    build {
-        dependsOn.add("ktlintFormat")
     }
 
     shadowJar {
@@ -69,6 +78,10 @@ tasks {
             create("nickname") {
                 aliases = mutableListOf("nick")
                 usage = "/nickname <get|set> [value|player] [nick]"
+            }
+            create("channel") {
+                aliases = mutableListOf("ch")
+                usage = "/channel [name]"
             }
         }
 

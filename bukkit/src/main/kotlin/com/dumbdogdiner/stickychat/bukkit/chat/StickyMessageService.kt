@@ -35,8 +35,13 @@ class StickyMessageService private constructor(private val player: Player) : Wit
     }
 
     override fun moveChannel(channel: Channel): Boolean {
+        if (this.channel == channel) {
+            this.integration.sendSystemMessage(this.player, "You are already in channel ${channel.name}!")
+            return false
+        }
+
         this.dataService.channel = channel
-        this.integration.sendSystemMessage(this.player, "Changed channels to {}.")
+        this.integration.sendSystemMessage(this.player, "Changed channels to ${channel.name}")
         return true
     }
 

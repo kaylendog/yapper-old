@@ -13,62 +13,65 @@ import org.bukkit.entity.Player
  * Manage nicknames of yourself and of other players.
  */
 class NicknameCommand : WithPlugin, TabExecutor {
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
-        if (args.size < 2) {
-            return mutableListOf("get", "set")
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): List<String> {
+        if (args.size == 1) {
+            return Bukkit.getOnlinePlayers()
+                .map { it.name }
+                .toMutableList()
+                .plus("off")
+                .filter { it.toLowerCase().startsWith(args[0].toLowerCase()) }
         }
 
         if (args.size == 2) {
-            return Bukkit.getOnlinePlayers().map { it.name }.toMutableList()
+            return mutableListOf("off").filter { it.toLowerCase().startsWith(args[1].toLowerCase()) }
         }
+
         return mutableListOf()
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
-        if (args.isEmpty()) {
-            this.integration.sendSystemMessage(sender, "Invalid arguments")
-            SoundUtil.send(sender, NotificationType.ERROR)
+        if (sender !is Player) {
+            this.integration.sendSystemError(sender, "This command must be run as a player!")
             return true
         }
 
-        when (args[0]) {
-            "get" -> {
-                if (args.get(1) == null) {
-                    if (sender !is Player) {
-                        this.integration.sendSystemMessage(sender, "Cannot get nickname for a non-player entity!")
-                        return true
-                    }
-
-                    val nick = this.plugin.getNicknameService(sender).nickname
-                    if (nick == null) {
-                        this.integration.sendSystemMessage(sender, "You do not currently have a nickname")
-                        SoundUtil.send(sender, NotificationType.QUIET)
-                    } else {
-                        this.integration.sendSystemMessage(sender, "Your nickname is $nick")
-                        SoundUtil.send(sender, NotificationType.QUIET)
-                    }
-                    return true
-                }
-
-                val target = Bukkit.getOnlinePlayers().find { it.name == args[1] }
-                if (target == null) {
-                    this.integration.sendSystemMessage(sender, "Could not find the target player")
-                    SoundUtil.send(sender, NotificationType.ERROR)
-                    return true
-                }
-            }
-            "set" -> {
-                if (args.get(1) == null) {
-                    this.integration.sendSystemMessage(sender, "Invalid arguments")
-                    SoundUtil.send(sender, NotificationType.ERROR)
-                }
-            }
-            else -> {
-                this.integration.sendSystemMessage(sender, "Invalid arguments")
-                SoundUtil.send(sender, NotificationType.ERROR)
-            }
+        if (args.isEmpty()) {
+            val nick = this.plugin.getNicknameService(sender).nickname
+            this.integration.sendSystemMessage(sender, "Your nickname is $nick")
+            SoundUtil.send(sender, NotificationType.QUIET)
+            return true
         }
 
+        // get the target player's nickname.
+        val target = Bukkit.getOnlinePlayers().find { it.name == args[0] }
+        if (target != null) {
+            if (args.size == 2) {
+                val newNickname = args[1]
+                if (newNickname == "off") {
+                    this.plugin.getNicknameService(target).removeNickname()
+                    this.integration.sendSystemMessage(sender, "Removed ${target.name}'s nickname.")
+                } else {
+                    this.plugin.getNicknameService(target).setNickname(newNickname)
+                    this.integration.sendSystemMessage(sender, "Set ${target.name}'s nickname to $newNickname.")
+                }
+            } else {
+                val nick = this.plugin.getNicknameService(target).nickname
+                this.integration.sendSystemMessage(sender, "${target.name}'s nickname is $nick")
+            }
+            SoundUtil.send(sender, NotificationType.QUIET)
+            return true
+        }
+
+        // set self nickname
+        val newNickname = args[0]
+        if (newNickname == "off") {
+            this.plugin.getNicknameService(sender).removeNickname()
+            this.integration.sendSystemMessage(sender, "Removed ${sender.name}'s nickname.")
+        } else {
+            this.plugin.getNicknameService(sender).setNickname(newNickname)
+            this.integration.sendSystemMessage(sender, "Set ${sender.name}'s nickname to $newNickname.")
+        }
+        SoundUtil.send(sender, NotificationType.QUIET)
         return true
     }
 }
