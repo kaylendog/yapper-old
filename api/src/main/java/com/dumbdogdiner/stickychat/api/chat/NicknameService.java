@@ -35,6 +35,13 @@ public interface NicknameService extends WithPlayer {
     public Boolean hasNickname();
 
     /**
+     * Perform an initial load of this player's nickname.
+     * Returns true if the load was successful.
+     * @return {@link Boolean}
+     */
+    public Boolean loadNickname();
+
+    /**
      * Get the display name for this player. If the player has a nickname,
      * this returns their nickname, else it returns their name.
      * @return {@link String}

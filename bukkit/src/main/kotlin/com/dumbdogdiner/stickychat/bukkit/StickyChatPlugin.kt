@@ -25,11 +25,17 @@ import com.dumbdogdiner.stickychat.bukkit.commands.VersionCommand
 import com.dumbdogdiner.stickychat.bukkit.integration.StickyIntegrationManager
 import com.dumbdogdiner.stickychat.bukkit.listeners.MessageListener
 import com.dumbdogdiner.stickychat.bukkit.listeners.PlayerJoinQuitListener
+import com.dumbdogdiner.stickychat.bukkit.models.Nicknames
 import com.dumbdogdiner.stickychat.bukkit.redis.RedisMessenger
+import com.dumbdogdiner.stickychat.bukkit.util.ExposedLogger
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.addLogger
+import org.jetbrains.exposed.sql.transactions.transaction
 
 @kr.entree.spigradle.annotations.SpigotPlugin
 class StickyChatPlugin : StickyChat, JavaPlugin() {
@@ -52,20 +58,36 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
     }
 
     override fun onEnable() {
-        logger.info("Registering commands...")
         getCommand("version")?.setExecutor(VersionCommand())
         getCommand("message")?.setExecutor(MessageCommand())
         getCommand("reply")?.setExecutor(ReplyCommand())
         getCommand("nickname")?.setExecutor(NicknameCommand())
         getCommand("channel")?.setExecutor(ChannelCommand())
 
-        logger.info("Setting up self-hosted API integration...")
         val integration = this.integrationManager.getIntegration(this)
         integration.prefix = this.config.getString("chat.prefix", "&b&lStickyChat &r&8» &r")!!
 
         redisMessenger.init()
 
-        logger.info("Registering events...")
+        logger.info("Migrating SQL database...")
+        Database.connect(
+            url = "jdbc:postgresql://${
+                this.config.getString("data.host")
+            }:${
+                this.config.getInt("data.port")
+            }/${
+                this.config.getString("data.database")
+            }",
+            driver = "org.postgresql.Driver",
+            user = this.config.getString("data.username", "postgres")!!,
+            password = this.config.getString("data.password")!!
+        )
+
+        transaction {
+            addLogger(ExposedLogger())
+            SchemaUtils.createMissingTablesAndColumns(Nicknames)
+        }
+
         server.pluginManager.registerEvents(MessageListener(), this)
         server.pluginManager.registerEvents(PlayerJoinQuitListener(), this)
 

@@ -1,7 +1,6 @@
 package com.dumbdogdiner.stickychat.bukkit.commands
 
 import com.dumbdogdiner.stickychat.api.StickyChat
-import com.dumbdogdiner.stickychat.api.result.DirectMessageResult
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
@@ -28,7 +27,8 @@ class MessageCommand : WithPlugin, TabExecutor {
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (args.size < 2) {
-            return false
+            this.integration.sendSystemError(sender, "Invalid usage! /message <player> <message>")
+            return true
         }
 
         val player = Bukkit.getOnlinePlayers().find { it.name.toLowerCase() == args[0].toLowerCase() }
@@ -38,17 +38,12 @@ class MessageCommand : WithPlugin, TabExecutor {
         }
 
         val message = args.drop(1).joinToString(" ")
-
-        val result: DirectMessageResult
-        result = if (sender !is Player) {
+        if (sender !is Player) {
             StickyChat.getService().getDirectMessageService(player).sendSystemMessage(message)
         } else {
             StickyChat.getService().getDirectMessageService(sender).sendTo(player, message)
         }
 
-        if (result != DirectMessageResult.OK) {
-            return false
-        }
         return true
     }
 }

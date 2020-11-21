@@ -23,23 +23,18 @@ class RedisMessenger : WithPlugin, JedisPubSub() {
      */
     fun init() {
         this.logger.info("Initializing Redis Pub-Sub service...")
-        try {
-            this.pool = JedisPool(JedisPoolConfig())
-            if (!this.pool!!.resource.isConnected) {
-                this.logger.warning("Failed to connect to Redis")
-            }
-
-            // run the subscription in a separate thread - it's blocking
-            subscribeJob = thread {
-                try {
-                    this.pool!!.resource.subscribe(this, "stickychat")
-                } catch (e: InterruptedException) {
-                    this.logger.info("Redis subscription thread closed")
-                }
-            }
-        } catch (e: Exception) {
+        this.pool = JedisPool(JedisPoolConfig())
+        if (!this.pool!!.resource.isConnected) {
             this.logger.warning("Failed to connect to Redis")
-            e.printStackTrace()
+        }
+
+        // run the subscription in a separate thread - it's blocking
+        subscribeJob = thread {
+            try {
+                this.pool!!.resource.subscribe(this, "stickychat")
+            } catch (e: InterruptedException) {
+                this.logger.info("Redis subscription thread closed")
+            }
         }
     }
 

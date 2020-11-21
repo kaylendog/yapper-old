@@ -24,6 +24,10 @@ dependencies {
 
     // shaded dependencies
     implementation("redis.clients:jedis:3.3.0")
+    implementation("org.jetbrains.exposed:exposed-core:0.25.1")
+    implementation("org.jetbrains.exposed:exposed-dao:0.25.1")
+    implementation("org.jetbrains.exposed:exposed-jdbc:0.25.1")
+    implementation("org.postgresql:postgresql:42.2.2")
 
     // server dependencies
     compileOnly(paper("1.16.4-R0.1-SNAPSHOT"))
