@@ -18,5 +18,6 @@ class DeathListener : WithPlugin, Listener {
             return
         }
         val message = StickyChat.getService().deathMessageService.getRandomOfType(cause.cause)
+        e.deathMessage = message
     }
 }

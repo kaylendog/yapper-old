@@ -23,11 +23,13 @@ import com.dumbdogdiner.stickychat.bukkit.commands.NicknameCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.ReplyCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.VersionCommand
 import com.dumbdogdiner.stickychat.bukkit.integration.StickyIntegrationManager
+import com.dumbdogdiner.stickychat.bukkit.listeners.DeathListener
 import com.dumbdogdiner.stickychat.bukkit.listeners.MessageListener
 import com.dumbdogdiner.stickychat.bukkit.listeners.PlayerJoinQuitListener
 import com.dumbdogdiner.stickychat.bukkit.models.Nicknames
 import com.dumbdogdiner.stickychat.bukkit.redis.RedisMessenger
 import com.dumbdogdiner.stickychat.bukkit.util.ExposedLogger
+import java.lang.Exception
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
@@ -47,13 +49,15 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
     val redisMessenger = RedisMessenger()
     val channelManager = StickyChannelManager()
 
+    var sqlEnabled = false
+
     override fun onLoad() {
         plugin = this
         // load configuration
         saveDefaultConfig()
         reloadConfig()
 
-        logger.info("Registering chat service...")
+        this.logger.info("Registering chat service...")
         StickyChat.registerService(this, this)
     }
 
@@ -67,29 +71,43 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
         val integration = this.integrationManager.getIntegration(this)
         integration.prefix = this.config.getString("chat.prefix", "&b&lStickyChat &r&8» &r")!!
 
-        redisMessenger.init()
+        if (this.config.getBoolean("redis.enable", true)) {
+            redisMessenger.init()
+        }
 
-        logger.info("Migrating SQL database...")
-        Database.connect(
-            url = "jdbc:postgresql://${
-                this.config.getString("data.host")
-            }:${
-                this.config.getInt("data.port")
-            }/${
-                this.config.getString("data.database")
-            }",
-            driver = "org.postgresql.Driver",
-            user = this.config.getString("data.username", "postgres")!!,
-            password = this.config.getString("data.password")!!
-        )
+        if (this.config.getBoolean("data.enable", true)) {
+            this.logger.info("[SQL] Checking SQL database has been set up correctly...")
+            Database.connect(
+                    url = "jdbc:postgresql://${
+                        this.config.getString("data.host")
+                    }:${
+                        this.config.getInt("data.port")
+                    }/${
+                        this.config.getString("data.database")
+                    }",
+                    driver = "org.postgresql.Driver",
+                    user = this.config.getString("data.username", "postgres")!!,
+                    password = this.config.getString("data.password")!!
+            )
 
-        transaction {
-            addLogger(ExposedLogger())
-            SchemaUtils.createMissingTablesAndColumns(Nicknames)
+            transaction {
+                try {
+                    addLogger(ExposedLogger())
+                    SchemaUtils.createMissingTablesAndColumns(Nicknames)
+                    sqlEnabled = true
+                } catch (e: Exception) {
+                    logger.warning("[SQL] Failed to connect to SQL database - invalid connection info/database not up")
+                    e.printStackTrace()
+                    logger.warning("[SQL] Persistent storage via SQL has been disabled")
+                }
+            }
+        } else {
+            this.logger.warning("SQL database has been disabled - expect unexpected side effects!")
         }
 
         server.pluginManager.registerEvents(MessageListener(), this)
         server.pluginManager.registerEvents(PlayerJoinQuitListener(), this)
+        server.pluginManager.registerEvents(DeathListener(), this)
 
         // check for PlaceholderAPI.
         if (!Placeholders.hasPlaceholderApiEnabled()) {

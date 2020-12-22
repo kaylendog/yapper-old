@@ -41,14 +41,17 @@ class StickyNicknameService(private val player: Player) : WithPlugin, NicknameSe
         cachedNickname = newNickname
 
         val uniqueId = this.player.uniqueId.toString()
-        transaction {
-            Nicknames.update({ Nicknames.player eq player.uniqueId.toString() and Nicknames.active }) {
-                it[active] = false
-            }
-            Nicknames.insert {
-                it[nickname] = newNickname
-                it[player] = uniqueId
-                it[active] = true
+
+        if (this.plugin.sqlEnabled) {
+            transaction {
+                Nicknames.update({ Nicknames.player eq player.uniqueId.toString() and Nicknames.active }) {
+                    it[active] = false
+                }
+                Nicknames.insert {
+                    it[nickname] = newNickname
+                    it[player] = uniqueId
+                    it[active] = true
+                }
             }
         }
 
@@ -57,9 +60,11 @@ class StickyNicknameService(private val player: Player) : WithPlugin, NicknameSe
 
     override fun removeNickname() {
         cachedNickname = null
-        transaction {
-            Nicknames.update({ Nicknames.player eq player.uniqueId.toString() and Nicknames.active }) {
-                it[active] = false
+        if (this.plugin.sqlEnabled) {
+            transaction {
+                Nicknames.update({ Nicknames.player eq player.uniqueId.toString() and Nicknames.active }) {
+                    it[active] = false
+                }
             }
         }
     }
@@ -69,7 +74,13 @@ class StickyNicknameService(private val player: Player) : WithPlugin, NicknameSe
     }
 
     override fun loadNickname(): Boolean {
+        if (!this.plugin.sqlEnabled) {
+            logger.warning("Could not look up nickname for  '${this.player.name}' (${this.player.uniqueId}) - SQL is not enabled")
+            return false
+        }
+
         logger.info("Looking up settings and nickname for '${this.player.name}' (${this.player.uniqueId})...")
+
         val nickname = transaction {
             return@transaction Nicknames.select { Nicknames.player eq player.uniqueId.toString() and Nicknames.active }.firstOrNull()
         }

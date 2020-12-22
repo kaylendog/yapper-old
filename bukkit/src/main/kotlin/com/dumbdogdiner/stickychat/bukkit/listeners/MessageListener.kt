@@ -1,22 +1,15 @@
 package com.dumbdogdiner.stickychat.bukkit.listeners
 
-import com.dumbdogdiner.stickychat.api.Priority
-import com.dumbdogdiner.stickychat.api.StickyChat
+import com.dumbdogdiner.stickychat.bukkit.WithPlugin
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
 
-class MessageListener : Listener {
+class MessageListener : WithPlugin, Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     fun onAsyncPlayerChatEvent(ev: AsyncPlayerChatEvent) {
-        val message = StickyChat.getService().getFormatter(ev.player).formatMessage(ev.message)
-        ev.recipients.removeIf {
-            StickyChat.getService().getDataService(it).getBlocked(ev.player) or
-            StickyChat.getService().getDataService(it).priority.isGreaterThan(Priority.DEFAULT)
-        }
-
+        this.plugin.getMessageService(ev.player).broadcast(ev.message)
         ev.isCancelled = true
-        ev.recipients.forEach { it.spigot().sendMessage(message) }
     }
 }

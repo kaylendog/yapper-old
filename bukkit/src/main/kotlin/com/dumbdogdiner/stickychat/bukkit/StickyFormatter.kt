@@ -5,7 +5,10 @@ import com.dumbdogdiner.stickychat.api.misc.SignNotification
 import com.dumbdogdiner.stickychat.api.util.Placeholders
 import com.dumbdogdiner.stickychat.api.util.StringModifier
 import net.md_5.bungee.api.chat.BaseComponent
+import net.md_5.bungee.api.chat.ClickEvent
+import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
+import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.entity.Player
 
 class StickyFormatter private constructor(private val player: Player) : WithPlugin, Formatter {
@@ -43,24 +46,22 @@ class StickyFormatter private constructor(private val player: Player) : WithPlug
                 .replace("{message}", message)
                 .get()
 
-//        val words = interp.split(" ")
-        val text = TextComponent(interp)
+        val words = interp.split(" ")
+        val text = TextComponent()
 
-//        words.forEachIndexed { i, it ->
-//            val component = TextComponent(it)
-//            println(it)
-//            if (it.matches(linkRegex)) {
-//                println("match")
-//                component.clickEvent = ClickEvent(ClickEvent.Action.OPEN_URL, it)
-//                component.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("Click to open link"))
-//            }
-//            // TODO: I don't like this, but it works
-//            if (i != words.size - 1) {
-//                component.text = component.text.trim() + " "
-//            }
-//            text.addExtra(component)
-//        }
-
+        words.forEachIndexed { i, it ->
+            val component = TextComponent(it)
+            if (it.matches(linkRegex)) {
+                println("match")
+                component.clickEvent = ClickEvent(ClickEvent.Action.OPEN_URL, it)
+                component.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("Click to open link"))
+            }
+            // TODO: I don't like this, but it works
+            if (i != words.size - 1) {
+                component.text = component.text.trim() + " "
+            }
+            text.addExtra(component)
+        }
         return text
     }
 

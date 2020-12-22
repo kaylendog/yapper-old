@@ -10,6 +10,9 @@ import java.util.UUID
  */
 class PacketBuilder(private val type: Type) {
 
+    /**
+     * Represents a decoded packet received from Redis.
+     */
     class DecodedPacked(val uniqueId: UUID, val type: Type, val sender: String, val recipient: String?, val content: String)
 
     companion object {
@@ -28,7 +31,7 @@ class PacketBuilder(private val type: Type) {
         }
 
         /**
-         * Decode a packet from redis pubsub.
+         * Decode a packet from redis pub/sub.
          */
         fun decodePacket(incoming: ByteArrayDataInput): DecodedPacked {
             val type = Type.values()[incoming.readInt()]

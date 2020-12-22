@@ -6,6 +6,7 @@ import kotlin.concurrent.thread
 import redis.clients.jedis.JedisPool
 import redis.clients.jedis.JedisPoolConfig
 import redis.clients.jedis.JedisPubSub
+import redis.clients.jedis.exceptions.JedisConnectionException
 
 /**
  * Handles pub/sub messaging between servers.
@@ -15,6 +16,8 @@ class RedisMessenger : WithPlugin, JedisPubSub() {
         const val CHANNEL_NAME = "stickychat"
     }
 
+    private var initialized = false
+
     private var pool: JedisPool? = null
     private var subscribeJob: Thread? = null
 
@@ -22,10 +25,21 @@ class RedisMessenger : WithPlugin, JedisPubSub() {
      * Initialize the Redis messenger and create the connection.
      */
     fun init() {
-        this.logger.info("Initializing Redis Pub-Sub service...")
-        this.pool = JedisPool(JedisPoolConfig())
-        if (!this.pool!!.resource.isConnected) {
-            this.logger.warning("Failed to connect to Redis")
+        if (initialized) {
+            return
+        }
+
+        this.logger.info("[REDIS] Initializing Redis Pub-Sub service...")
+        try {
+            this.pool = JedisPool(JedisPoolConfig())
+            if (!this.pool!!.resource.isConnected) {
+                this.logger.warning("[REDIS] Failed to connect to Redis - unknown error")
+            }
+        } catch (e: JedisConnectionException) {
+            this.logger.warning("[REDIS] Failed to connect to Redis - incorrect connection details")
+            e.printStackTrace()
+            this.logger.warning("[REDIS] Redis pub/sub has been disabled")
+            return
         }
 
         // run the subscription in a separate thread - it's blocking
@@ -33,16 +47,22 @@ class RedisMessenger : WithPlugin, JedisPubSub() {
             try {
                 this.pool!!.resource.subscribe(this, "stickychat")
             } catch (e: InterruptedException) {
-                this.logger.info("Redis subscription thread closed")
+                this.logger.info("[REDIS] Redis subscription thread closed")
             }
         }
+
+        this.initialized = true
     }
 
     /**
      * Close the redis messenger and all connections.
      */
     fun close() {
-        this.logger.info("Closing the Redis Pub-Sub service...")
+        if (!initialized) {
+            return
+        }
+
+        this.logger.info("[REDIS] Closing the Redis Pub-Sub service...")
         this.subscribeJob?.interrupt()
         pool?.close()
     }
@@ -56,7 +76,7 @@ class RedisMessenger : WithPlugin, JedisPubSub() {
         }
 
         val packet = PacketBuilder.decodePacket(Base64.getDecoder().decode(message))
-        this.logger.info("[redis] Received packet '${packet.uniqueId}' from '${packet.sender}' - type=${packet.type.name}")
+        this.logger.info("[REDIS] Received packet '${packet.uniqueId}' from '${packet.sender}' - type=${packet.type.name}")
 
         when (packet.type) {
             PacketBuilder.Type.DM_MESSAGE -> {}
@@ -68,6 +88,10 @@ class RedisMessenger : WithPlugin, JedisPubSub() {
      * Send a raw message via redis pub-sub.
      */
     fun sendRaw(channel: String, data: ByteArray): Long {
+        if (!initialized) {
+            return -1
+        }
+
         return this.pool!!.resource.publish(channel, Base64.getEncoder().encodeToString(data))
     }
 }

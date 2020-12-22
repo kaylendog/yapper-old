@@ -31,7 +31,7 @@ class MessageCommand : WithPlugin, TabExecutor {
             return true
         }
 
-        val player = Bukkit.getOnlinePlayers().find { it.name.toLowerCase() == args[0].toLowerCase() }
+        val player = Bukkit.getOnlinePlayers().find { it.name.equals(args[0], ignoreCase = true) }
         if (player == null) {
             this.integration.sendSystemError(sender, "Could not send message - player does not exist!")
             return true

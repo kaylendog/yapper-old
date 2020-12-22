@@ -28,9 +28,30 @@ class ReplyCommand : WithPlugin, TabExecutor {
         }
         val message = args.joinToString(" ")
         val result = StickyChat.getService().getDirectMessageService(sender).sendToLast(message)
-        if (result != DirectMessageResult.OK) {
-            return false
+
+        when (result) {
+            DirectMessageResult.FAIL_NONEXISTENT -> {
+                this.integration.sendSystemError(sender, "Could not send reply - no previous contact found!")
+            }
+            // this doesn't really make a lot of sense? honestly idk if this can even happen.
+            DirectMessageResult.FAIL_BLOCK -> {
+                this.integration.sendSystemError(sender, "Could not send reply - this user has blocked you!")
+            }
+
+            DirectMessageResult.FAIL_COOLDOWN -> {
+                this.integration.sendSystemError(sender, "Could not send reply - you are on cooldown!")
+            }
+
+            DirectMessageResult.FAIL_MUTED -> {
+                this.integration.sendSystemError(sender, "Could not send reply - you are muted!")
+            }
+
+            DirectMessageResult.FAIL_PRIORITY -> {
+                this.integration.sendSystemError(sender, "Could not send reply - target has their chat priority set above direct messages!")
+            }
+            else -> {}
         }
+
         return true
     }
 }

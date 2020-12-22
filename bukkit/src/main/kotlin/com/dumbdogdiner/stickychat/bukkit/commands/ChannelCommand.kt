@@ -1,6 +1,7 @@
 package com.dumbdogdiner.stickychat.bukkit.commands
 
 import com.dumbdogdiner.stickychat.api.StickyChat
+import com.dumbdogdiner.stickychat.api.util.SoundUtil
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -24,6 +25,7 @@ class ChannelCommand : WithPlugin, TabExecutor {
         if (args.isEmpty()) {
             val channel = StickyChat.getService().getMessageService(sender).channel
             this.integration.sendSystemMessage(sender, "Your current channel is: ${channel.name}")
+            SoundUtil.sendInfo(sender)
             return true
         }
 

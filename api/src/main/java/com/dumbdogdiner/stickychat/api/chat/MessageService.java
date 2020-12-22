@@ -42,6 +42,7 @@ public interface MessageService extends WithPlayer {
                 recipients.add(data.getPlayer());
             }
         });
+        recipients.add(from);
         return recipients;
     }
 
