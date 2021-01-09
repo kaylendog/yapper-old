@@ -14,12 +14,12 @@ class MessageCommand : WithPlugin, TabExecutor {
             return Bukkit.getOnlinePlayers().map { it.name }
         }
 
-        if (args.size == 2) {
+        if (args.size == 1) {
             return StickyChat
                 .getService()
                 .getDirectMessageService(sender).messageablePlayers
                     .map { it.name }
-                    .filter { it.startsWith(args[0]) }
+                    .filter { it.toLowerCase().startsWith(args[0]) }
         }
 
         return mutableListOf()

@@ -69,7 +69,7 @@ tasks {
 
         commands {
             create("version") {
-                aliases = mutableListOf("stickychat", "chat")
+                aliases = mutableListOf("stickychat", "chat", "sc")
             }
             create("message") {
                 aliases = mutableListOf("tell", "msg", "whisper")

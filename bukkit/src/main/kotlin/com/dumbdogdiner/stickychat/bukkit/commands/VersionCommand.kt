@@ -16,7 +16,7 @@ class VersionCommand : WithPlugin, TabExecutor {
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
-        this.integration.sendSystemMessage(sender, "Running version v${this.plugin.description.version}")
+        this.integration.sendSystemMessage(sender, "Running version &av&l${this.plugin.description.version}")
         SoundUtil.send(sender, NotificationType.SUCCESS)
         return true
     }

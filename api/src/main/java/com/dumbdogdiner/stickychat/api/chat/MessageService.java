@@ -5,10 +5,12 @@ import com.dumbdogdiner.stickychat.api.result.MessageResult;
 import com.dumbdogdiner.stickychat.api.result.MuteReason;
 import com.dumbdogdiner.stickychat.api.Priority;
 import com.dumbdogdiner.stickychat.api.StickyChat;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -36,14 +38,12 @@ public interface MessageService extends WithPlayer {
      */
     @NotNull
     static List<Player> getRecipients(@NotNull Player from, @NotNull Priority priority) {
-        var recipients = new ArrayList<Player>();
-        StickyChat.getService().getDataServices().forEach((data) -> {
-            if (priority.isGreaterThan(data.getPriority()) && !data.getBlocked(from)) {
-                recipients.add(data.getPlayer());
-            }
+        var recipients = new ArrayList<>(Bukkit.getOnlinePlayers());
+        recipients.removeIf(player -> {
+            var data = StickyChat.getService().getDataService(player);
+            return data.getPriority().isGreaterThan(priority) || data.getBlocked(from);
         });
-        recipients.add(from);
-        return recipients;
+        return new ArrayList<>(recipients);
     }
 
     /**

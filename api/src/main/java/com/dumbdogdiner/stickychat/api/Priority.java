@@ -32,7 +32,7 @@ public enum Priority {
     SYSTEM;
 
     /**
-     * Returns true if the target priority is less than or equal to this priority.
+     * Returns true if this is greater than the target priority.
      *
      * @param target The target priority
      * @return {@link Boolean}
@@ -40,5 +40,16 @@ public enum Priority {
     @NotNull
     public Boolean isGreaterThan(@NotNull Priority target) {
         return this.ordinal() > target.ordinal();
+    }
+
+    /**
+     * Returns true if this is greater than or equal to the target priority.
+     *
+     * @param target The target priority
+     * @return {@link Boolean}
+     */
+    @NotNull
+    public Boolean isGreaterThanOrEqualTo(@NotNull Priority target) {
+        return this.ordinal() >= target.ordinal();
     }
 }

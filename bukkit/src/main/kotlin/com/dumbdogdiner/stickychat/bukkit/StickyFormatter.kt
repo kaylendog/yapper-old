@@ -4,11 +4,10 @@ import com.dumbdogdiner.stickychat.api.Formatter
 import com.dumbdogdiner.stickychat.api.misc.SignNotification
 import com.dumbdogdiner.stickychat.api.util.Placeholders
 import com.dumbdogdiner.stickychat.api.util.StringModifier
+import java.util.regex.Pattern
+import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.BaseComponent
-import net.md_5.bungee.api.chat.ClickEvent
-import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
-import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.entity.Player
 
 class StickyFormatter private constructor(private val player: Player) : WithPlugin, Formatter {
@@ -35,34 +34,81 @@ class StickyFormatter private constructor(private val player: Player) : WithPlug
     }
 
     /**
+     * Formatting regex
+     */
+    private val colorFormattingRegex = Pattern.compile("(?<formatting>&(?:#[a-f0-9]{6}|[a-f0-9k-or]))?(?<content>.*?)(?=(&(?:#[a-f0-9]{6}|[a-f0-9k-or]))|\$)", Pattern.MULTILINE)
+
+    /**
      * Format a chat message for this player. Fetches the chat format
      * from the cached configuration and interpolates placeholders as required.
      */
     override fun formatMessage(message: String): BaseComponent {
-        val interp = StringModifier(this.config.getString("chat.format", "{name}: {message}"))
+        val interp = StringModifier(this.config.getString("chat.format", "%player_name%: %message%"))
+                .replace("%player_name%", this.player.name)
+                .replace("%message%", message)
                 .apply { Placeholders.setPlaceholdersSafe(this.player, it) }
-                .apply { Formatter.colorize(it) }
-                .replace("{name}", this.player.name)
-                .replace("{message}", message)
                 .get()
 
-        val words = interp.split(" ")
-        val text = TextComponent()
+        val matcher = colorFormattingRegex.matcher(interp)
 
-        words.forEachIndexed { i, it ->
-            val component = TextComponent(it)
-            if (it.matches(linkRegex)) {
-                println("match")
-                component.clickEvent = ClickEvent(ClickEvent.Action.OPEN_URL, it)
-                component.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("Click to open link"))
+        var magic = false
+        var bold = false
+        var strike = false
+        var underline = false
+        var italic = false
+        var color: ChatColor? = null
+
+        val rootComponent = TextComponent()
+        var nextComponent = TextComponent()
+
+        while (matcher.find()) {
+            if (matcher.group("formatting") != null) {
+                val format = matcher.group("formatting")
+                if (format[1] == '#') {
+                    color = ChatColor.of(format.drop(1))
+                } else {
+                    when (format[1]) {
+                        'x', 'X' -> magic = true
+                        'l', 'L' -> bold = true
+                        'm', 'M' -> strike = true
+                        'n', 'N' -> underline = true
+                        'o', 'O' -> italic = true
+                        'r', 'R' -> {
+                            magic = false
+                            bold = false
+                            strike = false
+                            underline = false
+                            italic = false
+                            color = null
+                        }
+                        else -> color = ChatColor.getByChar(format[1])
+                    }
+                }
             }
-            // TODO: I don't like this, but it works
-            if (i != words.size - 1) {
-                component.text = component.text.trim() + " "
+
+            if (matcher.group("content") == null) {
+                continue
             }
-            text.addExtra(component)
+
+            nextComponent.text = matcher.group("content")
+            nextComponent.isObfuscated = magic
+            nextComponent.isBold = bold
+            nextComponent.isStrikethrough = strike
+            nextComponent.isUnderlined = underline
+            nextComponent.isItalic = italic
+            nextComponent.color = color
+            rootComponent.addExtra(nextComponent)
+
+            // reset component
+            nextComponent = TextComponent()
+            magic = false
+            bold = false
+            strike = false
+            underline = false
+            italic = false
         }
-        return text
+
+        return rootComponent
     }
 
     /**

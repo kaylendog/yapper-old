@@ -1,18 +1,24 @@
 package com.dumbdogdiner.stickychat.api;
 
 import com.dumbdogdiner.stickychat.api.misc.SignNotification;
+import com.dumbdogdiner.stickychat.api.util.StringModifier;
 import com.dumbdogdiner.stickychat.api.util.WithPlayer;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * An interface for chat formatting.
  */
 public interface Formatter extends WithPlayer {
+
     /**
-     * Colorize a string using `&` color codes.
+     * Colorize a string using both Minecraft char codes, and hexadecimal color codes.
      * @param string The string to colorize
      * @return {@link String}
      */

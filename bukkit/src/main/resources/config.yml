@@ -32,7 +32,7 @@ prefix: "&b&lStickyChat &r&8» &r"
 chat:
   # The default format to use.
   # Supports placeholders and color codes.
-  format: "&7{name} &8» &7{message}"
+  format: "&7%player_name% &8» &7%message%"
 
   # Disable join/quit messages - useful if you have a bungee plugin handling them for you already.
   disable-join-messages: false

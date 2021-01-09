@@ -121,4 +121,36 @@ public class StringModifier implements Cloneable {
         this.content = this.content.replace(before, after);
         return this;
     }
+
+    /**
+     * Replace a substring of the string with another, using the indexing bounds of the substring.
+     * @param start The start index
+     * @param end The end index
+     * @param patch The string patch
+     * @return {@link StringModifier}
+     */
+    public StringModifier patch(int start, int end, String patch) {
+        this.replace(this.content.substring(start,end), patch);
+        return this;
+    }
+
+    @FunctionalInterface
+    public interface Predicate {
+        String modify(String character, Integer index);
+    }
+
+    /**
+     * For each character of a string, perform the target action.
+     * @return {@link StringModifier}
+     */
+    public StringModifier map(Predicate modifier) {
+        StringBuilder out = new StringBuilder();
+
+        for (int i = 0; i < this.content.length(); i++){
+            out.append(modifier.modify(String.valueOf(this.content.charAt(i)), i));
+        }
+
+        this.content = out.toString();
+        return this;
+    };
 }
