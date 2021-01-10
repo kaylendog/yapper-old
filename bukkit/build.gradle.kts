@@ -3,7 +3,7 @@ import kr.entree.spigradle.kotlin.papermc
 
 plugins {
     kotlin("jvm")
-    id("com.github.johnrengelman.shadow") version "5.2.0"
+    id("com.github.johnrengelman.shadow") version "6.1.0"
     id("kr.entree.spigradle") version "2.2.3"
     id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
 }
@@ -24,9 +24,9 @@ dependencies {
 
     // shaded dependencies
     implementation("redis.clients:jedis:3.3.0")
-    implementation("org.jetbrains.exposed:exposed-core:0.25.1")
-    implementation("org.jetbrains.exposed:exposed-dao:0.25.1")
-    implementation("org.jetbrains.exposed:exposed-jdbc:0.25.1")
+    implementation("org.jetbrains.exposed:exposed-core:0.26.1")
+    implementation("org.jetbrains.exposed:exposed-dao:0.26.1")
+    implementation("org.jetbrains.exposed:exposed-jdbc:0.26.1")
     implementation("org.postgresql:postgresql:42.2.2")
 
     // server dependencies
@@ -59,6 +59,13 @@ tasks {
 
     shadowJar {
         archiveClassifier.set("")
+        // someone please help i don't know why this doesn't work
+        // relocate("kotlin", "com.dumbdogdiner.stickychat.libs.kotlin")
+        // relocate("redis", "com.dumbdogdiner.stickychat.libs.redis")
+        // relocate("org.postgresql", "com.dumbdogdiner.stickychat.libs.org.postgresql")
+        // relocate("org.jetbrains", "com.dumbdogdiner.stickychat.libs.org.jetbrains")
+        // relocate("org.apache", "com.dumbdogdiner.stickychat.libs.org.apache")
+        // relocate("org.slf4j", "com.dumbdogdiner.stickychat.libs.org.slf4j")
     }
 
     spigot {
