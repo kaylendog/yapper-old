@@ -24,11 +24,11 @@ subprojects {
     }
 
     tasks.withType<JavaCompile> {
-        targetCompatibility = JavaVersion.VERSION_11.toString()
-        sourceCompatibility = JavaVersion.VERSION_11.toString()
+        targetCompatibility = JavaVersion.VERSION_14.toString()
+        sourceCompatibility = JavaVersion.VERSION_14.toString()
     }
 
     tasks.withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = "14"
     }
 }

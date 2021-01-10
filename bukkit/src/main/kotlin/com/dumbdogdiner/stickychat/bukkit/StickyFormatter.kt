@@ -4,8 +4,6 @@ import com.dumbdogdiner.stickychat.api.Formatter
 import com.dumbdogdiner.stickychat.api.misc.SignNotification
 import com.dumbdogdiner.stickychat.api.util.Placeholders
 import com.dumbdogdiner.stickychat.api.util.StringModifier
-import java.util.regex.Pattern
-import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.BaseComponent
 import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.entity.Player
@@ -34,11 +32,6 @@ class StickyFormatter private constructor(private val player: Player) : WithPlug
     }
 
     /**
-     * Formatting regex
-     */
-    private val colorFormattingRegex = Pattern.compile("(?<formatting>&(?:#[a-f0-9]{6}|[a-f0-9k-or]))?(?<content>.*?)(?=(&(?:#[a-f0-9]{6}|[a-f0-9k-or]))|\$)", Pattern.MULTILINE)
-
-    /**
      * Format a chat message for this player. Fetches the chat format
      * from the cached configuration and interpolates placeholders as required.
      */
@@ -49,66 +42,7 @@ class StickyFormatter private constructor(private val player: Player) : WithPlug
                 .apply { Placeholders.setPlaceholdersSafe(this.player, it) }
                 .get()
 
-        val matcher = colorFormattingRegex.matcher(interp)
-
-        var magic = false
-        var bold = false
-        var strike = false
-        var underline = false
-        var italic = false
-        var color: ChatColor? = null
-
-        val rootComponent = TextComponent()
-        var nextComponent = TextComponent()
-
-        while (matcher.find()) {
-            if (matcher.group("formatting") != null) {
-                val format = matcher.group("formatting")
-                if (format[1] == '#') {
-                    color = ChatColor.of(format.drop(1))
-                } else {
-                    when (format[1]) {
-                        'x', 'X' -> magic = true
-                        'l', 'L' -> bold = true
-                        'm', 'M' -> strike = true
-                        'n', 'N' -> underline = true
-                        'o', 'O' -> italic = true
-                        'r', 'R' -> {
-                            magic = false
-                            bold = false
-                            strike = false
-                            underline = false
-                            italic = false
-                            color = null
-                        }
-                        else -> color = ChatColor.getByChar(format[1])
-                    }
-                }
-            }
-
-            if (matcher.group("content") == null) {
-                continue
-            }
-
-            nextComponent.text = matcher.group("content")
-            nextComponent.isObfuscated = magic
-            nextComponent.isBold = bold
-            nextComponent.isStrikethrough = strike
-            nextComponent.isUnderlined = underline
-            nextComponent.isItalic = italic
-            nextComponent.color = color
-            rootComponent.addExtra(nextComponent)
-
-            // reset component
-            nextComponent = TextComponent()
-            magic = false
-            bold = false
-            strike = false
-            underline = false
-            italic = false
-        }
-
-        return rootComponent
+        return Formatter.formatHexCodes(interp)
     }
 
     /**
