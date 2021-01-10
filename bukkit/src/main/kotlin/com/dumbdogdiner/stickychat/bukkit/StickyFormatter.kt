@@ -58,6 +58,7 @@ class StickyFormatter private constructor(private val player: Player) : WithPlug
             StringModifier(this.config.getString("dms.outgoing.format", "&8[&e&lPM&r&8] &a%from_name% &8» &r%message%")!!)
                 .apply { Formatter.colorize(it) }
                 .replace("%from_name%", this.player.name)
+                .replace("%to_name%", to.name)
                 .replace("%message%", message)
                 .get()
         )
@@ -68,6 +69,7 @@ class StickyFormatter private constructor(private val player: Player) : WithPlug
             StringModifier(this.config.getString("dms.incoming.format", "&8[&e&lPM&r&8] &a%from_name% &8» &r%message%")!!)
                 .apply { Formatter.colorize(it) }
                 .replace("%from_name%", from.name)
+                .replace("%to_name%", this.player.name)
                 .replace("%message%", message)
                 .get()
         )
