@@ -55,20 +55,20 @@ class StickyFormatter private constructor(private val player: Player) : WithPlug
 
     override fun formatOutgoingDM(to: Player, message: String): TextComponent {
         return TextComponent(
-            StringModifier(this.config.getString("chat.outgoing.format", "&8[&e&lPM&r&8] &a{from_name} &8» &r{message}")!!)
+            StringModifier(this.config.getString("chat.outgoing.format", "&8[&e&lPM&r&8] &a%from_name% &8» &r%message%")!!)
                 .apply { Formatter.colorize(it) }
-                .replace("{from_name}", this.player.name)
-                .replace("{message}", message)
+                .replace("%from_name%", this.player.name)
+                .replace("%message%", message)
                 .get()
         )
     }
 
     override fun formatIncomingDM(from: Player, message: String): TextComponent {
         return TextComponent(
-            StringModifier(this.config.getString("chat.incoming.format", "&8[&e&lPM&r&8] &a{from_name} &8» &r{message}")!!)
+            StringModifier(this.config.getString("chat.incoming.format", "&8[&e&lPM&r&8] &a%from_name% &8» &r%message%")!!)
                 .apply { Formatter.colorize(it) }
-                .replace("{from_name}", from.name)
-                .replace("{message}", message)
+                .replace("%from_name%", from.name)
+                .replace("%message%", message)
                 .get()
         )
     }
