@@ -60,7 +60,7 @@ public interface Channel {
     @NotNull
     public default ChannelManager getManager() {
         return StickyChat.getService().getChannelManager();
-    };
+    }
 
     /**
      * Return the unique ID for this channel.

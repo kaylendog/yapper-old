@@ -23,11 +23,12 @@ dependencies {
     implementation(project(":StickyChatAPI"))
 
     // shaded dependencies
-    implementation("redis.clients:jedis:3.3.0")
-    implementation("org.jetbrains.exposed:exposed-core:0.26.1")
-    implementation("org.jetbrains.exposed:exposed-dao:0.26.1")
-    implementation("org.jetbrains.exposed:exposed-jdbc:0.26.1")
-    implementation("org.postgresql:postgresql:42.2.2")
+    implementation("redis.clients", "jedis", "3.3.0")
+    implementation("org.jetbrains.exposed", "exposed-core", "0.28.1")
+    implementation("org.jetbrains.exposed", "exposed-dao", "0.28.1")
+    implementation("org.jetbrains.exposed", "exposed-jdbc", "0.28.1")
+    implementation("org.postgresql", "postgresql", "42.2.18")
+    implementation("com.zaxxer", "HikariCP", "3.4.5")
 
     // server dependencies
     compileOnly(paper("1.16.4-R0.1-SNAPSHOT"))
@@ -60,12 +61,16 @@ tasks {
     shadowJar {
         archiveClassifier.set("")
         // someone please help i don't know why this doesn't work
-        // relocate("kotlin", "com.dumbdogdiner.stickychat.libs.kotlin")
-        // relocate("redis", "com.dumbdogdiner.stickychat.libs.redis")
-        // relocate("org.postgresql", "com.dumbdogdiner.stickychat.libs.org.postgresql")
-        // relocate("org.jetbrains", "com.dumbdogdiner.stickychat.libs.org.jetbrains")
-        // relocate("org.apache", "com.dumbdogdiner.stickychat.libs.org.apache")
-        // relocate("org.slf4j", "com.dumbdogdiner.stickychat.libs.org.slf4j")
+        val pkg = "com.dumbdogdiner.stickychat.libs."
+        relocate("com.zaxxer", "${pkg}com.zaxxer")
+//        relocate("kotlin", "${pkg}kotlin")
+        relocate("org.apache", "${pkg}org.apache")
+        relocate("org.checkerframework", "${pkg}org.checkerframework")
+        relocate("org.intellij", "${pkg}org.intellij")
+//        relocate("org.jetbrains", "${pkg}org.jetbrains")
+        relocate("org.postgresql", "${pkg}org.postgresql")
+        relocate("org.slf4j", "${pkg}org.slf4j")
+        relocate("redis", "${pkg}redis")
     }
 
     spigot {
@@ -75,8 +80,8 @@ tasks {
         softDepends = mutableListOf("PlaceholderAPI")
 
         commands {
-            create("version") {
-                aliases = mutableListOf("stickychat", "chat", "sc")
+            create("stickychat") {
+                aliases = mutableListOf("chat", "sc")
             }
             create("message") {
                 aliases = mutableListOf("tell", "msg", "whisper")

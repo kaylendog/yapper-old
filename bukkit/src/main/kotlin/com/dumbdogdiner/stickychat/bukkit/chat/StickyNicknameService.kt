@@ -43,7 +43,7 @@ class StickyNicknameService(private val player: Player) : WithPlugin, NicknameSe
         val uniqueId = this.player.uniqueId.toString()
 
         if (this.plugin.sqlEnabled) {
-            transaction {
+            transaction(this.plugin.db) {
                 Nicknames.update({ Nicknames.player eq player.uniqueId.toString() and Nicknames.active }) {
                     it[active] = false
                 }
@@ -61,7 +61,7 @@ class StickyNicknameService(private val player: Player) : WithPlugin, NicknameSe
     override fun removeNickname() {
         cachedNickname = null
         if (this.plugin.sqlEnabled) {
-            transaction {
+            transaction(this.plugin.db) {
                 Nicknames.update({ Nicknames.player eq player.uniqueId.toString() and Nicknames.active }) {
                     it[active] = false
                 }
@@ -81,7 +81,7 @@ class StickyNicknameService(private val player: Player) : WithPlugin, NicknameSe
 
         logger.info("Looking up settings and nickname for '${this.player.name}' (${this.player.uniqueId})...")
 
-        val nickname = transaction {
+        val nickname = transaction(this.plugin.db) {
             return@transaction Nicknames.select { Nicknames.player eq player.uniqueId.toString() and Nicknames.active }.firstOrNull()
         }
             ?: return true

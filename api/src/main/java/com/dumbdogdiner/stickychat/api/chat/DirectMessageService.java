@@ -23,14 +23,6 @@ import java.util.List;
  */
 public interface DirectMessageService extends WithPlayer {
     /**
-     * Get the player this service refers to.
-     *
-     * @return {@link Player}
-     */
-    @NotNull
-    Player getPlayer();
-
-    /**
      * Send a DM to the target player. Calling this method should invoke
      * {@link DirectMessageService#receive(Player, String)} of the DM
      * service of the target player.

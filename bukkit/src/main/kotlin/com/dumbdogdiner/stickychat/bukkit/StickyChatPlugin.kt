@@ -29,6 +29,8 @@ import com.dumbdogdiner.stickychat.bukkit.listeners.PlayerJoinQuitListener
 import com.dumbdogdiner.stickychat.bukkit.models.Nicknames
 import com.dumbdogdiner.stickychat.bukkit.redis.RedisMessenger
 import com.dumbdogdiner.stickychat.bukkit.util.ExposedLogger
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
 import java.lang.Exception
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -50,6 +52,7 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
     val channelManager = StickyChannelManager()
 
     var sqlEnabled = false
+    lateinit var db: Database
 
     override fun onLoad() {
         plugin = this
@@ -62,7 +65,7 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
     }
 
     override fun onEnable() {
-        getCommand("version")?.setExecutor(VersionCommand())
+        getCommand("chat")?.setExecutor(VersionCommand())
         getCommand("message")?.setExecutor(MessageCommand())
         getCommand("reply")?.setExecutor(ReplyCommand())
         getCommand("nickname")?.setExecutor(NicknameCommand())
@@ -71,26 +74,31 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
         val integration = this.integrationManager.getIntegration(this)
         integration.prefix = this.config.getString("chat.prefix", "&b&lStickyChat &r&8» &r")!!
 
-        if (this.config.getBoolean("redis.enable", true)) {
+        if (this.config.getBoolean("redis.enable", false)) {
             redisMessenger.init()
         }
 
         if (this.config.getBoolean("data.enable", true)) {
             this.logger.info("[SQL] Checking SQL database has been set up correctly...")
-            Database.connect(
-                    url = "jdbc:postgresql://${
-                        this.config.getString("data.host")
-                    }:${
-                        this.config.getInt("data.port")
-                    }/${
-                        this.config.getString("data.database")
-                    }",
-                    driver = "org.postgresql.Driver",
-                    user = this.config.getString("data.username", "postgres")!!,
-                    password = this.config.getString("data.password")!!
-            )
 
-            transaction {
+            val config = HikariConfig().apply {
+                jdbcUrl = "jdbc:postgresql://${
+                    config.getString("data.host")
+                }:${
+                    config.getInt("data.port")
+                }/${
+                    config.getString("data.database")
+                }"
+                driverClassName = "com.dumbdogdiner.stickychat.libs.org.postgresql.Driver"
+                username = config.getString("data.username", "postgres")!!
+                password = config.getString("data.password")!!
+                maximumPoolSize = 2
+            }
+
+            val dataSource = HikariDataSource(config)
+            this.db = Database.connect(dataSource)
+
+            transaction(this.db) {
                 try {
                     addLogger(ExposedLogger())
                     SchemaUtils.createMissingTablesAndColumns(Nicknames)

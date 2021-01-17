@@ -21,14 +21,6 @@ import java.util.List;
  */
 public interface MessageService extends WithPlayer {
     /**
-     * Get the player this service refers to.
-     *
-     * @return {@link Player}
-     */
-    @NotNull
-    Player getPlayer();
-
-    /**
      * Get the recipients of a message, given the sender and its priority. Returns
      * a list of recipients.
      *

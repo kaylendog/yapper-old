@@ -28,7 +28,6 @@ class RedisMessenger : WithPlugin, JedisPubSub() {
         if (initialized) {
             return
         }
-
         this.logger.info("[REDIS] Initializing Redis Pub-Sub service...")
         try {
             this.pool = JedisPool(JedisPoolConfig())

@@ -93,15 +93,4 @@ public interface Integration {
         return this.sendSystemMessage(sender, Formatter.colorize("&c" + error));
     }
 
-//    /**
-//     * Send the target player a system error message.
-//     *
-//     * @param player The player to send the error to
-//     * @param error The error to send
-//     * @return {@link DirectMessageResult}
-//     */
-//    default DirectMessageResult sendSystemError(Player player, String error) {
-//        SoundUtil.sendError(player);
-//        return this.sendSystemMessage(player, Formatter.colorize("&c" + error));
-//    }
 }
