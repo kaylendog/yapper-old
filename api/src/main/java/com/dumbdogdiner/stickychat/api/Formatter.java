@@ -17,6 +17,7 @@ public interface Formatter extends WithPlayer {
 
     /**
      * Colorize a string using both Minecraft char codes, and hexadecimal color codes.
+     * @deprecated Deprecated in favor of the nex hex code translator.
      * @param string The string to colorize
      * @return {@link String}
      */
@@ -30,9 +31,18 @@ public interface Formatter extends WithPlayer {
     Pattern COLOR_FORMATTING_REGEX = Pattern.compile("(?<formatting>&(?:#[a-f0-9]{6}|[a-f0-9k-or]))?(?<content>.*?)(?=(&(?:#[a-f0-9]{6}|[a-f0-9k-or]))|$)", Pattern.MULTILINE);
 
     /**
+     * Colorize a text component using Minecraft hex codes.
+     * @param component The component to colorize
+     * @return {@link TextComponent}
+     */
+    static TextComponent formatHexCodes(TextComponent component) {
+        return Formatter.formatHexCodes(component.getText());
+    }
+
+    /**
      * Colorize a string using Minecraft hex codes.
-     * @param message
-     * @return
+     * @param message The message to colorize
+     * @return {@link TextComponent}
      */
     static TextComponent formatHexCodes(String message) {
         var matcher = COLOR_FORMATTING_REGEX.matcher(message);

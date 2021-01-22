@@ -21,11 +21,12 @@ import com.dumbdogdiner.stickychat.bukkit.commands.ChannelCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.MessageCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.NicknameCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.ReplyCommand
-import com.dumbdogdiner.stickychat.bukkit.commands.VersionCommand
+import com.dumbdogdiner.stickychat.bukkit.commands.ChatCommand
 import com.dumbdogdiner.stickychat.bukkit.integration.StickyIntegrationManager
 import com.dumbdogdiner.stickychat.bukkit.listeners.DeathListener
 import com.dumbdogdiner.stickychat.bukkit.listeners.MessageListener
 import com.dumbdogdiner.stickychat.bukkit.listeners.PlayerJoinQuitListener
+import com.dumbdogdiner.stickychat.bukkit.misc.StickyDeathMessageService
 import com.dumbdogdiner.stickychat.bukkit.models.Nicknames
 import com.dumbdogdiner.stickychat.bukkit.redis.RedisMessenger
 import com.dumbdogdiner.stickychat.bukkit.util.ExposedLogger
@@ -50,6 +51,7 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
     val integrationManager = StickyIntegrationManager()
     val redisMessenger = RedisMessenger()
     val channelManager = StickyChannelManager()
+    val deathManager = StickyDeathMessageService()
 
     var sqlEnabled = false
     lateinit var db: Database
@@ -65,7 +67,7 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
     }
 
     override fun onEnable() {
-        getCommand("chat")?.setExecutor(VersionCommand())
+        getCommand("chat")?.setExecutor(ChatCommand())
         getCommand("message")?.setExecutor(MessageCommand())
         getCommand("reply")?.setExecutor(ReplyCommand())
         getCommand("nickname")?.setExecutor(NicknameCommand())
@@ -169,7 +171,7 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
     }
 
     override fun getDeathMessageService(): DeathMessageService {
-        TODO("Not yet implemented")
+        return this.deathManager
     }
 
     override fun getFormatter(player: Player): Formatter {

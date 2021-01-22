@@ -10,8 +10,11 @@ import org.bukkit.command.TabExecutor
 /**
  * Send information regarding the version of the plugin.
  */
-class VersionCommand : WithPlugin, TabExecutor {
+class ChatCommand : WithPlugin, TabExecutor {
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+        if (args.size < 2) {
+            return mutableListOf("reload")
+        }
         return mutableListOf()
     }
 

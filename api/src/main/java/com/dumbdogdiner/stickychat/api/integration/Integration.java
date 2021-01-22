@@ -8,6 +8,7 @@ import com.dumbdogdiner.stickychat.api.util.SoundUtil;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +23,7 @@ public interface Integration {
      * @return {@link Plugin}
      */
     @NotNull
-    public Plugin getPlugin();
+    Plugin getPlugin();
 
     /**
      * Set the prefix for this integration. Returns the new prefix.
@@ -31,7 +32,7 @@ public interface Integration {
      * @return {@link String}
      */
     @NotNull
-    public String setPrefix(@NotNull String prefix);
+    String setPrefix(@NotNull String prefix);
 
     /**
      * Return the current prefix for this integration.
@@ -39,7 +40,42 @@ public interface Integration {
      * @return {@link  String}
      */
     @NotNull
-    public String getPrefix();
+    String getPrefix();
+
+    /**
+     * Return the chat API service.
+     * @return {@link StickyChat}
+     */
+    default StickyChat getApi() {
+        return StickyChat.getService();
+    }
+
+
+    /**
+     * Send the target player a system message.
+     *
+     * @param player The player to send the message to
+     * @param message The message to send
+     * @return {@link DirectMessageResult}
+     */
+    default DirectMessageResult sendSystemMessage(Player player, TextComponent message) {
+        return StickyChat.getService().getDirectMessageService(player).sendSystemMessage(Formatter.formatHexCodes(message));
+    }
+
+    /**
+     * Send the target a system message.
+     *
+     * @param sender The target to send the message to
+     * @param component The component to send them
+     * @return {@link DirectMessageResult}
+     */
+    default DirectMessageResult sendSystemMessage(CommandSender sender, TextComponent component) {
+        if (sender instanceof Player) {
+            return this.sendSystemMessage((Player) sender, component);
+        }
+        sender.spigot().sendMessage(component);
+        return DirectMessageResult.OK;
+    }
 
     /**
      * Send the target a system message.
@@ -49,25 +85,7 @@ public interface Integration {
      * @return {@link DirectMessageResult}
      */
     default DirectMessageResult sendSystemMessage(CommandSender sender, String message) {
-        if (sender instanceof Player) {
-            return sendSystemMessage((Player) sender, message);
-        }
-        sender.sendMessage(message);
-        return DirectMessageResult.OK;
-    }
-
-    /**
-     * Send the target player a system message.
-     *
-     * @param player The player to send the message to
-     * @param message The message to send
-     * @return {@link DirectMessageResult}
-     */
-    default DirectMessageResult sendSystemMessage(Player player, BaseComponent message) {
-        var component = new TextComponent();
-        component.addExtra(Formatter.colorize(this.getPrefix()));
-        component.addExtra(message);
-        return StickyChat.getService().getDirectMessageService(player).sendSystemMessage(component);
+        return this.sendSystemMessage(sender, new TextComponent(message));
     }
 
     /**
@@ -90,7 +108,7 @@ public interface Integration {
      */
     default DirectMessageResult sendSystemError(CommandSender sender, String error) {
         SoundUtil.send(sender, NotificationType.ERROR);
-        return this.sendSystemMessage(sender, Formatter.colorize("&c" + error));
+        return this.sendSystemMessage(sender, Formatter.formatHexCodes("&c" + error));
     }
 
 }
