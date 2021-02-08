@@ -75,7 +75,7 @@ public interface Formatter extends WithPlayer {
                             strike = false;
                             underline = false;
                             italic = false;
-                            color = null;
+                            color = ChatColor.WHITE;
                         }
                         default -> color = ChatColor.getByChar(format.charAt(1));
                     }
