@@ -13,7 +13,7 @@ public interface Letter {
 
     /**
      * The name of the player who sent this letter.
-     * @return
+     * @return {@link String}
      */
     public String getSenderName();
 
@@ -31,7 +31,6 @@ public interface Letter {
 
     /**
      * Get the metadata of this letter.
-     * TODO: Rod metadata stuff
      * @return {@link BookMeta}
      */
     public BookMeta getMetadata();

@@ -50,29 +50,31 @@ class StickyFormatter private constructor(private val player: Player) : WithPlug
      * from the cached configuration and interpolates placeholders as required.
      */
     override fun formatStaffChatMessage(message: String): TextComponent {
-        return TextComponent("[SC] ${player.name}: $message")
+        val interp = StringModifier(this.config.getString("chat.staff-chat-format", "[SC] %player_name%: message"))
+                .replace("%player_name%", this.player.name)
+                .replace("%message%", message)
+                .apply { Placeholders.setPlaceholdersSafe(this.player, it) }
+                .get()
+        return Formatter.formatHexCodes(interp)
     }
 
     override fun formatOutgoingDM(to: Player, message: String): TextComponent {
-        return TextComponent(
-            StringModifier(this.config.getString("dms.outgoing.format", "&8[&e&lPM&r&8] &a%from_name% &8» &r%message%")!!)
-                .apply { Formatter.colorize(it) }
+        val interp = StringModifier(this.config.getString("dms.outgoing.format", "&8[&e&lPM&r&8] &a%from_name% &8» &r%message%")!!)
                 .replace("%from_name%", this.player.name)
                 .replace("%to_name%", to.name)
                 .replace("%message%", message)
                 .get()
-        )
+        return Formatter.formatHexCodes(interp)
     }
 
     override fun formatIncomingDM(from: Player, message: String): TextComponent {
-        return TextComponent(
-            StringModifier(this.config.getString("dms.incoming.format", "&8[&e&lPM&r&8] &a%from_name% &8» &r%message%")!!)
+        val interp = StringModifier(this.config.getString("dms.incoming.format", "&8[&e&lPM&r&8] &a%from_name% &8» &r%message%")!!)
                 .apply { Formatter.colorize(it) }
                 .replace("%from_name%", from.name)
                 .replace("%to_name%", this.player.name)
                 .replace("%message%", message)
                 .get()
-        )
+        return Formatter.formatHexCodes(interp)
     }
 
     override fun formatSignSpyNotification(notification: SignNotification): BaseComponent {

@@ -1,6 +1,8 @@
 package com.dumbdogdiner.stickychat.bukkit.redis
 
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin
+import net.md_5.bungee.api.chat.TextComponent
+import org.bukkit.entity.Player
 import java.util.Base64
 import kotlin.concurrent.thread
 import redis.clients.jedis.JedisPool
@@ -72,7 +74,7 @@ class RedisMessenger : WithPlugin, JedisPubSub() {
     override fun onMessage(channel: String, message: String) {
         if (channel != CHANNEL_NAME) {
             return
-        }
+        }   
 
         val packet = PacketBuilder.decodePacket(Base64.getDecoder().decode(message))
         this.logger.info("[REDIS] Received packet '${packet.uniqueId}' from '${packet.sender}' - type=${packet.type.name}")
@@ -92,5 +94,26 @@ class RedisMessenger : WithPlugin, JedisPubSub() {
         }
 
         return this.pool!!.resource.publish(channel, Base64.getEncoder().encodeToString(data))
+    }
+
+    fun broadcastStaffChatMessage(player: Player, message: TextComponent) {
+        this.sendRaw(
+            CHANNEL_NAME,
+            PacketBuilder(PacketBuilder.Type.STAFF_CHAT)
+                .sender(player.uniqueId.toString())
+                .content(message.toLegacyText())
+                .build()
+        )
+    }
+
+    fun broadcastDirectMessage(player: Player, target: String, message: TextComponent) {
+        this.sendRaw(
+            CHANNEL_NAME,
+            PacketBuilder(PacketBuilder.Type.DM_MESSAGE)
+                .sender(player.uniqueId.toString())
+                .recipient(target)
+                .content(message.toLegacyText())
+                .build()
+        )
     }
 }

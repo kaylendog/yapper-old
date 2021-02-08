@@ -2,10 +2,12 @@ package com.dumbdogdiner.stickychat.bukkit.chat
 
 import com.dumbdogdiner.stickychat.api.Priority
 import com.dumbdogdiner.stickychat.api.chat.StaffChatService
+import com.dumbdogdiner.stickychat.bukkit.WithPlugin
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
-class StickyStaffChatService private constructor(private val player: Player) : StaffChatService {
-    companion object {
+class StickyStaffChatService private constructor(private val player: Player) : WithPlugin, StaffChatService {
+    companion object : WithPlugin {
         private val staffChatServices = HashMap<Player, StaffChatService>()
 
         /**
@@ -19,6 +21,15 @@ class StickyStaffChatService private constructor(private val player: Player) : S
             staffChatServices[player] = staffChatService
             return staffChatService
         }
+
+        /**
+         * Get appropriate recipients of a staff chat message.
+         */
+        fun getRecipients(): List<Player> {
+            return Bukkit.getOnlinePlayers().filter {
+                it.hasPermission("stickychat.staffchat") && this.plugin.getDataService(it).priority.isGreaterThanOrEqualTo(Priority.IMPORTANT)
+            }
+        }
     }
 
     private val staffChatEnabled = false
@@ -31,7 +42,7 @@ class StickyStaffChatService private constructor(private val player: Player) : S
         if (this.staffChatEnabled) {
             return false
         }
-        this.dataService.setStaffChatEnabled(true)
+        this.dataService.staffChatEnabled = true
         return true
     }
 
@@ -39,7 +50,7 @@ class StickyStaffChatService private constructor(private val player: Player) : S
         if (!this.staffChatEnabled) {
             return false
         }
-        this.dataService.setStaffChatEnabled(false)
+        this.dataService.staffChatEnabled = false
         return true
     }
 
@@ -48,11 +59,8 @@ class StickyStaffChatService private constructor(private val player: Player) : S
             return false
         }
 
-        if (this.dataService.priority.isGreaterThan(Priority.IMPORTANT)) {
-            return false
-        }
+        getRecipients().forEach { it.spigot().sendMessage(this.formatter.formatStaffChatMessage(message)) }
 
-        this.getPlayer().spigot().sendMessage(this.formatter.formatStaffChatMessage(message))
         return true
     }
 }

@@ -57,7 +57,8 @@ class PacketBuilder(private val type: Type) {
 
     enum class Type {
         MESSAGE,
-        DM_MESSAGE
+        DM_MESSAGE,
+        STAFF_CHAT
     }
 
     /**

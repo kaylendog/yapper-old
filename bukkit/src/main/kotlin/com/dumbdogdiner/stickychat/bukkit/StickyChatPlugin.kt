@@ -22,6 +22,7 @@ import com.dumbdogdiner.stickychat.bukkit.commands.MessageCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.NicknameCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.ReplyCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.ChatCommand
+import com.dumbdogdiner.stickychat.bukkit.commands.StaffChatCommand
 import com.dumbdogdiner.stickychat.bukkit.integration.StickyIntegrationManager
 import com.dumbdogdiner.stickychat.bukkit.listeners.DeathListener
 import com.dumbdogdiner.stickychat.bukkit.listeners.MessageListener
@@ -72,6 +73,7 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
         getCommand("reply")?.setExecutor(ReplyCommand())
         getCommand("nickname")?.setExecutor(NicknameCommand())
         getCommand("channel")?.setExecutor(ChannelCommand())
+        getCommand("staffchat")?.setExecutor(StaffChatCommand())
 
         val integration = this.integrationManager.getIntegration(this)
         integration.prefix = this.config.getString("chat.prefix", "&b&lStickyChat &r&8» &r")!!

@@ -9,7 +9,14 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 class MessageListener : WithPlugin, Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     fun onAsyncPlayerChatEvent(ev: AsyncPlayerChatEvent) {
-        this.plugin.getMessageService(ev.player).broadcast(ev.message)
         ev.isCancelled = true
+
+        // send staff chat if they have it enabled.
+        if (this.plugin.getStaffChatService(ev.player).hasStaffChatEnabled()) {
+            this.plugin.getStaffChatService(ev.player).sendStaffChatMessage(ev.message)
+            return
+        }
+
+        this.plugin.getMessageService(ev.player).broadcast(ev.message)
     }
 }

@@ -99,6 +99,10 @@ tasks {
                 aliases = mutableListOf("ch")
                 usage = "/channel [name]"
             }
+            create("staffchat") {
+                aliases = mutableListOf("sc")
+                usage = "/staffchat [message]"
+            }
         }
 
         permissions {
