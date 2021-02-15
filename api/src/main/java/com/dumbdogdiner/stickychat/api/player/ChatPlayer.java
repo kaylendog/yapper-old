@@ -1,6 +1,6 @@
 package com.dumbdogdiner.stickychat.api.player;
 
-import com.dumbdogdiner.stickychat.api.result.DirectMessageResult;
+import com.dumbdogdiner.stickychat.api.messaging.DirectMessageResult;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 

@@ -45,8 +45,7 @@ public interface Channel {
      * @param section The section to deserialize
      * @return {@link Channel}
      */
-    @NotNull
-    static Channel deserialize(@NotNull String key, @NotNull ConfigurationSection section) {
+    static @NotNull Channel deserialize(@NotNull String key, @NotNull ConfigurationSection section) {
         var type = Type.valueOf(section.getString("type"));
         var name = section.getString("name");
         return StickyChat.getService().getChannelManager().restoreChannel(UUID.fromString(key), type, name);

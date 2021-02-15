@@ -3,6 +3,11 @@ plugins {
     id("java")
 }
 
+<<<<<<< HEAD
+=======
+version = "4.0.0"
+
+>>>>>>> d88674d... v4 :sparkles: package refactor
 repositories {
     mavenCentral()
     jcenter()

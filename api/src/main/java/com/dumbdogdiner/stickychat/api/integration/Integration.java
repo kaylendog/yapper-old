@@ -2,7 +2,7 @@ package com.dumbdogdiner.stickychat.api.integration;
 
 import com.dumbdogdiner.stickychat.api.Formatter;
 import com.dumbdogdiner.stickychat.api.StickyChat;
-import com.dumbdogdiner.stickychat.api.result.DirectMessageResult;
+import com.dumbdogdiner.stickychat.api.messaging.DirectMessageResult;
 import com.dumbdogdiner.stickychat.api.util.NotificationType;
 import com.dumbdogdiner.stickychat.api.util.SoundUtil;
 import net.md_5.bungee.api.chat.TextComponent;

@@ -1,4 +1,4 @@
-package com.dumbdogdiner.stickychat.api.misc;
+package com.dumbdogdiner.stickychat.api.broadcast;
 
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;

@@ -1,12 +1,8 @@
-package com.dumbdogdiner.stickychat.api.result;
+package com.dumbdogdiner.stickychat.api.mail;
 
-import com.dumbdogdiner.stickychat.api.player.DirectMessageManager;
 import com.dumbdogdiner.stickychat.api.Priority;
 
-/**
- * An enum of possible return types from the {@link DirectMessageManager}.
- */
-public enum DirectMessageResult {
+public enum MailResult {
     /**
      * The message was sent and received successfully!
      */
@@ -21,11 +17,6 @@ public enum DirectMessageResult {
      * Could not send the message, as the target player has their priority set above {@link Priority#DEFAULT}.
      */
     FAIL_PRIORITY,
-
-    /**
-     * Could not send the message, as the target player does not exist.
-     */
-    FAIL_NONEXISTENT,
 
     /**
      * Could not send the message, as the player tried to message themself.

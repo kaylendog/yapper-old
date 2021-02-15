@@ -1,6 +1,5 @@
-package com.dumbdogdiner.stickychat.api.player;
+package com.dumbdogdiner.stickychat.api.messaging;
 
-import com.dumbdogdiner.stickychat.api.result.DirectMessageResult;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;

@@ -1,4 +1,4 @@
-package com.dumbdogdiner.stickychat.api.misc;
+package com.dumbdogdiner.stickychat.api.broadcast;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -1,17 +1,16 @@
 package com.dumbdogdiner.stickychat.api;
 
 import com.dumbdogdiner.stickychat.api.channel.ChannelManager;
-import com.dumbdogdiner.stickychat.api.misc.DeathMessageManager;
-import com.dumbdogdiner.stickychat.api.player.DirectMessageManager;
-import com.dumbdogdiner.stickychat.api.player.MessageManager;
+import com.dumbdogdiner.stickychat.api.broadcast.DeathMessageManager;
+import com.dumbdogdiner.stickychat.api.messaging.DirectMessageManager;
+import com.dumbdogdiner.stickychat.api.messaging.MessageManager;
 import com.dumbdogdiner.stickychat.api.integration.Integration;
 import com.dumbdogdiner.stickychat.api.integration.IntegrationManager;
-import com.dumbdogdiner.stickychat.api.misc.BroadcastService;
+import com.dumbdogdiner.stickychat.api.broadcast.BroadcastService;
 import com.dumbdogdiner.stickychat.api.player.NicknameManager;
 import com.dumbdogdiner.stickychat.api.player.PlayerBlockManager;
 import com.dumbdogdiner.stickychat.api.player.PriorityManager;
-import com.dumbdogdiner.stickychat.api.player.StaffChatManager;
-import com.dumbdogdiner.stickychat.api.util.InvalidChatServiceException;
+import com.dumbdogdiner.stickychat.api.messaging.StaffChatManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -42,7 +41,7 @@ public interface StickyChat {
         var provider = Bukkit.getServicesManager().getRegistration(StickyChat.class);
         // just in case someone tries something wacky.
         if (provider == null) {
-            throw new InvalidChatServiceException("Failed to fetch ChatService - running service is invalid!");
+            throw new RuntimeException("Failed to fetch ChatService - running service is invalid!");
         }
         return provider.getProvider();
     }
