@@ -9,7 +9,7 @@ public interface BroadcastTimer {
     /**
      * @return The {@link TextComponent} that this timer wraps.
      */
-    TextComponent getTextComponent();
+    TextComponent getContent();
 
     /**
      * @return The interval in seconds between timer broadcasts.

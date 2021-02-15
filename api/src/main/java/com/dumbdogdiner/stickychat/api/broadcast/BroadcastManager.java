@@ -1,11 +1,12 @@
 package com.dumbdogdiner.stickychat.api.broadcast;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Manages timed broadcasts and MOTDs.
  */
-public interface BroadcastService {
+public interface BroadcastManager {
     /**
      * Load all the timers from plugin configuration. Return the
      * number of timers that were loaded.
@@ -21,15 +22,14 @@ public interface BroadcastService {
      * @param timer The timer to register
      * @return {@link Integer}
      */
-    @NotNull
-    Integer registerTimer(@NotNull BroadcastTimer timer);
+    @NotNull Integer registerTimer(@NotNull BroadcastTimer timer);
 
     /**
      * Get the timer with the specified ID.
      * @param id The ID of the timer
      * @return {@link BroadcastTimer}
      */
-    BroadcastTimer getTimer(@NotNull Integer id);
+    @Nullable BroadcastTimer getTimer(@NotNull Integer id);
 
     /**
      * Check if the target timer is registered.
@@ -37,8 +37,7 @@ public interface BroadcastService {
      * @param timer The timer to check
      * @return {@link Boolean}
      */
-    @NotNull
-    Boolean isRegistered(@NotNull BroadcastTimer timer);
+    @NotNull Boolean isRegistered(@NotNull BroadcastTimer timer);
 
     /**
      * Trigger the timer with the specified ID.

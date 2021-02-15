@@ -19,8 +19,7 @@ public interface ChannelManager {
      * @param name THe name of the channel
      * @return {@link Channel}
      */
-    @NotNull
-    Channel createChannel(@NotNull Channel.Type type, @NotNull String name);
+    @NotNull Channel createChannel(@NotNull ChannelType type, @NotNull String name);
 
     /**
      * Restore a channel.
@@ -30,19 +29,22 @@ public interface ChannelManager {
      * @param name The name of this channel
      * @return The restored {@link Channel}
      */
-    @NotNull
-    Channel restoreChannel(@NotNull UUID uuid, @NotNull Channel.Type type, @NotNull String name);
+    @NotNull Channel restoreChannel(@NotNull UUID uuid, @NotNull ChannelType type, @NotNull String name);
 
     /**
      * @return The global channel all players can talk in.
      */
-    Channel getGlobalChannel();
+    default @NotNull Channel getGlobalChannel() {
+        var channel = this.getChannel(new UUID(0, 0));
+        assert channel != null;
+        return channel;
+    }
 
     /**
      * Remove the channel with the target UUID. Returns true if the target channel
      * was removed.
      *
-     * @param id
+     * @param id The UUID of the
      * @return {@link Boolean}
      */
     Boolean removeChannel(UUID id);
@@ -53,21 +55,19 @@ public interface ChannelManager {
      * @param id The UUID of the channel
      * @return {@link Channel}
      */
-    @Nullable
-    Channel getChannel(@NotNull UUID id);
+    @Nullable Channel getChannel(@NotNull UUID id);
 
     /**
      * Get the channel of the target player.
      * @param player The target player
      * @return The current {@link Channel} the player is in.
      */
-    Channel getPlayerChannel(@NotNull Player player);
+    @NotNull Channel getPlayerChannel(@NotNull Player player);
 
     /**
      * Get a list of all channels.
      *
      * @return {@link List<Channel>}
      */
-    @NotNull
-    List<Channel> getChannels();
+    @NotNull List<Channel> getChannels();
 }

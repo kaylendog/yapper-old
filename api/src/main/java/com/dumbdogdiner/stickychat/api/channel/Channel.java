@@ -14,31 +14,6 @@ import java.util.UUID;
  */
 public interface Channel {
     /**
-     * Enum of possible channel types.
-     */
-    enum Type {
-        /**
-         * The default channel type - used by plugin implementations.
-         */
-        DEFAULT,
-
-        /**
-         * The global channel - there should only be one of these channels.
-         */
-        GLOBAL,
-
-        /**
-         * A group DM channel - there can be many instances of this type.
-         */
-        GROUP_DM,
-
-        /**
-         * A staff chat channel - there can be many instances of this type.
-         */
-        STAFF_CHAT
-    }
-
-    /**
      * Deserialize a configuration section into a channel object.
      *
      * @param key The key of the config section
@@ -46,7 +21,7 @@ public interface Channel {
      * @return {@link Channel}
      */
     static @NotNull Channel deserialize(@NotNull String key, @NotNull ConfigurationSection section) {
-        var type = Type.valueOf(section.getString("type"));
+        var type = ChannelType.valueOf(section.getString("type"));
         var name = section.getString("name");
         return StickyChat.getService().getChannelManager().restoreChannel(UUID.fromString(key), type, name);
     }
@@ -56,33 +31,23 @@ public interface Channel {
      *
      * @return {@link ChannelManager}
      */
-    @NotNull
-    default ChannelManager getManager() {
+    default @NotNull ChannelManager getManager() {
         return StickyChat.getService().getChannelManager();
     }
 
     /**
      * Return the type of this channel.
      *
-     * @return {@link Type}
+     * @return {@link ChannelType}
      */
-    @NotNull
-    Type getType();
-
-    /**
-     * Set the type of this channel. Implementations should not allow more than one global, or staff chat channel instance.
-     *
-     * @param type The new type
-     */
-    void setType(@NotNull Type type);
+    @NotNull ChannelType getType();
 
     /**
      * Get the name of this channel.
      *
      * @return {@link String}
      */
-    @NotNull
-    String getName();
+    @NotNull String getName();
 
     /**
      * Set the name of this channel.
@@ -96,8 +61,7 @@ public interface Channel {
      *
      * @return {@link List<Player>}
      */
-    @NotNull
-    List<Player> getPlayers();
+    @NotNull List<Player> getPlayers();
 
     /**
      * Add a player to this channel. Implementations should also update the data service.
@@ -105,8 +69,7 @@ public interface Channel {
      * @param player The player to add
      * @return {@link Boolean}
      */
-    @NotNull
-    Boolean addPlayer(@NotNull Player player);
+    @NotNull Boolean addPlayer(@NotNull Player player);
 
     /**
      * Remove a player from this channel.
@@ -114,8 +77,7 @@ public interface Channel {
      * @param player The player to remove
      * @return {@link Boolean}
      */
-    @NotNull
-    Boolean removePlayer(@NotNull Player player);
+    @NotNull Boolean removePlayer(@NotNull Player player);
 
     /**
      * Send a message to this channel.
@@ -137,8 +99,8 @@ public interface Channel {
      * @param config The configuration this channel is being serialized into
      * @return {@link ConfigurationSection}
      */
-    @NotNull
-    default ConfigurationSection serialize(@NotNull Configuration config) {
+
+    default @NotNull ConfigurationSection serialize(@NotNull Configuration config) {
         var section = config.createSection(this.getName());
         section.set("type", this.getType().name());
         return section;

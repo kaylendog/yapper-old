@@ -1,4 +1,4 @@
-package com.dumbdogdiner.stickychat.api.messaging;
+package com.dumbdogdiner.stickychat.api.channel;
 
 /**
  * An enum of possible return types from the {@link MessageManager}.

@@ -6,7 +6,7 @@ import com.dumbdogdiner.stickychat.api.messaging.DirectMessageManager;
 import com.dumbdogdiner.stickychat.api.messaging.MessageManager;
 import com.dumbdogdiner.stickychat.api.integration.Integration;
 import com.dumbdogdiner.stickychat.api.integration.IntegrationManager;
-import com.dumbdogdiner.stickychat.api.broadcast.BroadcastService;
+import com.dumbdogdiner.stickychat.api.broadcast.BroadcastManager;
 import com.dumbdogdiner.stickychat.api.player.NicknameManager;
 import com.dumbdogdiner.stickychat.api.player.PlayerBlockManager;
 import com.dumbdogdiner.stickychat.api.player.PriorityManager;
@@ -99,9 +99,9 @@ public interface StickyChat {
     /**
      * Get the broadcast service.
      *
-     * @return The {@link BroadcastService}
+     * @return The {@link BroadcastManager}
      */
-    @NotNull BroadcastService getBroadcastService();
+    @NotNull BroadcastManager getBroadcastService();
 
     /**
      * Get the death message service.
