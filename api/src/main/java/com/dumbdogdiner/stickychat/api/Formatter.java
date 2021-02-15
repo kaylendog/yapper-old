@@ -1,11 +1,11 @@
 package com.dumbdogdiner.stickychat.api;
 
-import com.dumbdogdiner.stickychat.api.misc.SignNotification;
-import com.dumbdogdiner.stickychat.api.util.WithPlayer;
+import com.dumbdogdiner.stickychat.api.signspy.SignNotification;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.regex.Pattern;
@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 /**
  * An interface for chat formatting.
  */
-public interface Formatter extends WithPlayer {
+public interface Formatter {
 
     /**
      * Colorize a string using both Minecraft char codes, and hexadecimal color codes.
@@ -21,7 +21,9 @@ public interface Formatter extends WithPlayer {
      * @param string The string to colorize
      * @return {@link String}
      */
-    static String colorize(String string) {
+    @Contract("_ -> new")
+    @Deprecated(forRemoval = true, since = "3.1.0")
+    static @NotNull String colorize(String string) {
         return ChatColor.translateAlternateColorCodes('&', string);
     }
 
@@ -35,7 +37,7 @@ public interface Formatter extends WithPlayer {
      * @param component The component to colorize
      * @return {@link TextComponent}
      */
-    static TextComponent formatHexCodes(TextComponent component) {
+    static @NotNull TextComponent formatHexCodes(@NotNull TextComponent component) {
         return Formatter.formatHexCodes(component.getText());
     }
 
@@ -44,7 +46,7 @@ public interface Formatter extends WithPlayer {
      * @param message The message to colorize
      * @return {@link TextComponent}
      */
-    static TextComponent formatHexCodes(String message) {
+    static @NotNull TextComponent formatHexCodes(String message) {
         var matcher = COLOR_FORMATTING_REGEX.matcher(message);
 
         var magic = false;
@@ -114,7 +116,7 @@ public interface Formatter extends WithPlayer {
      * @return {@link BaseComponent}
      */
     @NotNull
-    BaseComponent formatMessage(@NotNull String message);
+    BaseComponent formatMessage(Player player, @NotNull String message);
 
     /**
      * Format a message sent in staff chat.
@@ -123,7 +125,7 @@ public interface Formatter extends WithPlayer {
      * @return {@link BaseComponent}
      */
     @NotNull
-    BaseComponent formatStaffChatMessage(@NotNull String message);
+    BaseComponent formatStaffChatMessage(Player player, @NotNull String message);
 
     /**
      * Format an incoming direct message sent between two players.
@@ -133,7 +135,7 @@ public interface Formatter extends WithPlayer {
      * @return {@link BaseComponent}
      */
     @NotNull
-    BaseComponent formatOutgoingDM(@NotNull Player to, @NotNull String message);
+    BaseComponent formatOutgoingDM(@NotNull Player from, @NotNull Player to, @NotNull String message);
 
     /**
      * Format a direct message sent between two players.
@@ -143,7 +145,7 @@ public interface Formatter extends WithPlayer {
      * @return {@link BaseComponent}
      */
     @NotNull
-    BaseComponent formatIncomingDM(@NotNull Player from, @NotNull String message);
+    BaseComponent formatIncomingDM(@NotNull Player from, @NotNull Player to, @NotNull String message);
 
     /**
      * Format a SignSpy notification.

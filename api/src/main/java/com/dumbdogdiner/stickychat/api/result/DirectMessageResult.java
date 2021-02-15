@@ -1,10 +1,10 @@
 package com.dumbdogdiner.stickychat.api.result;
 
-import com.dumbdogdiner.stickychat.api.chat.DirectMessageService;
+import com.dumbdogdiner.stickychat.api.player.DirectMessageManager;
 import com.dumbdogdiner.stickychat.api.Priority;
 
 /**
- * An enum of possible return types from the {@link DirectMessageService}.
+ * An enum of possible return types from the {@link DirectMessageManager}.
  */
 public enum DirectMessageResult {
     /**

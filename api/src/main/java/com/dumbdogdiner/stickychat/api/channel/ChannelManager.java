@@ -1,4 +1,4 @@
-package com.dumbdogdiner.stickychat.api.chat;
+package com.dumbdogdiner.stickychat.api.channel;
 
 import com.dumbdogdiner.stickychat.api.StickyChat;
 import org.bukkit.entity.Player;
@@ -20,7 +20,7 @@ public interface ChannelManager {
      * @return {@link Channel}
      */
     @NotNull
-    public Channel createChannel(@NotNull Channel.Type type, @NotNull String name);
+    Channel createChannel(@NotNull Channel.Type type, @NotNull String name);
 
     /**
      * Restore a channel.
@@ -28,16 +28,15 @@ public interface ChannelManager {
      * @param uuid The unique id of this channel
      * @param type The type of this channel
      * @param name The name of this channel
-     * @return
+     * @return The restored {@link Channel}
      */
     @NotNull
-    public Channel restoreChannel(@NotNull UUID uuid, @NotNull Channel.Type type, @NotNull String name);
+    Channel restoreChannel(@NotNull UUID uuid, @NotNull Channel.Type type, @NotNull String name);
 
     /**
-     * Get the global channel all players can talk in.
-     * @return
+     * @return The global channel all players can talk in.
      */
-    public Channel getGlobalChannel();
+    Channel getGlobalChannel();
 
     /**
      * Remove the channel with the target UUID. Returns true if the target channel
@@ -46,7 +45,7 @@ public interface ChannelManager {
      * @param id
      * @return {@link Boolean}
      */
-    public Boolean removeChannel(UUID id);
+    Boolean removeChannel(UUID id);
 
     /**
      * Get the channel with the target UUID.
@@ -55,18 +54,14 @@ public interface ChannelManager {
      * @return {@link Channel}
      */
     @Nullable
-    public Channel getChannel(@NotNull UUID id);
+    Channel getChannel(@NotNull UUID id);
 
     /**
-     * Get the channel for the target player.
-     *
+     * Get the channel of the target player.
      * @param player The target player
-     * @return {@link Channel}
+     * @return The current {@link Channel} the player is in.
      */
-    @NotNull
-    default public Channel getChannel(@NotNull Player player) {
-        return StickyChat.getService().getMessageService(player).getChannel();
-    }
+    Channel getPlayerChannel(@NotNull Player player);
 
     /**
      * Get a list of all channels.
@@ -74,5 +69,5 @@ public interface ChannelManager {
      * @return {@link List<Channel>}
      */
     @NotNull
-    public List<Channel> getChannels();
+    List<Channel> getChannels();
 }

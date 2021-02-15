@@ -1,19 +1,19 @@
-package com.dumbdogdiner.stickychat.api.chat;
+package com.dumbdogdiner.stickychat.api.player;
 
 import com.dumbdogdiner.stickychat.api.Priority;
 import com.dumbdogdiner.stickychat.api.StickyChat;
-import com.dumbdogdiner.stickychat.api.util.WithPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Manages the switching between regular chat and staff chat, as well
  * as messages within staff chat.
  */
-public interface StaffChatService extends WithPlayer {
+public interface StaffChatManager {
     /**
      * Get the player this service refers to.
      *
@@ -31,13 +31,10 @@ public interface StaffChatService extends WithPlayer {
      */
     @NotNull
     static List<Player> getRecipients(@NotNull Player from, @NotNull Priority priority) {
-        var recipients = new ArrayList<Player>();
-        StickyChat.getService().getDataServices().forEach((data) -> {
-            if (priority.isGreaterThan(data.getPriority()) && !data.getBlocked(from)) {
-                recipients.add(data.getPlayer());
-            }
-        });
-        return recipients;
+        return Bukkit.getOnlinePlayers()
+            .stream()
+            .filter(player -> priority.isGreaterThanOrEqualTo(StickyChat.getService().getPriority(from)))
+            .collect(Collectors.toList());
     }
 
     /**
@@ -45,10 +42,7 @@ public interface StaffChatService extends WithPlayer {
      *
      * @return {@link Boolean}
      */
-    @NotNull
-    default Boolean hasStaffChatEnabled() {
-        return this.getDataService().getStaffChatEnabled();
-    }
+    @NotNull Boolean hasStaffChatEnabled();
 
     /**
      * Enable staff chat for this player. Returns false if the player already has staff chat
@@ -62,6 +56,7 @@ public interface StaffChatService extends WithPlayer {
     /**
      * Disable staff chat for this player. Returns false if the player does not have staff
      * chat enabled.
+     *
      * @return {@link Boolean}
      */
     @NotNull

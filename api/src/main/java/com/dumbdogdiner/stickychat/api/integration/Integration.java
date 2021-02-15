@@ -5,10 +5,8 @@ import com.dumbdogdiner.stickychat.api.StickyChat;
 import com.dumbdogdiner.stickychat.api.result.DirectMessageResult;
 import com.dumbdogdiner.stickychat.api.util.NotificationType;
 import com.dumbdogdiner.stickychat.api.util.SoundUtil;
-import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -59,7 +57,7 @@ public interface Integration {
      * @return {@link DirectMessageResult}
      */
     default DirectMessageResult sendSystemMessage(Player player, TextComponent message) {
-        return StickyChat.getService().getDirectMessageService(player).sendSystemMessage(Formatter.formatHexCodes(message));
+        return StickyChat.getService().getDirectMessageManager().sendSystemMessage(player, Formatter.formatHexCodes(message));
     }
 
     /**

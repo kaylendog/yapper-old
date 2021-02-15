@@ -1,6 +1,6 @@
 package com.dumbdogdiner.stickychat.bukkit.misc
 
-import com.dumbdogdiner.stickychat.api.misc.DeathMessageService
+import com.dumbdogdiner.stickychat.api.misc.DeathMessageManager
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin
 import java.io.File
 import java.util.HashMap
@@ -8,8 +8,13 @@ import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.event.entity.EntityDamageEvent
 
+<<<<<<< HEAD
 class StickyDeathMessageService : WithPlugin, DeathMessageService {
     private lateinit var deathConfiguration: FileConfiguration
+=======
+class StickyDeathMessageService : WithPlugin, DeathMessageManager {
+    private var deathConfiguration: FileConfiguration
+>>>>>>> c993afb... v4 :sparkles: api rewrite
     private var enabled = false
 
     private val messages = hashMapOf<EntityDamageEvent.DamageCause, Array<String>>()

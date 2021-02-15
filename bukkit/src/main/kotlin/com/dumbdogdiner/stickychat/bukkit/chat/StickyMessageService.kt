@@ -1,8 +1,8 @@
 package com.dumbdogdiner.stickychat.bukkit.chat
 
 import com.dumbdogdiner.stickychat.api.Priority
-import com.dumbdogdiner.stickychat.api.chat.Channel
-import com.dumbdogdiner.stickychat.api.chat.MessageService
+import com.dumbdogdiner.stickychat.api.channel.Channel
+import com.dumbdogdiner.stickychat.api.player.MessageService
 import com.dumbdogdiner.stickychat.api.result.MessageResult
 import com.dumbdogdiner.stickychat.api.result.MuteReason
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin

@@ -1,7 +1,7 @@
 package com.dumbdogdiner.stickychat.bukkit.chat
 
-import com.dumbdogdiner.stickychat.api.chat.Channel
-import com.dumbdogdiner.stickychat.api.chat.ChannelManager
+import com.dumbdogdiner.stickychat.api.channel.Channel
+import com.dumbdogdiner.stickychat.api.channel.ChannelManager
 import java.util.UUID
 import kotlin.collections.HashMap
 

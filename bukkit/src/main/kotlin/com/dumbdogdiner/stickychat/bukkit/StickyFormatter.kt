@@ -1,7 +1,7 @@
 package com.dumbdogdiner.stickychat.bukkit
 
 import com.dumbdogdiner.stickychat.api.Formatter
-import com.dumbdogdiner.stickychat.api.misc.SignNotification
+import com.dumbdogdiner.stickychat.api.signspy.SignNotification
 import com.dumbdogdiner.stickychat.api.util.Placeholders
 import com.dumbdogdiner.stickychat.api.util.StringModifier
 import net.md_5.bungee.api.chat.BaseComponent

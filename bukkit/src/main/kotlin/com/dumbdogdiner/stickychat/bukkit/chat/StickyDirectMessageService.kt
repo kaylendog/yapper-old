@@ -2,7 +2,7 @@ package com.dumbdogdiner.stickychat.bukkit.chat
 
 import com.dumbdogdiner.stickychat.api.Priority
 import com.dumbdogdiner.stickychat.api.StickyChat
-import com.dumbdogdiner.stickychat.api.chat.DirectMessageService
+import com.dumbdogdiner.stickychat.api.player.DirectMessageService
 import com.dumbdogdiner.stickychat.api.result.DirectMessageResult
 import com.dumbdogdiner.stickychat.api.util.SoundUtil
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin

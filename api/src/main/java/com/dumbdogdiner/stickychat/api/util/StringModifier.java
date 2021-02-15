@@ -13,10 +13,19 @@ public class StringModifier implements Cloneable {
 
     private final List<Function<String, String>> modifiers = new ArrayList<>();
 
+
     /**
      * Construct a new string modifier without parsing in a string to modify.
      */
     public StringModifier() {}
+
+    /**
+     * Clone this string modifier.
+     * @return A new {@link StringModifier} with the current string value.
+     */
+    public StringModifier clone() {
+        return new StringModifier(this.get());
+    }
 
     /**
      * Construct a new StringModifier, providing default modifiers.

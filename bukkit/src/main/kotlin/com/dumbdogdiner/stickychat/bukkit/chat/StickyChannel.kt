@@ -1,6 +1,6 @@
 package com.dumbdogdiner.stickychat.bukkit.chat
 
-import com.dumbdogdiner.stickychat.api.chat.Channel
+import com.dumbdogdiner.stickychat.api.channel.Channel
 import java.util.UUID
 import org.bukkit.entity.Player
 

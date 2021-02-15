@@ -1,20 +1,24 @@
 package com.dumbdogdiner.stickychat.bukkit.chat
 
 import com.dumbdogdiner.stickychat.api.Priority
+<<<<<<< HEAD
 import com.dumbdogdiner.stickychat.api.chat.StaffChatService
 import com.dumbdogdiner.stickychat.api.util.SoundUtil
+=======
+import com.dumbdogdiner.stickychat.api.player.StaffChatManager
+>>>>>>> c993afb... v4 :sparkles: api rewrite
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
-class StickyStaffChatService private constructor(private val player: Player) : WithPlugin, StaffChatService {
+class StickyStaffChatService private constructor(private val player: Player) : WithPlugin, StaffChatManager {
     companion object : WithPlugin {
-        private val staffChatServices = HashMap<Player, StaffChatService>()
+        private val staffChatServices = HashMap<Player, StaffChatManager>()
 
         /**
          * Get the data service for the target player.
          */
-        fun get(player: Player): StaffChatService {
+        fun get(player: Player): StaffChatManager {
             if (staffChatServices.containsKey(player)) {
                 return staffChatServices[player]!!
             }

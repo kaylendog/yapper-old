@@ -1,4 +1,4 @@
-package com.dumbdogdiner.stickychat.api.misc;
+package com.dumbdogdiner.stickychat.api.signspy;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -14,16 +14,14 @@ public interface SignNotification {
      *
      * @return {@link Player}
      */
-    @NotNull
-    Player getPlayer();
+    @NotNull Player getPlayer();
 
     /**
      * Get the location of the sign.
      *
      * @return {@link Location}
      */
-    @NotNull
-    Location getLocation();
+    @NotNull Location getLocation();
 
     /**
      * Destroy the placed sign.

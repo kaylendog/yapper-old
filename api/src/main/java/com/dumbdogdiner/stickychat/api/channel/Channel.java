@@ -1,4 +1,4 @@
-package com.dumbdogdiner.stickychat.api.chat;
+package com.dumbdogdiner.stickychat.api.channel;
 
 import com.dumbdogdiner.stickychat.api.StickyChat;
 import org.bukkit.configuration.Configuration;
@@ -16,7 +16,7 @@ public interface Channel {
     /**
      * Enum of possible channel types.
      */
-    public enum Type {
+    enum Type {
         /**
          * The default channel type - used by plugin implementations.
          */
@@ -58,17 +58,9 @@ public interface Channel {
      * @return {@link ChannelManager}
      */
     @NotNull
-    public default ChannelManager getManager() {
+    default ChannelManager getManager() {
         return StickyChat.getService().getChannelManager();
     }
-
-    /**
-     * Return the unique ID for this channel.
-     *
-     * @return {@link UUID}
-     */
-    @NotNull
-    public UUID getUniqueId();
 
     /**
      * Return the type of this channel.
@@ -76,14 +68,14 @@ public interface Channel {
      * @return {@link Type}
      */
     @NotNull
-    public Type getType();
+    Type getType();
 
     /**
      * Set the type of this channel. Implementations should not allow more than one global, or staff chat channel instance.
      *
      * @param type The new type
      */
-    public void setType(@NotNull Type type);
+    void setType(@NotNull Type type);
 
     /**
      * Get the name of this channel.
@@ -91,14 +83,14 @@ public interface Channel {
      * @return {@link String}
      */
     @NotNull
-    public String getName();
+    String getName();
 
     /**
      * Set the name of this channel.
      *
      * @param name The new name of this channel
      */
-    public void setName(@NotNull String name);
+    void setName(@NotNull String name);
 
     /**
      * Get a list of players in this channel.
@@ -106,7 +98,7 @@ public interface Channel {
      * @return {@link List<Player>}
      */
     @NotNull
-    public List<Player> getPlayers();
+    List<Player> getPlayers();
 
     /**
      * Add a player to this channel. Implementations should also update the data service.
@@ -115,7 +107,7 @@ public interface Channel {
      * @return {@link Boolean}
      */
     @NotNull
-    public Boolean addPlayer(@NotNull Player player);
+    Boolean addPlayer(@NotNull Player player);
 
     /**
      * Remove a player from this channel.
@@ -124,21 +116,21 @@ public interface Channel {
      * @return {@link Boolean}
      */
     @NotNull
-    public Boolean removePlayer(@NotNull Player player);
+    Boolean removePlayer(@NotNull Player player);
 
     /**
      * Send a message to this channel.
      *
      * @param from The player this message was from
      */
-    public default void sendToChannel(Player from) {
+    default void sendToChannel(Player from) {
 
     }
 
     /**
      * Close this channel and move all players to global.
      */
-    public void close();
+    void close();
 
     /**
      * Serialize this channel into a YAML configuration section.
@@ -147,8 +139,8 @@ public interface Channel {
      * @return {@link ConfigurationSection}
      */
     @NotNull
-    public default ConfigurationSection serialize(@NotNull Configuration config) {
-        var section = config.createSection(this.getUniqueId().toString());
+    default ConfigurationSection serialize(@NotNull Configuration config) {
+        var section = config.createSection(this.getName());
         section.set("type", this.getType().name());
         return section;
     }

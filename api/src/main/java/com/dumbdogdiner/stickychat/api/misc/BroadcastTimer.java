@@ -1,34 +1,18 @@
 package com.dumbdogdiner.stickychat.api.misc;
 
-import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Handles the storage of data for broadcasts.
  */
-public class BroadcastTimer {
+public interface BroadcastTimer {
     /**
-     * Create a broadcast timer from
-     * @param text
-     * @return
+     * @return The {@link TextComponent} that this timer wraps.
      */
-    public BroadcastTimer fromText(@NotNull String text) {
-        var component = new TextComponent();
-        component.setText(text);
-        return new BroadcastTimer(component);
-    }
-
-    @NotNull
-    BaseComponent component;
+    TextComponent getTextComponent();
 
     /**
-     * Construct a new timer with the given component.
-     *
-     * @param component The component belonging to this timer.
+     * @return The interval in seconds between timer broadcasts.
      */
-    public BroadcastTimer(@NotNull BaseComponent component) {
-        this.component = component;
-    }
-
+    Long getInterval();
 }

@@ -1,6 +1,7 @@
 package com.dumbdogdiner.stickychat.api.mail;
 
-import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 
@@ -9,30 +10,38 @@ public interface Letter {
      * The unique ID of the player who sent this letter.
      * @return {@link UUID}
      */
-    public UUID getSenderUniqueId();
+    UUID getSenderUniqueId();
 
     /**
      * The name of the player who sent this letter.
      * @return {@link String}
      */
-    public String getSenderName();
+    String getSenderName();
 
     /**
      * The unique ID of the player who is the recipient of this letter.
      * @return {@link UUID}
      */
-    public UUID getRecipientUniqueId();
+    UUID getRecipientUniqueId();
 
     /**
      * The name of the player who is the recipient of this letter.
      * @return {@link String}
      */
-    public String getRecipientName();
+    String getRecipientName();
 
     /**
-     * Get the metadata of this letter.
-     * @return {@link BookMeta}
+     * Get the content of this letter.
+     * @return A {@link String} containing the content.
      */
-    public BookMeta getMetadata();
+    String getContent();
 
+    /**
+     * Convert this letter into a written book.
+     */
+    default ItemStack toBook() {
+        var is = new ItemStack(Material.WRITTEN_BOOK, 1);
+        // TODO: actually implement.
+        return is;
+    }
 }

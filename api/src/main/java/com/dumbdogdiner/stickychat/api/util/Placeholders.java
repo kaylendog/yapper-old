@@ -4,12 +4,17 @@ import org.bukkit.entity.Player;
 
 public class Placeholders {
     /**
+     * Class name of the placeholder API class.
+     */
+    private static final String PAPI_CLASS = "me.clip.placeholderapi.PlaceholderAPI";
+
+    /**
      * Test if the current server has PlaceholderAPI installed.
      * @return {@link Boolean}
      */
     public static Boolean hasPlaceholderApiEnabled() {
         try {
-            Class.forName("me.clip.placeholderapi.PlaceholderAPI");
+            Class.forName(PAPI_CLASS);
             return true;
         } catch (ClassNotFoundException e) {
             return false;
@@ -24,9 +29,9 @@ public class Placeholders {
      */
     public static String setPlaceholdersSafe(Player player, String content) {
         try {
-            return (String) Class.forName("me.clip.placeholderapi.PlaceholderAPI")
+            return (String) Class.forName(PAPI_CLASS)
                 .getMethod("setPlaceholders", Player.class, String.class)
-                .invoke(Class.forName("me.clip.placeholderapi.PlaceholderAPI"), player, content);
+                .invoke(Class.forName(PAPI_CLASS), player, content);
         } catch(Exception e) {
 
             return content;

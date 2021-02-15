@@ -2,7 +2,7 @@ package com.dumbdogdiner.stickychat.bukkit
 
 import com.dumbdogdiner.stickychat.api.DataService
 import com.dumbdogdiner.stickychat.api.Priority
-import com.dumbdogdiner.stickychat.api.chat.Channel
+import com.dumbdogdiner.stickychat.api.channel.Channel
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player

@@ -3,14 +3,14 @@ package com.dumbdogdiner.stickychat.bukkit
 import com.dumbdogdiner.stickychat.api.DataService
 import com.dumbdogdiner.stickychat.api.Formatter
 import com.dumbdogdiner.stickychat.api.StickyChat
-import com.dumbdogdiner.stickychat.api.chat.ChannelManager
-import com.dumbdogdiner.stickychat.api.chat.DirectMessageService
-import com.dumbdogdiner.stickychat.api.chat.MessageService
-import com.dumbdogdiner.stickychat.api.chat.NicknameService
-import com.dumbdogdiner.stickychat.api.chat.StaffChatService
+import com.dumbdogdiner.stickychat.api.channel.ChannelManager
+import com.dumbdogdiner.stickychat.api.player.DirectMessageService
+import com.dumbdogdiner.stickychat.api.player.MessageService
+import com.dumbdogdiner.stickychat.api.player.NicknameService
+import com.dumbdogdiner.stickychat.api.player.StaffChatManager
 import com.dumbdogdiner.stickychat.api.integration.IntegrationManager
 import com.dumbdogdiner.stickychat.api.misc.BroadcastService
-import com.dumbdogdiner.stickychat.api.misc.DeathMessageService
+import com.dumbdogdiner.stickychat.api.misc.DeathMessageManager
 import com.dumbdogdiner.stickychat.api.util.Placeholders
 import com.dumbdogdiner.stickychat.bukkit.chat.StickyChannelManager
 import com.dumbdogdiner.stickychat.bukkit.chat.StickyDirectMessageService
@@ -141,7 +141,7 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
         return StickyDirectMessageService.get(player)
     }
 
-    override fun getStaffChatService(player: Player): StaffChatService {
+    override fun getStaffChatService(player: Player): StaffChatManager {
         return StickyStaffChatService.get(player)
     }
 
@@ -166,7 +166,7 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
         TODO("Not yet implemented")
     }
 
-    override fun getDeathMessageService(): DeathMessageService {
+    override fun getDeathMessageService(): DeathMessageManager {
         return this.deathManager
     }
 

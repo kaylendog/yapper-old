@@ -1,11 +1,17 @@
 package com.dumbdogdiner.stickychat.api;
 
-import com.dumbdogdiner.stickychat.api.chat.*;
-
+import com.dumbdogdiner.stickychat.api.channel.ChannelManager;
+import com.dumbdogdiner.stickychat.api.misc.DeathMessageManager;
+import com.dumbdogdiner.stickychat.api.player.DirectMessageManager;
+import com.dumbdogdiner.stickychat.api.player.MessageManager;
 import com.dumbdogdiner.stickychat.api.integration.Integration;
 import com.dumbdogdiner.stickychat.api.integration.IntegrationManager;
 import com.dumbdogdiner.stickychat.api.misc.BroadcastService;
-import com.dumbdogdiner.stickychat.api.misc.DeathMessageService;
+import com.dumbdogdiner.stickychat.api.player.NicknameManager;
+import com.dumbdogdiner.stickychat.api.player.PlayerBlockManager;
+import com.dumbdogdiner.stickychat.api.player.PriorityManager;
+import com.dumbdogdiner.stickychat.api.player.StaffChatManager;
+import com.dumbdogdiner.stickychat.api.util.InvalidChatServiceException;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -13,14 +19,13 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
 /**
  * Represents a generic implementation of a chat system.
  */
 public interface StickyChat {
     /**
      * Register the chat service.
+     *
      * @param plugin The plugin registering the service
      * @param service The plugin's implementation of the service
      */
@@ -30,157 +35,150 @@ public interface StickyChat {
 
     /**
      * Fetch the instantiated chat service object.
+     *
      * @return {@link StickyChat}
      */
-    @NotNull
-    static StickyChat getService() {
+    static @NotNull StickyChat getService() {
         var provider = Bukkit.getServicesManager().getRegistration(StickyChat.class);
         // just in case someone tries something wacky.
         if (provider == null) {
-            throw new RuntimeException("Failed to fetch ChatService - running service is invalid!");
+            throw new InvalidChatServiceException("Failed to fetch ChatService - running service is invalid!");
         }
         return provider.getProvider();
     }
 
     /**
-     * Get the running version of the API.
-     *
-     * @return {@link String}
-     */
-    static String getVersion() {
-       return StickyChat.class.getPackage().getImplementationVersion();
-    }
-
-    /**
      * Return a reference to the plugin providing the StickyChat implementation.
      *
-     * @return {@link Plugin}
+     * @return The {@link Plugin} implementing StickyChat.
      */
-    Plugin getProvider();
+    @NotNull Plugin getProvider();
 
     /**
-     * Fetch the message service for the target player.
-     * If this does not already exist, it should be created. See
-     * {@link MessageService} for more information.
+     * Fetch the message manager.
      *
-     * @param player The player of the message service to get
-     * @return {@link MessageService}
+     * @return {@link MessageManager}
      */
-    @NotNull
-    MessageService getMessageService(@NotNull  Player player);
+    @NotNull MessageManager getMessageManager();
 
     /**
-     * Fetch the direct message service for the target player.
-     * If this does not already exist, it should be created. See
-     * {@link DirectMessageService} for more information.
+     * Fetch the direct message manager.
      *
-     * @param player The player of the DM service to get
-     * @return {@link DirectMessageService}
+     * @return {@link DirectMessageManager}
      */
-    @NotNull
-    DirectMessageService getDirectMessageService(@NotNull Player player);
+    @NotNull DirectMessageManager getDirectMessageManager();
 
     /**
-     * Get the staff chat service for the target player.
-     * If this does not exist already, and the player has permission
-     * to use staff chat, it should be created. See
-     * {@link StaffChatService} for more information.
+     * Get the staff chat service.
      *
-     * @param player The player of the SC service to get
-     * @return {@link StaffChatService}
+     * @return {@link StaffChatManager}
      */
-    @NotNull
-    StaffChatService getStaffChatService(@NotNull Player player);
+    @NotNull StaffChatManager getStaffChatManager();
 
     /**
-     * Get the nickname service for the target player.
-     * If this does not exist already, it should be created.
-     * @param player The target player
-     * @return {@link NicknameService}
-     */
-    @NotNull
-    NicknameService getNicknameService(@NotNull Player player);
-
-    /**
-     * Get the data service for the target player. If this does
-     * not already exist, it should be created.
+     * Retrieve the nickname manager.
      *
-     * @param player The player who's data service to get
-     * @return {@link DataService}
+     * @return The {@link NicknameManager}
      */
-    @NotNull
-    DataService getDataService(@NotNull Player player);
-
-    /**
-     * Return all data services for all cached players.
-     *
-     * @return {@link List}
-     */
-    @NotNull
-    List<DataService> getDataServices();
+    @NotNull NicknameManager getNicknameManager();
 
     /**
      * Get the channel manager.
      *
-     * @return {@link ChannelManager}
+     * @return The {@link ChannelManager}
      */
-    ChannelManager getChannelManager();
+    @NotNull ChannelManager getChannelManager();
 
     /**
      * Get the formatter for the target player.
      *
-     * @param player The player who's formatter to get
-     * @return {@link Formatter}
+     * @param player The target player
+     * @return The {@link Formatter} for the target player
      */
-    @NotNull
-    Formatter getFormatter(Player player);
+    @NotNull Formatter getFormatter(Player player);
 
     /**
      * Get the broadcast service.
      *
-     * @return {@link BroadcastService}
+     * @return The {@link BroadcastService}
      */
-    BroadcastService getBroadcastService();
+    @NotNull BroadcastService getBroadcastService();
 
     /**
      * Get the death message service.
      *
-     * @return
+     * @return The {@link DeathMessageManager}
      */
-    DeathMessageService getDeathMessageService();
-
-
+    @NotNull DeathMessageManager getDeathMessageManager();
 
     /**
      * Get the integration manager.
-     *
-     * @return {@link IntegrationManager}
+     * @return The {@link IntegrationManager}
      */
-    IntegrationManager getIntegrationManager();
+    @NotNull IntegrationManager getIntegrationManager();
 
     /**
      * Get the integration for the target plugin.
      *
      * @param plugin The target plugin
-     * @return {@link Integration}
+     * @return The {@link Integration} for the target plugin.
      */
-    default Integration getIntegration(Plugin plugin) {
+    default @NotNull Integration getIntegration(Plugin plugin) {
         return this.getIntegrationManager().getIntegration(plugin);
     }
 
     /**
-     * Disable chat globally. Returns true if successful.
+     * Disable chat globally.
      *
-     * @return {@link Boolean}
+     * @return True if the action was successful.
      */
-    @NotNull
-    Boolean disableChat();
+    @NotNull Boolean disableChat();
 
     /**
-     * Enable chat globally. Returns true if successful.
+     * Enable chat globally.
      *
-     * @return {@link Boolean}
+     * @return True if the action was successful.
      */
-    @NotNull
-    Boolean enableChat();
+    @NotNull Boolean enableChat();
+
+    /**
+     * @return The priority manager for this API implementation.
+     */
+    @NotNull PriorityManager getPriorityManager();
+
+    /**
+     * Fetch the priority level of the target player.
+     *
+     * @param target The target player
+     * @return The player's current {@link Priority}.
+     */
+    default @NotNull Priority getPriority(Player target) {
+        return this.getPriorityManager().getPriority(target);
+    }
+
+    /**
+     * @return The player blocking manager for this API implementation.
+     */
+    @NotNull PlayerBlockManager getPlayerBlockManager();
+
+    /**
+     * Test if the given player has blocked the target player.
+     * @param player The player
+     * @param target The player who's blocking state is being tested
+     * @return True if the player has blocked the target.
+     */
+    default @NotNull Boolean hasPlayerBlocked(Player player, Player target) {
+        return this.getPlayerBlockManager().hasPlayerBlocked(player, target);
+    }
+
+    /**
+     * Test if a player is able to message another.
+     * @param player The player
+     * @param target The player they are trying to message
+     * @param priority The priority level with which  the message is being sent.
+     * @return True if they can send a message.
+     */
+    default @NotNull Boolean playerCanMessageTarget(Player player, Player target, Priority priority) {
+        return priority.isGreaterThan(this.getPriority(target)) && !this.hasPlayerBlocked(player, target) && !this.hasPlayerBlocked(target, player);
+    }
 }

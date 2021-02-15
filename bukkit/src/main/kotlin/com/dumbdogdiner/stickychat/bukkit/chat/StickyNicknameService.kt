@@ -1,6 +1,6 @@
 package com.dumbdogdiner.stickychat.bukkit.chat
 
-import com.dumbdogdiner.stickychat.api.chat.NicknameService
+import com.dumbdogdiner.stickychat.api.player.NicknameService
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin
 import com.dumbdogdiner.stickychat.bukkit.models.Nicknames
 import org.bukkit.entity.Player
