@@ -1,6 +1,5 @@
-# StickyChat
 
-Chat plugin, formatter, and messaging system for dddMC.
+![StickyChat Logo](.github/logo.png?raw=true "StickyChat Logo")
 
 ## Overview
 
