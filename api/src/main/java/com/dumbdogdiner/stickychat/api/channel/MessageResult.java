@@ -1,7 +1,7 @@
 package com.dumbdogdiner.stickychat.api.channel;
 
 /**
- * An enum of possible return types from the {@link MessageManager}.
+ * An enum of possible return types when sending a message in a {@link Channel}.
  */
 public enum MessageResult {
     /**

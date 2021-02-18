@@ -77,7 +77,7 @@ public interface ChannelManager {
     /**
      * Get a list of all channels.
      *
-     * @return {@link List<Channel>}
+     * @return A {@link List} of {@link Channel}s
      */
     @NotNull List<Channel> getChannels();
 }

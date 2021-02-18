@@ -36,12 +36,5 @@ public interface Letter {
      */
     String getContent();
 
-    /**
-     * Convert this letter into a written book.
-     */
-    default ItemStack toBook() {
-        var is = new ItemStack(Material.WRITTEN_BOOK, 1);
-        // TODO: actually implement.
-        return is;
-    }
+    // TODO: convert to book
 }

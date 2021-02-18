@@ -1,5 +1,4 @@
 /**
- * Services directly related to the management of messages
- * and chat.
+ * Handles the providing and storage of player data and state.
  */
 package com.dumbdogdiner.stickychat.api.player;

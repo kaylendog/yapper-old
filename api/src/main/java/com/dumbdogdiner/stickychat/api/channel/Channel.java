@@ -46,7 +46,7 @@ public interface Channel {
     /**
      * Get a list of players in this channel.
      *
-     * @return {@link List<Player>}
+     * @return A {@link List} of {@link Player}s in the channel
      */
     @NotNull List<Player> getPlayers();
 
@@ -54,7 +54,7 @@ public interface Channel {
      * Add a player to this channel. Implementations should also update the data service.
      *
      * @param player The player to add
-     * @return {@link Boolean}
+     * @return True if the player was added, false if they are already in this channel.
      */
     @NotNull Boolean addPlayer(@NotNull Player player);
 
@@ -62,7 +62,7 @@ public interface Channel {
      * Remove a player from this channel.
      *
      * @param player The player to remove
-     * @return {@link Boolean}
+     * @return True if the player was removed, false if they aren't in the channel
      */
     @NotNull Boolean removePlayer(@NotNull Player player);
 
@@ -70,6 +70,8 @@ public interface Channel {
      * Send a message to this channel.
      *
      * @param from The player this message was from
+     * @param message The message to send
+     * @return A {@link MessageResult}
      */
     @NotNull MessageResult send(Player from, TextComponent message);
 

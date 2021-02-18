@@ -1,13 +1,12 @@
 package com.dumbdogdiner.stickychat.api;
 
 import com.dumbdogdiner.stickychat.api.channel.ChannelManager;
-import com.dumbdogdiner.stickychat.api.broadcast.DeathMessageManager;
+import com.dumbdogdiner.stickychat.api.broadcast.DeathMessageProvider;
 import com.dumbdogdiner.stickychat.api.messaging.DirectMessageManager;
-import com.dumbdogdiner.stickychat.api.messaging.MessageManager;
 import com.dumbdogdiner.stickychat.api.integration.Integration;
 import com.dumbdogdiner.stickychat.api.integration.IntegrationManager;
 import com.dumbdogdiner.stickychat.api.broadcast.BroadcastManager;
-import com.dumbdogdiner.stickychat.api.player.NicknameManager;
+import com.dumbdogdiner.stickychat.api.player.NicknameProvider;
 import com.dumbdogdiner.stickychat.api.player.PlayerBlockManager;
 import com.dumbdogdiner.stickychat.api.player.PriorityManager;
 import com.dumbdogdiner.stickychat.api.messaging.StaffChatManager;
@@ -54,13 +53,6 @@ public interface StickyChat {
     @NotNull Plugin getProvider();
 
     /**
-     * Fetch the message manager.
-     *
-     * @return {@link MessageManager}
-     */
-    @NotNull MessageManager getMessageManager();
-
-    /**
      * Fetch the direct message manager.
      *
      * @return {@link DirectMessageManager}
@@ -77,9 +69,9 @@ public interface StickyChat {
     /**
      * Retrieve the nickname manager.
      *
-     * @return The {@link NicknameManager}
+     * @return The {@link NicknameProvider}
      */
-    @NotNull NicknameManager getNicknameManager();
+    @NotNull NicknameProvider getNicknameManager();
 
     /**
      * Get the channel manager.
@@ -106,9 +98,9 @@ public interface StickyChat {
     /**
      * Get the death message service.
      *
-     * @return The {@link DeathMessageManager}
+     * @return The {@link DeathMessageProvider}
      */
-    @NotNull DeathMessageManager getDeathMessageManager();
+    @NotNull DeathMessageProvider getDeathMessageManager();
 
     /**
      * Get the integration manager.

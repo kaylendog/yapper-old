@@ -1,6 +1,8 @@
 package com.dumbdogdiner.stickychat.api.messaging;
 
 import com.dumbdogdiner.stickychat.api.Priority;
+import com.dumbdogdiner.stickychat.api.messenger.packets.DirectMessage;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * An enum of possible return types from the {@link DirectMessageManager}.
@@ -44,5 +46,32 @@ public enum DirectMessageResult {
     /**
      * Could not send the message, as the sender is on cooldown.
      */
-    FAIL_COOLDOWN
+    FAIL_COOLDOWN,
+
+    /**
+     * Could not send the message as the event was cancelled.
+     */
+    FAIL_EVENT_CANCELLED;
+
+    private String message;
+
+    /**
+     * Get the custom message of this result.
+     * @return A {@link String} containing the message.
+     */
+    @Nullable
+    public String getMessage() {
+        return this.message;
+    }
+
+    /**
+     * Create a direct message result with the target message.
+     * @param message The target message
+     * @return A {@link DirectMessageResult} with an error message
+     */
+    public static DirectMessageResult withErrorMessage(String message) {
+        var result= DirectMessageResult.FAIL_EVENT_CANCELLED;
+        result.message = message;
+        return result;
+    };
 }

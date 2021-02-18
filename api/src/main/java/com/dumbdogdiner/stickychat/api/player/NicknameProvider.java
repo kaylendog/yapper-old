@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Manages the storing of player nicknames.
  */
-public interface NicknameManager {
+public interface NicknameProvider {
     /**
      * Load the target player's nickname, if they have one.
      * @param player The target player

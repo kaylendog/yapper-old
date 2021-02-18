@@ -22,16 +22,29 @@ public interface DirectMessageManager {
      */
     @NotNull DirectMessageResult sendMessage(@NotNull Player from, @NotNull Player to, @NotNull String message);
 
+
     /**
      * Gets the last player the target player sent a message to.
+     *
+     * @param player The target player
      * @return {@link Player}
      */
     @Nullable Player getLast(@NotNull Player player);
 
+//    /**
+//     * Set the last player this player sent a message to.
+//     */
+//    void setLastPlayer(@NotNull Player player, @NotNull Player target);
+
     /**
-     * Set the last player this player sent a message to.
+     * Test if this player has previously sent a message to someone on the server.
+     * @param player The target player
+     * @return True if they have previously sent a message
      */
-    void setLastPlayer(@NotNull Player player);
+    @NotNull
+    default Boolean hasLastPlayer(@NotNull Player player) {
+        return this.getLast(player) != null;
+    }
 
     /**
      * Send a DM to the last player who this player sent a message to, or received a
@@ -41,27 +54,12 @@ public interface DirectMessageManager {
      * @param message The message to send
      * @return {@link Boolean}
      */
-    @NotNull DirectMessageResult sendToLast(Player player, @NotNull String message);
+    @NotNull DirectMessageResult reply(@NotNull Player player, @NotNull String message);
 
     /**
-     * Block the target player. Returns false if the player is already blocked.
+     * Send the target player a system message.
      *
-     * @param target The player to block
-     * @return {@link Boolean}
-     */
-    @NotNull Boolean block(@NotNull Player target);
-
-    /**
-     * Unblock the target player. Returns false if the player is not blocked.
-     *
-     * @param target The player to unblock
-     * @return {@link Boolean}
-     */
-    @NotNull Boolean unblock(@NotNull Player target);
-
-    /**
-     * Send this player a system message.
-     *
+     * @param player The target player
      * @param message The message to send
      * @return {@link DirectMessageResult}
      */
@@ -70,8 +68,9 @@ public interface DirectMessageManager {
     }
 
     /**
-     * Send this player a system
+     * Send the target player a system message.
      *
+     * @param player The target player
      * @param message The message to send
      * @return {@link DirectMessageResult}
      */

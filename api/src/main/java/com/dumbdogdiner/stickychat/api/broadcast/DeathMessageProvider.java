@@ -9,7 +9,7 @@ import java.util.Random;
 /**
  * Handles the registration and distribution of death messages.
  */
-public interface DeathMessageManager {
+public interface DeathMessageProvider {
     /**
      * Fetch a HashMap of all death messages.
      *

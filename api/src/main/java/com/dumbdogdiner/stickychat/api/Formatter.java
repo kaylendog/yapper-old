@@ -112,6 +112,7 @@ public interface Formatter {
     /**
      * Format a message sent to the entire server.
      *
+     * @param player The player to format as
      * @param message The message
      * @return {@link BaseComponent}
      */
@@ -121,6 +122,7 @@ public interface Formatter {
     /**
      * Format a message sent in staff chat.
      *
+     * @param player The player to format as
      * @param message The message
      * @return {@link BaseComponent}
      */
@@ -130,6 +132,7 @@ public interface Formatter {
     /**
      * Format an incoming direct message sent between two players.
      *
+     * @param from The player to format as
      * @param to The recipient of the message
      * @param message The message
      * @return {@link BaseComponent}
@@ -141,6 +144,7 @@ public interface Formatter {
      * Format a direct message sent between two players.
      *
      * @param from The sender of the message
+     * @param to The recipient of the message
      * @param message The message
      * @return {@link BaseComponent}
      */

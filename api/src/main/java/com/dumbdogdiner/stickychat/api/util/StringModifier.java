@@ -150,6 +150,8 @@ public class StringModifier implements Cloneable {
 
     /**
      * For each character of a string, perform the target action.
+     *
+     * @param modifier The action to perform on each char
      * @return {@link StringModifier}
      */
     public StringModifier map(Predicate modifier) {
@@ -161,5 +163,5 @@ public class StringModifier implements Cloneable {
 
         this.content = out.toString();
         return this;
-    };
+    }
 }

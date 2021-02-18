@@ -6,7 +6,6 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -16,21 +15,42 @@ public final class DirectMessageEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
 
     private final Player sender;
+    private Player recipient;
     private final String recipientName;
-    private final TextComponent content;
+    private final String content;
 
     private boolean cancelled = false;
+    private String cancelReason;
 
-    public DirectMessageEvent(Player sender, String recipientName, TextComponent content) {
+    /**
+     * Construct a direct message event for an intra-server message.
+     * @param sender The sender
+     * @param recipient The target recipient
+     * @param content The message content
+     */
+    public DirectMessageEvent(Player sender, Player recipient, String content) {
+        this.sender = sender;
+        this.recipient = recipient;
+        this.recipientName = recipient.getName();
+        this.content = content;
+    }
+
+    /**
+     * Construct a direct message event for an inter-server message.
+     * @param sender The sender
+     * @param recipientName The name of the target recipient
+     * @param content The message content
+     */
+    public DirectMessageEvent(Player sender, String recipientName, String content) {
         this.sender = sender;
         this.recipientName = recipientName;
         this.content = content;
     }
 
     /**
-     * @return The {@link TextComponent} containing the content of this message.
+     * @return The {@link String} containing the content of this message.
      */
-    public TextComponent getContent() {
+    public String getContent() {
         return this.content;
     }
 
@@ -54,6 +74,9 @@ public final class DirectMessageEvent extends Event implements Cancellable {
      */
     @Nullable
     public Player getRecipient() {
+        if (this.recipient != null && this.recipient.isOnline()) {
+            return this.recipient;
+        }
         return Bukkit.getPlayerExact(this.recipientName);
     }
 
@@ -80,5 +103,13 @@ public final class DirectMessageEvent extends Event implements Cancellable {
     @Override
     public void setCancelled(boolean cancel) {
         this.cancelled = cancel;
+    }
+
+    public void setCancelReason(String cancel) {
+        this.cancelReason = cancel;
+    }
+
+    public String getCancelReason() {
+        return this.cancelReason;
     }
 }

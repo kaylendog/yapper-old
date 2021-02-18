@@ -23,7 +23,6 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
-
 tasks {
         test {
         dependsOn("compileTestKotlin")
