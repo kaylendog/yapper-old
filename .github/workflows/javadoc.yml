@@ -1,0 +1,27 @@
+name: javadoc
+
+on:
+  push:
+    branches: [ master ]
+  release:
+    # Type 'created' will be triggered when a NON-draft release is created and published.
+    types: [ created ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    container:
+      image: adoptopenjdk/openjdk14:alpine-slim
+    steps:
+      - name: Install dependencies
+        run: apk add --no-cache git rsync
+      - uses: actions/checkout@v2 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the docs deployment to work correctly.
+        with:
+          persist-credentials: false
+      - name: Generate documentation
+        run: ./gradlew StickyChatAPI:javadoc && mkdir -p docs && mv api/build/docs/javadoc docs/${GITHUB_REF##*/}
+      - name: Deploy documentation
+        uses: JamesIves/github-pages-deploy-action@4.0.0
+        with:
+          branch: gh-pages
+          folder: docs
