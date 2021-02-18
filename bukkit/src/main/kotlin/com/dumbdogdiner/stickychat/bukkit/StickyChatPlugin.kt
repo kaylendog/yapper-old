@@ -50,7 +50,11 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
     val redisMessenger = RedisMessenger()
     val channelManager = SkChannelManager()
     val deathManager = SkDeathMessageProvider()
+<<<<<<< HEAD
 >>>>>>> 55f7cd5... v4 :sparkles: major refactor :eyes:
+=======
+    val directMessageManager = SkDirectMessageManager()
+>>>>>>> 9dc7aa2... v4 :sparkles: rewrite NicknameProvider
 
     var sqlEnabled = false
     lateinit var db: Database

@@ -1,6 +1,6 @@
 package com.dumbdogdiner.stickychat.bukkit.player
 
-import com.dumbdogdiner.stickychat.api.player.NicknameService
+import com.dumbdogdiner.stickychat.api.player.NicknameProvider
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin
 import com.dumbdogdiner.stickychat.bukkit.models.Nicknames
 import org.bukkit.entity.Player
@@ -10,83 +10,79 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 
-class SkNicknameProvider(private val player: Player) : WithPlugin, NicknameService {
-    private var cachedNickname: String? = null
+class SkNicknameProvider : WithPlugin, NicknameProvider {
+    /**
+     * In-memory nickname cache.
+     */
+    private val cachedNicknames = mutableMapOf<Player, String?>()
 
-    companion object {
-        private val nicknameServices = HashMap<Player, NicknameService>()
+    /**
+     * Loads nicknames from PostgreSQL.
+     */
+    override fun loadNickname(player: Player): Boolean {
+        return transaction {
+            // select transaction on database, return false if none found
+            val nickname = Nicknames.select {
+                Nicknames.player eq player.uniqueId.toString() and Nicknames.active
+            }.firstOrNull() ?: return@transaction false
 
-        /**
-         * Get the data service for the target player.
-         */
-        fun get(player: Player): NicknameService {
-            if (nicknameServices.containsKey(player)) {
-                return nicknameServices[player]!!
+            // load into cache, inform action was successful
+            cachedNicknames[player] = nickname[Nicknames.nickname]
+            true
+        }
+    }
+
+    /**
+     * Tests if a player has a nickname - first checks the cache, then loads them from PostgreSQL.
+     */
+    override fun hasNickname(player: Player): Boolean {
+        if (this.cachedNicknames.contains(player) && this.cachedNicknames[player] != null) {
+            return true
+        }
+        // attempt to test if their nickname exists by loading it
+        return this.loadNickname(player)
+    }
+
+    /**
+     * Gets the player nickname by testing if it exists, and then returning the cached nickname.
+     * Since `hasNickname` will attempt to load it if it doesn't exist, this will load it
+     * into memory for the cache return.
+     */
+    override fun getNickname(player: Player): String? {
+        if (!this.hasNickname(player)) {
+            return null
+        }
+        return this.cachedNicknames[player]
+    }
+
+    /**
+     * Sets the nickname for the target player. If the new nickname is null, it removes existing
+     * nicknames from the cache and the database. Otherwise, it updates both to reflect
+     * the new nickname.
+     */
+    override fun setNickname(target: Player, newNickname: String?): Boolean {
+        this.cachedNicknames[target] = newNickname
+        // remove from cache if null
+        if (newNickname == null) {
+            this.cachedNicknames.remove(target)
+        }
+        return transaction {
+            // deactivate previous nicknames
+            Nicknames.update({ Nicknames.player eq target.uniqueId.toString() and Nicknames.active }) {
+                it[active] = false
             }
-            val nicknameService = SkNicknameProvider(player)
-            nicknameServices[player] = nicknameService
-            return nicknameService
-        }
-    }
-
-    override fun getPlayer(): Player {
-        return this.player
-    }
-
-    override fun getNickname(): String? {
-        return cachedNickname
-    }
-
-    override fun setNickname(newNickname: String) {
-        cachedNickname = newNickname
-
-        val uniqueId = this.player.uniqueId.toString()
-
-        if (this.plugin.sqlEnabled) {
-            transaction(this.plugin.db) {
-                Nicknames.update({ Nicknames.player eq player.uniqueId.toString() and Nicknames.active }) {
-                    it[active] = false
-                }
-                Nicknames.insert {
-                    it[nickname] = newNickname
-                    it[player] = uniqueId
-                    it[active] = true
-                }
+            // if new nickname is null, don't need to create new database entry
+            if (newNickname == null) {
+                return@transaction true
             }
-        }
-
-        this.logger.info("Updated nickname for player '${this.player.name}' (${this.player.uniqueId})")
-    }
-
-    override fun removeNickname() {
-        cachedNickname = null
-        if (this.plugin.sqlEnabled) {
-            transaction(this.plugin.db) {
-                Nicknames.update({ Nicknames.player eq player.uniqueId.toString() and Nicknames.active }) {
-                    it[active] = false
-                }
+            // insert new nickname into database
+            Nicknames.insert {
+                it[player] = target.uniqueId.toString()
+                it[nickname] = newNickname
+                it[active] = true
             }
+            true
         }
     }
 
-    override fun hasNickname(): Boolean {
-        return cachedNickname != null
-    }
-
-    override fun loadNickname(): Boolean {
-        if (!this.plugin.sqlEnabled) {
-            logger.warning("Could not look up nickname for  '${this.player.name}' (${this.player.uniqueId}) - SQL is not enabled")
-            return false
-        }
-
-        logger.info("Looking up settings and nickname for '${this.player.name}' (${this.player.uniqueId})...")
-
-        val nickname = transaction(this.plugin.db) {
-            return@transaction Nicknames.select { Nicknames.player eq player.uniqueId.toString() and Nicknames.active }.firstOrNull()
-        }
-            ?: return true
-
-        this.cachedNickname = nickname[Nicknames.nickname]
-        return true
-    }
 }

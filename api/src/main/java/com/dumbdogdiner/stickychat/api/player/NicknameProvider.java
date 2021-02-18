@@ -27,7 +27,7 @@ public interface NicknameProvider {
      * @param player The target player
      * @return A {@link String} containing the player's nickname.
      */
-    @NotNull String getNickname(@NotNull Player player);
+    @Nullable String getNickname(@NotNull Player player);
 
     /**
      * Get the display name of the target player.
