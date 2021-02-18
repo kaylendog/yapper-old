@@ -1,39 +1,33 @@
 package com.dumbdogdiner.stickychat.bukkit
 
-import com.dumbdogdiner.stickychat.api.DataService
-import com.dumbdogdiner.stickychat.api.Formatter
 import com.dumbdogdiner.stickychat.api.StickyChat
-import com.dumbdogdiner.stickychat.api.channel.ChannelManager
-import com.dumbdogdiner.stickychat.api.player.DirectMessageService
-import com.dumbdogdiner.stickychat.api.player.MessageService
-import com.dumbdogdiner.stickychat.api.player.NicknameService
-import com.dumbdogdiner.stickychat.api.player.StaffChatManager
-import com.dumbdogdiner.stickychat.api.integration.IntegrationManager
-import com.dumbdogdiner.stickychat.api.misc.BroadcastService
-import com.dumbdogdiner.stickychat.api.misc.DeathMessageManager
 import com.dumbdogdiner.stickychat.api.util.Placeholders
-import com.dumbdogdiner.stickychat.bukkit.chat.StickyChannelManager
-import com.dumbdogdiner.stickychat.bukkit.chat.StickyDirectMessageService
-import com.dumbdogdiner.stickychat.bukkit.chat.StickyMessageService
-import com.dumbdogdiner.stickychat.bukkit.chat.StickyNicknameService
-import com.dumbdogdiner.stickychat.bukkit.chat.StickyStaffChatService
+import com.dumbdogdiner.stickychat.bukkit.channel.SkChannelManager
 import com.dumbdogdiner.stickychat.bukkit.commands.ChannelCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.ChatCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.MessageCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.NicknameCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.ReplyCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.StaffChatCommand
-import com.dumbdogdiner.stickychat.bukkit.integration.StickyIntegrationManager
+import com.dumbdogdiner.stickychat.bukkit.integration.SkIntegrationManager
 import com.dumbdogdiner.stickychat.bukkit.listeners.DeathListener
 import com.dumbdogdiner.stickychat.bukkit.listeners.MessageListener
 import com.dumbdogdiner.stickychat.bukkit.listeners.PlayerJoinQuitListener
-import com.dumbdogdiner.stickychat.bukkit.misc.StickyDeathMessageService
+import com.dumbdogdiner.stickychat.bukkit.broadcast.SkDeathMessageProvider
 import com.dumbdogdiner.stickychat.bukkit.models.Nicknames
+<<<<<<< HEAD
 import com.dumbdogdiner.stickychat.bukkit.util.ExposedLogger
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+=======
+import com.dumbdogdiner.stickychat.bukkit.messenger.RedisMessenger
+import com.dumbdogdiner.stickychat.bukkit.util.ExposedLogger
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
+import java.lang.Exception
+>>>>>>> 55f7cd5... v4 :sparkles: major refactor :eyes:
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 import org.jetbrains.exposed.sql.Database
@@ -47,9 +41,16 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
         lateinit var plugin: StickyChatPlugin
     }
 
+<<<<<<< HEAD
     val integrationManager = StickyIntegrationManager()
     val channelManager = StickyChannelManager()
     val deathManager = StickyDeathMessageService()
+=======
+    val integrationManager = SkIntegrationManager()
+    val redisMessenger = RedisMessenger()
+    val channelManager = SkChannelManager()
+    val deathManager = SkDeathMessageProvider()
+>>>>>>> 55f7cd5... v4 :sparkles: major refactor :eyes:
 
     var sqlEnabled = false
     lateinit var db: Database
@@ -60,7 +61,6 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
         saveDefaultConfig()
         reloadConfig()
 
-        this.logger.info("Registering chat service...")
         StickyChat.registerService(this, this)
     }
 
@@ -129,60 +129,5 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
 
     override fun getProvider(): Plugin {
         return this
-    }
-
-    override fun getMessageService(player: Player): MessageService {
-        this.logger.fine("Accessing message service for player '${player.uniqueId}'...")
-        return StickyMessageService.get(player)
-    }
-
-    override fun getDirectMessageService(player: Player): DirectMessageService {
-        this.logger.fine("Accessing direct message service for player '${player.uniqueId}'...")
-        return StickyDirectMessageService.get(player)
-    }
-
-    override fun getStaffChatService(player: Player): StaffChatManager {
-        return StickyStaffChatService.get(player)
-    }
-
-    override fun getNicknameService(player: Player): NicknameService {
-        return StickyNicknameService.get(player)
-    }
-
-    override fun getDataService(player: Player): DataService {
-        this.logger.fine("Accessing data service for player '${player.uniqueId}'...")
-        return StickyDataService.get(player)
-    }
-
-    override fun getDataServices(): MutableList<DataService> {
-        return Bukkit.getOnlinePlayers().map { getDataService(it) }.toMutableList()
-    }
-
-    override fun getChannelManager(): ChannelManager {
-        return this.channelManager
-    }
-
-    override fun getBroadcastService(): BroadcastService {
-        TODO("Not yet implemented")
-    }
-
-    override fun getDeathMessageService(): DeathMessageManager {
-        return this.deathManager
-    }
-
-    override fun getFormatter(player: Player): Formatter {
-        return StickyFormatter.get(player)
-    }
-
-    override fun getIntegrationManager(): IntegrationManager {
-        return this.integrationManager
-    }
-
-    override fun disableChat(): Boolean {
-        return false
-    }
-
-    override fun enableChat(): Boolean {
-        return false
     }
 }

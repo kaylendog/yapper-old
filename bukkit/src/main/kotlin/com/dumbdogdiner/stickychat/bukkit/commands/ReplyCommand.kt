@@ -1,7 +1,7 @@
 package com.dumbdogdiner.stickychat.bukkit.commands
 
 import com.dumbdogdiner.stickychat.api.StickyChat
-import com.dumbdogdiner.stickychat.api.result.DirectMessageResult
+import com.dumbdogdiner.stickychat.api.messaging.DirectMessageResult
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender

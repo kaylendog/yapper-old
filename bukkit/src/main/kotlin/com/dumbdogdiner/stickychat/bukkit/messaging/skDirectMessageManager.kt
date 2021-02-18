@@ -1,26 +1,26 @@
-package com.dumbdogdiner.stickychat.bukkit.chat
+package com.dumbdogdiner.stickychat.bukkit.messaging
 
 import com.dumbdogdiner.stickychat.api.Priority
 import com.dumbdogdiner.stickychat.api.StickyChat
 import com.dumbdogdiner.stickychat.api.player.DirectMessageService
-import com.dumbdogdiner.stickychat.api.result.DirectMessageResult
+import com.dumbdogdiner.stickychat.api.messaging.DirectMessageResult
 import com.dumbdogdiner.stickychat.api.util.SoundUtil
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin
 import net.md_5.bungee.api.chat.BaseComponent
 import org.bukkit.entity.Player
 
-class StickyDirectMessageService private constructor(private val player: Player) : WithPlugin, DirectMessageService {
+class skDirectMessageManager private constructor(private val player: Player) : WithPlugin, DirectMessageService {
     companion object {
-        private val services = HashMap<Player, StickyDirectMessageService>()
+        private val services = HashMap<Player, skDirectMessageManager>()
 
         /**
          * Get the direct message service for the target player.
          */
-        fun get(player: Player): StickyDirectMessageService {
+        fun get(player: Player): skDirectMessageManager {
             if (services.containsKey(player)) {
                 return services[player]!!
             }
-            val service = StickyDirectMessageService(player)
+            val service = skDirectMessageManager(player)
             services[player] = service
             return service
         }

@@ -8,18 +8,18 @@ import net.md_5.bungee.api.chat.BaseComponent
 import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.entity.Player
 
-class StickyFormatter private constructor(private val player: Player) : WithPlugin, Formatter {
+class SkFormatter private constructor(private val player: Player) : WithPlugin, Formatter {
     companion object {
-        private val formatters = HashMap<Player, StickyFormatter>()
+        private val formatters = HashMap<Player, SkFormatter>()
 
         /**
          * Get the formatter for the target player.
          */
-        fun get(player: Player): StickyFormatter {
+        fun get(player: Player): SkFormatter {
             if (formatters.containsKey(player)) {
                 return formatters[player]!!
             }
-            val formatter = StickyFormatter(player)
+            val formatter = SkFormatter(player)
             formatters[player] = formatter
             return formatter
         }

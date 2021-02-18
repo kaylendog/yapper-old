@@ -1,4 +1,4 @@
-package com.dumbdogdiner.stickychat.bukkit.chat
+package com.dumbdogdiner.stickychat.bukkit.channel
 
 import com.dumbdogdiner.stickychat.api.channel.Channel
 import java.util.UUID

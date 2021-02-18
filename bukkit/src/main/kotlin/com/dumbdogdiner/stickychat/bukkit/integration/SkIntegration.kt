@@ -3,7 +3,7 @@ package com.dumbdogdiner.stickychat.bukkit.integration
 import com.dumbdogdiner.stickychat.api.integration.Integration
 import org.bukkit.plugin.Plugin
 
-class StickyIntegration(private var plugin: Plugin) : Integration {
+class SkIntegration(private var plugin: Plugin) : Integration {
     private var prefix = plugin.name
 
     override fun getPlugin(): Plugin {

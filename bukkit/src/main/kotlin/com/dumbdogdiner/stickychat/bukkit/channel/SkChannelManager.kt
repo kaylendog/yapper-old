@@ -1,26 +1,27 @@
-package com.dumbdogdiner.stickychat.bukkit.chat
+package com.dumbdogdiner.stickychat.bukkit.channel
 
 import com.dumbdogdiner.stickychat.api.channel.Channel
 import com.dumbdogdiner.stickychat.api.channel.ChannelManager
+import com.dumbdogdiner.stickychat.bukkit.messaging.StickyMessageService
 import java.util.UUID
 import kotlin.collections.HashMap
 
-class StickyChannelManager : ChannelManager {
-    private val channels = HashMap<UUID, StickyChannel>()
-    private val global = StickyChannel(UUID(0, 0), Channel.Type.GLOBAL, "global")
+class SkChannelManager : ChannelManager {
+    private val channels = HashMap<UUID, skChannel>()
+    private val global = skChannel(UUID(0, 0), Channel.Type.GLOBAL, "global")
 
     init {
         channels[global.uniqueId] = global
     }
 
     override fun createChannel(type: Channel.Type, name: String): Channel {
-        val channel = StickyChannel(UUID.randomUUID(), type, name)
+        val channel = skChannel(UUID.randomUUID(), type, name)
         this.channels[channel.uniqueId] = channel
         return channel
     }
 
     override fun restoreChannel(uuid: UUID, type: Channel.Type, name: String): Channel {
-        val channel = StickyChannel(uuid, type, name)
+        val channel = skChannel(uuid, type, name)
         this.channels[channel.uniqueId] = channel
         return channel
     }

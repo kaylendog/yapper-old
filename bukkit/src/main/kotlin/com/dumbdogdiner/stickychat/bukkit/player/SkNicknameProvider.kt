@@ -1,4 +1,4 @@
-package com.dumbdogdiner.stickychat.bukkit.chat
+package com.dumbdogdiner.stickychat.bukkit.player
 
 import com.dumbdogdiner.stickychat.api.player.NicknameService
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin
@@ -10,7 +10,7 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 
-class StickyNicknameService(private val player: Player) : WithPlugin, NicknameService {
+class SkNicknameProvider(private val player: Player) : WithPlugin, NicknameService {
     private var cachedNickname: String? = null
 
     companion object {
@@ -23,7 +23,7 @@ class StickyNicknameService(private val player: Player) : WithPlugin, NicknameSe
             if (nicknameServices.containsKey(player)) {
                 return nicknameServices[player]!!
             }
-            val nicknameService = StickyNicknameService(player)
+            val nicknameService = SkNicknameProvider(player)
             nicknameServices[player] = nicknameService
             return nicknameService
         }
