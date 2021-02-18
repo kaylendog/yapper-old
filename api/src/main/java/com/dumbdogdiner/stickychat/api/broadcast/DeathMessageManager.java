@@ -15,7 +15,7 @@ public interface DeathMessageManager {
      *
      * @return {@link HashMap}
      */
-    HashMap<EntityDamageEvent.DamageCause, String[]> getAllDeathMessages();
+    HashMap<EntityDamageEvent.DamageCause, String[]> getDeathMessages();
 
     /**
      * Get an array of death messages of a given type.
@@ -24,7 +24,7 @@ public interface DeathMessageManager {
      * @return {@link String[]}
      */
     default String[] getDeathMessagesOfType(EntityDamageEvent.DamageCause cause) {
-        var res = this.getAllDeathMessages().get(cause);
+        var res = this.getDeathMessages().get(cause);
         if (res == null) {
             return new String[] {};
         }

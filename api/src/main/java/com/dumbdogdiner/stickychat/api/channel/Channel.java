@@ -6,26 +6,13 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.TextComponent;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Represents a channel in which players can send messages.
  */
 public interface Channel {
-    /**
-     * Deserialize a configuration section into a channel object.
-     *
-     * @param key The key of the config section
-     * @param section The section to deserialize
-     * @return {@link Channel}
-     */
-    static @NotNull Channel deserialize(@NotNull String key, @NotNull ConfigurationSection section) {
-        var type = ChannelType.valueOf(section.getString("type"));
-        var name = section.getString("name");
-        return StickyChat.getService().getChannelManager().restoreChannel(UUID.fromString(key), type, name);
-    }
-
     /**
      * Get the channel manager this channel belongs to.
      *
@@ -84,9 +71,7 @@ public interface Channel {
      *
      * @param from The player this message was from
      */
-    default void sendToChannel(Player from) {
-
-    }
+    @NotNull MessageResult send(Player from, TextComponent message);
 
     /**
      * Close this channel and move all players to global.
@@ -97,12 +82,7 @@ public interface Channel {
      * Serialize this channel into a YAML configuration section.
      *
      * @param config The configuration this channel is being serialized into
-     * @return {@link ConfigurationSection}
+     * @return The modified {@link ConfigurationSection}
      */
-
-    default @NotNull ConfigurationSection serialize(@NotNull Configuration config) {
-        var section = config.createSection(this.getName());
-        section.set("type", this.getType().name());
-        return section;
-    }
+    @NotNull ConfigurationSection serialize(@NotNull Configuration config);
 }

@@ -3,7 +3,7 @@ package com.dumbdogdiner.stickychat.api.messenger;
 /**
  * Types of possible message packets.
  */
-public enum MessageType {
+public enum PacketType {
     /**
      * Packet type for player messages in a channel.
      */
@@ -13,6 +13,11 @@ public enum MessageType {
      * Packet type for direct messages sent to players not found on the sender's server.
      */
     DIRECT_MESSAGE,
+
+    /**
+     * Packet type for acknowledging a direct message has been received.
+     */
+    DIRECT_MESSAGE_ACK,
 
     /**
      * Packet type for players who have joined the network.

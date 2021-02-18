@@ -1,6 +1,7 @@
 package com.dumbdogdiner.stickychat.api.channel;
 
 import com.dumbdogdiner.stickychat.api.StickyChat;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -30,6 +31,15 @@ public interface ChannelManager {
      * @return The restored {@link Channel}
      */
     @NotNull Channel restoreChannel(@NotNull UUID uuid, @NotNull ChannelType type, @NotNull String name);
+
+    /**
+     * Deserialize a configuration section into a channel object.
+     *
+     * @param key The key of the config section
+     * @param section The section to deserialize
+     * @return The deserialized {@link Channel}
+     */
+    @NotNull Channel deserialize(@NotNull String key, @NotNull ConfigurationSection section);
 
     /**
      * @return The global channel all players can talk in.

@@ -5,12 +5,18 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a packet sent by the messenger.
  */
-public interface Message {
+public interface Packet {
     /**
      * Get the type of this message packet.
-     * @return The {@link MessageType} of this packet.
+     * @return The {@link PacketType} of this packet.
      */
-    @NotNull MessageType getType();
+    @NotNull PacketType getType();
+
+    /**
+     * Get the remote server this packet was received from.
+     * @return A {@link RemoteServer}
+     */
+    @NotNull RemoteServer getRemoteServer();
 
     /**
      * Convert this packet into an encoded string.

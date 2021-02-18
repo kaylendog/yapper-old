@@ -6,6 +6,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
+
 /**
  * Manages direct messages.
  */
@@ -74,4 +76,28 @@ public interface DirectMessageManager {
      * @return {@link DirectMessageResult}
      */
     @NotNull DirectMessageResult sendSystemMessage(@NotNull Player player, @NotNull BaseComponent message);
+
+    /**
+     * @return A {@link Collection} of {@link Player}s who have direct messages disabled.
+     */
+    Collection<Player> getDisabledPlayers();
+
+    /**
+     * Test if the target player has direct messages disabled.
+     * @param player The target player
+     * @return True if the player has direct messages disabled.
+     */
+    Boolean hasDirectMessagesDisabled(Player player);
+
+    /**
+     * Enable direct messages for the target player.
+     * @param player The target player
+     */
+    void enableDirectMessages(Player player);
+
+    /**
+     * Disable direct messages for the target player
+     * @param player The target player
+     */
+    void disableDirectMessages(Player player);
 }

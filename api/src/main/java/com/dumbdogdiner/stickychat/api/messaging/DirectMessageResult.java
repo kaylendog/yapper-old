@@ -12,6 +12,11 @@ public enum DirectMessageResult {
     OK,
 
     /**
+     * Could not send the message because this player has direct messages disabled.
+     */
+    FAIL_DISABLED,
+
+    /**
      * Could not send the message, as the target player has blocked the sender.
      */
     FAIL_BLOCK,
