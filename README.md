@@ -1,5 +1,8 @@
+<br/>
 
 ![StickyChat Logo](.github/logo.png?raw=true "StickyChat Logo")
+
+<br/>
 
 ## Overview
 
