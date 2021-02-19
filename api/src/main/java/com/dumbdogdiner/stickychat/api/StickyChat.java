@@ -158,8 +158,8 @@ public interface StickyChat {
      * @param target The player who's blocking state is being tested
      * @return True if the player has blocked the target.
      */
-    default @NotNull Boolean hasPlayerBlocked(Player player, Player target) {
-        return this.getPlayerBlockManager().hasPlayerBlocked(player, target);
+    default @NotNull Boolean hasBlocked(Player player, Player target) {
+        return this.getPlayerBlockManager().hasBlocked(player, target);
     }
 
     /**

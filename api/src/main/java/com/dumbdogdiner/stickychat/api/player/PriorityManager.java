@@ -2,6 +2,7 @@ package com.dumbdogdiner.stickychat.api.player;
 
 import com.dumbdogdiner.stickychat.api.Priority;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -13,14 +14,14 @@ public interface PriorityManager {
      * @param player The target player
      * @return True if the action was successful.
      */
-    @Nullable Boolean loadPriority(Player player);
+    @NotNull Boolean loadPriority(Player player);
 
     /**
      * Return the priority for the target player.
      * @param player The target player
      * @return Their current {@link Priority} level
      */
-    @Nullable Priority getPriority(Player player);
+    @NotNull Priority getPriority(Player player);
 
     /**
      * Set the priority of the target player.
@@ -28,5 +29,5 @@ public interface PriorityManager {
      * @param priority Their new {@link Priority} level
      * @return True if the action was successful.
      */
-    @Nullable Boolean setPriority(Player player, Priority priority);
+    @NotNull Boolean setPriority(Player player, Priority priority);
 }
