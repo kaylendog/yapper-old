@@ -84,5 +84,4 @@ class SkNicknameProvider : WithPlugin, NicknameProvider {
             true
         }
     }
-
 }
