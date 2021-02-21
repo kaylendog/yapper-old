@@ -31,7 +31,7 @@ public enum DirectMessageResult {
     /**
      * Could not send the message, as the target player does not exist.
      */
-    FAIL_NONEXISTENT,
+    FAIL_NON_EXISTENT,
 
     /**
      * Could not send the message, as the player tried to message themself.
@@ -70,7 +70,7 @@ public enum DirectMessageResult {
      * @return A {@link DirectMessageResult} with an error message
      */
     public static DirectMessageResult withErrorMessage(String message) {
-        var result= DirectMessageResult.FAIL_EVENT_CANCELLED;
+        var result = DirectMessageResult.FAIL_EVENT_CANCELLED;
         result.message = message;
         return result;
     };
