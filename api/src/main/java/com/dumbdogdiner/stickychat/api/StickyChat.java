@@ -119,20 +119,6 @@ public interface StickyChat {
     }
 
     /**
-     * Disable chat globally.
-     *
-     * @return True if the action was successful.
-     */
-    @NotNull Boolean disableChat();
-
-    /**
-     * Enable chat globally.
-     *
-     * @return True if the action was successful.
-     */
-    @NotNull Boolean enableChat();
-
-    /**
      * @return The priority manager for this API implementation.
      */
     @NotNull PriorityManager getPriorityManager();

@@ -5,19 +5,19 @@ package com.dumbdogdiner.stickychat.api.channel;
  */
 public enum ChannelType {
     /**
-     * The default channel type - used by plugin implementations.
+     * The default channel type - there can be many instances of this type.
      */
     DEFAULT,
 
     /**
-     * The global channel - there should only be one of these channels.
+     * The global channel, which receives messages from other servers - there should only be one of these channels.
      */
     GLOBAL,
 
     /**
-     * A group DM channel - there can be many instances of this type.
+     * The server channel, isolated to the specific server instance the plugin is running on - there should only be one of these channels.
      */
-    GROUP_DM,
+    SERVER,
 
     /**
      * A staff chat channel - there can be many instances of this type.

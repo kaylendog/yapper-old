@@ -1,6 +1,7 @@
 package com.dumbdogdiner.stickychat.bukkit
 
 import com.dumbdogdiner.stickychat.api.StickyChat
+import com.dumbdogdiner.stickychat.api.integration.Integration
 import com.dumbdogdiner.stickychat.api.util.Placeholders
 import com.dumbdogdiner.stickychat.bukkit.channel.SkChannelManager
 import com.dumbdogdiner.stickychat.bukkit.commands.ChannelCommand
@@ -14,6 +15,7 @@ import com.dumbdogdiner.stickychat.bukkit.listeners.DeathListener
 import com.dumbdogdiner.stickychat.bukkit.listeners.MessageListener
 import com.dumbdogdiner.stickychat.bukkit.listeners.PlayerJoinQuitListener
 import com.dumbdogdiner.stickychat.bukkit.broadcast.SkDeathMessageProvider
+import com.dumbdogdiner.stickychat.bukkit.messaging.SkDirectMessageManager
 import com.dumbdogdiner.stickychat.bukkit.models.Nicknames
 <<<<<<< HEAD
 import com.dumbdogdiner.stickychat.bukkit.util.ExposedLogger
@@ -23,6 +25,9 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 =======
 import com.dumbdogdiner.stickychat.bukkit.messenger.RedisMessenger
+import com.dumbdogdiner.stickychat.bukkit.player.SkNicknameProvider
+import com.dumbdogdiner.stickychat.bukkit.player.SkPlayerBlockManager
+import com.dumbdogdiner.stickychat.bukkit.player.SkPriorityManager
 import com.dumbdogdiner.stickychat.bukkit.util.ExposedLogger
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
@@ -36,36 +41,51 @@ import org.jetbrains.exposed.sql.addLogger
 import org.jetbrains.exposed.sql.transactions.transaction
 
 @kr.entree.spigradle.annotations.SpigotPlugin
-class StickyChatPlugin : StickyChat, JavaPlugin() {
+class StickyChatPlugin : JavaPlugin() {
     companion object {
         lateinit var plugin: StickyChatPlugin
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     val integrationManager = StickyIntegrationManager()
     val channelManager = StickyChannelManager()
     val deathManager = StickyDeathMessageService()
 =======
+=======
+    // managers
+>>>>>>> d8d0ad7... v4 :sparkles: improvements to everything tbh
     val integrationManager = SkIntegrationManager()
-    val redisMessenger = RedisMessenger()
     val channelManager = SkChannelManager()
+<<<<<<< HEAD
     val deathManager = SkDeathMessageProvider()
 <<<<<<< HEAD
 >>>>>>> 55f7cd5... v4 :sparkles: major refactor :eyes:
 =======
+=======
+>>>>>>> d8d0ad7... v4 :sparkles: improvements to everything tbh
     val directMessageManager = SkDirectMessageManager()
 >>>>>>> 9dc7aa2... v4 :sparkles: rewrite NicknameProvider
 
+    // data stores
+    val deathMessageProvider = SkDeathMessageProvider()
+    val playerBlockManager = SkPlayerBlockManager()
+    val priorityManager = SkPriorityManager()
+    val nicknameProvider = SkNicknameProvider()
+
+    // sql related vars
     var sqlEnabled = false
-    lateinit var db: Database
+
+    // plugin integration
+    lateinit var integration: Integration
 
     override fun onLoad() {
         plugin = this
         // load configuration
         saveDefaultConfig()
         reloadConfig()
-
-        StickyChat.registerService(this, this)
+        // register API service
+        StickyChat.registerService(this, ApiProvider)
     }
 
     override fun onEnable() {
@@ -76,9 +96,16 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
         getCommand("channel")?.setExecutor(ChannelCommand())
         getCommand("staffchat")?.setExecutor(StaffChatCommand())
 
+<<<<<<< HEAD
         val integration = this.integrationManager.getIntegration(this)
         integration.prefix = this.config.getString("chat.prefix", "&b&lStickyChat &r&8» &r")!!
 
+=======
+        this.integration = this.integrationManager.getIntegration(this)
+        this.integration.prefix = this.config.getString("chat.prefix", "&b&lStickyChat &r&8» &r")!!
+
+        // check if sql database has been enabled
+>>>>>>> d8d0ad7... v4 :sparkles: improvements to everything tbh
         if (this.config.getBoolean("data.enable", true)) {
             this.logger.info("[SQL] Checking SQL database has been set up correctly...")
 
@@ -97,9 +124,9 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
             }
 
             val dataSource = HikariDataSource(config)
-            this.db = Database.connect(dataSource)
+            Database.connect(dataSource)
 
-            transaction(this.db) {
+            transaction {
                 try {
                     addLogger(ExposedLogger())
                     SchemaUtils.createMissingTablesAndColumns(Nicknames)
@@ -114,9 +141,10 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
             this.logger.warning("SQL database has been disabled - expect unexpected side effects!")
         }
 
-        server.pluginManager.registerEvents(MessageListener(), this)
-        server.pluginManager.registerEvents(PlayerJoinQuitListener(), this)
-        server.pluginManager.registerEvents(DeathListener(), this)
+        // register event listeners
+        this.server.pluginManager.registerEvents(MessageListener(), this)
+        this.server.pluginManager.registerEvents(PlayerJoinQuitListener(), this)
+        this.server.pluginManager.registerEvents(DeathListener(), this)
 
         // initialize the death message service
         this.deathManager.initialize()
@@ -130,8 +158,11 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
 
         logger.info("Done")
     }
+<<<<<<< HEAD
 
     override fun getProvider(): Plugin {
         return this
     }
+=======
+>>>>>>> d8d0ad7... v4 :sparkles: improvements to everything tbh
 }

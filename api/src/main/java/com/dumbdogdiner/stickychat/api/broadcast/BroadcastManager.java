@@ -13,7 +13,7 @@ public interface BroadcastManager {
      *
      * @return {@link Integer}
      */
-    Integer loadAllTimers();
+    Integer loadTimers();
 
     /**
      * Register a new {@link BroadcastTimer}. Returns the ID of the
@@ -25,32 +25,12 @@ public interface BroadcastManager {
     @NotNull Integer registerTimer(@NotNull BroadcastTimer timer);
 
     /**
-     * Get the timer with the specified ID.
-     * @param id The ID of the timer
-     * @return {@link BroadcastTimer}
-     */
-    @Nullable BroadcastTimer getTimer(@NotNull Integer id);
-
-    /**
      * Check if the target timer is registered.
      *
      * @param timer The timer to check
      * @return {@link Boolean}
      */
     @NotNull Boolean isRegistered(@NotNull BroadcastTimer timer);
-
-    /**
-     * Trigger the timer with the specified ID.
-     *
-     * @param id The ID of the timer to trigger
-     */
-    default void triggerTimer(@NotNull Integer id) {
-        var timer = getTimer(id);
-        if (timer == null) {
-            throw new RuntimeException("Attempted to trigger unregistered timer.");
-        }
-        triggerTimer(timer);
-    }
 
     /**
      * Trigger the specified timer.

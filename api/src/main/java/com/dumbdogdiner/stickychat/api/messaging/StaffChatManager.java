@@ -15,14 +15,6 @@ import java.util.stream.Collectors;
  */
 public interface StaffChatManager {
     /**
-     * Get the player this service refers to.
-     *
-     * @return {@link Player}
-     */
-    @NotNull
-    Player getPlayer();
-
-    /**
      * Get the recipients of a staff chat message.
      *
      * @param from The sender of the message
@@ -42,7 +34,7 @@ public interface StaffChatManager {
      *
      * @return {@link Boolean}
      */
-    @NotNull Boolean hasStaffChatEnabled();
+    @NotNull Boolean hasStaffChatEnabled(Player player);
 
     /**
      * Enable staff chat for this player. Returns false if the player already has staff chat
@@ -51,7 +43,7 @@ public interface StaffChatManager {
      * @return {@link Boolean}
      */
     @NotNull
-    Boolean enableStaffChat();
+    Boolean enableStaffChat(Player player);
 
     /**
      * Disable staff chat for this player. Returns false if the player does not have staff
@@ -60,7 +52,7 @@ public interface StaffChatManager {
      * @return {@link Boolean}
      */
     @NotNull
-    Boolean disableStaffChat();
+    Boolean disableStaffChat(Player player);
 
     /**
      * Send a message in staff chat. Returns false if something went wrong.
@@ -69,5 +61,5 @@ public interface StaffChatManager {
      * @return {@link Boolean}
      */
     @NotNull
-    Boolean sendStaffChatMessage(@NotNull  String message);
+    Boolean sendStaffChatMessage(@NotNull String message);
 }

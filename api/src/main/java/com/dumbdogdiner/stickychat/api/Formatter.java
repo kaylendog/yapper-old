@@ -14,19 +14,6 @@ import java.util.regex.Pattern;
  * An interface for chat formatting.
  */
 public interface Formatter {
-
-    /**
-     * Colorize a string using both Minecraft char codes, and hexadecimal color codes.
-     * @deprecated Deprecated in favor of the nex hex code translator.
-     * @param string The string to colorize
-     * @return {@link String}
-     */
-    @Contract("_ -> new")
-    @Deprecated(forRemoval = true, since = "3.1.0")
-    static @NotNull String colorize(String string) {
-        return ChatColor.translateAlternateColorCodes('&', string);
-    }
-
     /**
      * Regular expression used for formatting hexadecimal color codes.
      */
@@ -116,8 +103,7 @@ public interface Formatter {
      * @param message The message
      * @return {@link BaseComponent}
      */
-    @NotNull
-    BaseComponent formatMessage(Player player, @NotNull String message);
+    @NotNull BaseComponent formatMessage(Player player, @NotNull String message);
 
     /**
      * Format a message sent in staff chat.
@@ -126,8 +112,7 @@ public interface Formatter {
      * @param message The message
      * @return {@link BaseComponent}
      */
-    @NotNull
-    BaseComponent formatStaffChatMessage(Player player, @NotNull String message);
+    @NotNull BaseComponent formatStaffChatMessage(Player player, @NotNull String message);
 
     /**
      * Format an incoming direct message sent between two players.
@@ -137,8 +122,7 @@ public interface Formatter {
      * @param message The message
      * @return {@link BaseComponent}
      */
-    @NotNull
-    BaseComponent formatOutgoingDM(@NotNull Player from, @NotNull Player to, @NotNull String message);
+    @NotNull BaseComponent formatOutgoingDM(@NotNull Player from, @NotNull Player to, @NotNull String message);
 
     /**
      * Format a direct message sent between two players.
@@ -148,8 +132,7 @@ public interface Formatter {
      * @param message The message
      * @return {@link BaseComponent}
      */
-    @NotNull
-    BaseComponent formatIncomingDM(@NotNull Player from, @NotNull Player to, @NotNull String message);
+    @NotNull BaseComponent formatIncomingDM(@NotNull Player from, @NotNull Player to, @NotNull String message);
 
     /**
      * Format a SignSpy notification.
@@ -157,6 +140,5 @@ public interface Formatter {
      * @param notification - The notification to format
      * @return {@link BaseComponent}
      */
-    @NotNull
-    BaseComponent formatSignSpyNotification(@NotNull SignNotification notification);
+    @NotNull BaseComponent formatSignSpyNotification(@NotNull SignNotification notification);
 }

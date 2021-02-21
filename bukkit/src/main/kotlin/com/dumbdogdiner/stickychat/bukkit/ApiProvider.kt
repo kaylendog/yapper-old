@@ -20,7 +20,7 @@ object ApiProvider : WithPlugin, StickyChat {
     }
 
     override fun getDirectMessageManager(): DirectMessageManager {
-
+        return this.plugin.directMessageManager
     }
 
     override fun getStaffChatManager(): StaffChatManager {
@@ -51,19 +51,11 @@ object ApiProvider : WithPlugin, StickyChat {
         TODO("Not yet implemented")
     }
 
-    override fun disableChat(): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun enableChat(): Boolean {
-        TODO("Not yet implemented")
-    }
-
     override fun getPriorityManager(): PriorityManager {
-        TODO("Not yet implemented")
+         return this.plugin.priorityManager
     }
 
     override fun getPlayerBlockManager(): PlayerBlockManager {
-        TODO("Not yet implemented")
+        return this.plugin.playerBlockManager
     }
 }
