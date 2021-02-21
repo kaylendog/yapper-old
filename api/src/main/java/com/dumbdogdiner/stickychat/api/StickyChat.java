@@ -129,25 +129,4 @@ public interface StickyChat {
      * @return The player blocking manager for this API implementation.
      */
     @NotNull PlayerBlockManager getPlayerBlockManager();
-
-    /**
-     * Test if the given player has blocked the target player.
-     * @param player The player
-     * @param target The player who's blocking state is being tested
-     * @return True if the player has blocked the target.
-     */
-    default @NotNull Boolean hasBlocked(Player player, Player target) {
-        return this.getPlayerBlockManager().hasBlocked(player, target);
-    }
-
-    /**
-     * Test if a player is able to message another.
-     * @param player The player
-     * @param target The player they are trying to message
-     * @param priority The priority level with which  the message is being sent.
-     * @return True if they can send a message.
-     */
-    default @NotNull Boolean playerCanMessageTarget(Player player, Player target, Priority priority) {
-        return priority.isGreaterThan(this.getPriority(target)) && !this.hasPlayerBlocked(player, target) && !this.hasPlayerBlocked(target, player);
-    }
 }

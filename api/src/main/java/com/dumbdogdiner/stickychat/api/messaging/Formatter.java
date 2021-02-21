@@ -16,7 +16,7 @@ public interface Formatter {
     /**
      * Regular expression used for formatting hexadecimal color codes.
      */
-    Pattern COLOR_FORMATTING_REGEX = Pattern.compile("(?<formatting>&(?:#[a-f0-9]{6}|[a-f0-9k-or]))?(?<content>.*?)(?=(&(?:#[a-f0-9]{6}|[a-f0-9k-or]))|$)", Pattern.MULTILINE);
+    Pattern COLOR_FORMATTING_REGEX = Pattern.compile("(?<formatting>&&?(?:#[a-f0-9]{6}|[a-f0-9k-or]))?(?<content>.*?)(?=(&&?(?:#[a-f0-9]{6}|[a-f0-9k-or]))|$)", Pattern.MULTILINE);
 
     /**
      * Colorize a text component using Minecraft hex codes.
@@ -46,9 +46,13 @@ public interface Formatter {
         var nextComponent = new TextComponent();
 
         while (matcher.find()) {
+            boolean escaped = false;
+
             if (matcher.group("formatting") != null) {
                 var format = matcher.group("formatting");
-                if (format.charAt(1) == '#') {
+                if (format.startsWith("&&")) {
+                    escaped = true;
+                } else if (format.charAt(1) == '#') {
                     color = ChatColor.of(format.substring(1));
                 } else {
                     switch (format.charAt(1)) {
@@ -74,7 +78,7 @@ public interface Formatter {
                 continue;
             }
 
-            nextComponent.setText(matcher.group("content"));
+            nextComponent.setText((escaped ? matcher.group("formatting").substring(1) : "") + matcher.group("content"));
             nextComponent.setObfuscated(magic);
             nextComponent.setBold(bold);
             nextComponent.setStrikethrough(strike);
