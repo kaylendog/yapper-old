@@ -1,11 +1,10 @@
-package com.dumbdogdiner.stickychat.api;
+package com.dumbdogdiner.stickychat.api.messaging;
 
 import com.dumbdogdiner.stickychat.api.signspy.SignNotification;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.regex.Pattern;

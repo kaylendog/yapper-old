@@ -1,22 +1,19 @@
 package com.dumbdogdiner.stickychat.bukkit.channel
 
 import com.dumbdogdiner.stickychat.api.channel.Channel
+import com.dumbdogdiner.stickychat.api.channel.ChannelType
 import java.util.UUID
 import org.bukkit.entity.Player
 
-class StickyChannel(private val uniqueId: UUID, private var type: Channel.Type, private var name: String) : Channel {
+class SkChannel(private val uniqueId: UUID, private var type: ChannelType, private var name: String) : Channel {
     private val players = mutableListOf<Player>()
 
     override fun getUniqueId(): UUID {
         return this.uniqueId
     }
 
-    override fun getType(): Channel.Type {
+    override fun getType(): ChannelType {
         return this.type
-    }
-
-    override fun setType(type: Channel.Type) {
-        this.type = type
     }
 
     override fun getName(): String {

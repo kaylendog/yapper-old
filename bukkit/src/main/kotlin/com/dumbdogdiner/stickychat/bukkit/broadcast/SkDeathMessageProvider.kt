@@ -16,6 +16,7 @@ class StickyDeathMessageService : WithPlugin, DeathMessageService {
 class StickyDeathMessageService : WithPlugin, DeathMessageManager {
 =======
 class SkDeathMessageProvider : WithPlugin, DeathMessageProvider {
+<<<<<<< HEAD
 >>>>>>> 55f7cd5... v4 :sparkles: major refactor :eyes::bukkit/src/main/kotlin/com/dumbdogdiner/stickychat/bukkit/broadcast/SkDeathMessageProvider.kt
     private var deathConfiguration: FileConfiguration
 >>>>>>> c993afb... v4 :sparkles: api rewrite
@@ -52,5 +53,9 @@ class SkDeathMessageProvider : WithPlugin, DeathMessageProvider {
 
     override fun getAllDeathMessages(): HashMap<EntityDamageEvent.DamageCause, Array<String>> {
         return this.messages
+=======
+    override fun getDeathMessages(): HashMap<EntityDamageEvent.DamageCause, Array<String>> {
+        TODO("Not yet implemented")
+>>>>>>> ed29404... idek anymore
     }
 }

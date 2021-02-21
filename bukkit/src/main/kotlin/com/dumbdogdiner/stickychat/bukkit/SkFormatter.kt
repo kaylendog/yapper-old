@@ -1,6 +1,6 @@
 package com.dumbdogdiner.stickychat.bukkit
 
-import com.dumbdogdiner.stickychat.api.Formatter
+import com.dumbdogdiner.stickychat.api.messaging.Formatter
 import com.dumbdogdiner.stickychat.api.signspy.SignNotification
 import com.dumbdogdiner.stickychat.api.util.Placeholders
 import com.dumbdogdiner.stickychat.api.util.StringModifier

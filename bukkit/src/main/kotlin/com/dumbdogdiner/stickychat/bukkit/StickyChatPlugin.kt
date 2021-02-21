@@ -18,6 +18,7 @@ import com.dumbdogdiner.stickychat.bukkit.broadcast.SkDeathMessageProvider
 import com.dumbdogdiner.stickychat.bukkit.messaging.SkDirectMessageManager
 import com.dumbdogdiner.stickychat.bukkit.models.Nicknames
 <<<<<<< HEAD
+<<<<<<< HEAD
 import com.dumbdogdiner.stickychat.bukkit.util.ExposedLogger
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
@@ -25,6 +26,8 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 =======
 import com.dumbdogdiner.stickychat.bukkit.messenger.RedisMessenger
+=======
+>>>>>>> ed29404... idek anymore
 import com.dumbdogdiner.stickychat.bukkit.player.SkNicknameProvider
 import com.dumbdogdiner.stickychat.bukkit.player.SkPlayerBlockManager
 import com.dumbdogdiner.stickychat.bukkit.player.SkPriorityManager

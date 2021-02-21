@@ -6,10 +6,10 @@ import com.dumbdogdiner.stickychat.api.messaging.DirectMessageManager;
 import com.dumbdogdiner.stickychat.api.integration.Integration;
 import com.dumbdogdiner.stickychat.api.integration.IntegrationManager;
 import com.dumbdogdiner.stickychat.api.broadcast.BroadcastManager;
+import com.dumbdogdiner.stickychat.api.messaging.Formatter;
 import com.dumbdogdiner.stickychat.api.player.NicknameProvider;
 import com.dumbdogdiner.stickychat.api.player.PlayerBlockManager;
 import com.dumbdogdiner.stickychat.api.player.PriorityManager;
-import com.dumbdogdiner.stickychat.api.messaging.StaffChatManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -60,13 +60,6 @@ public interface StickyChat {
     @NotNull DirectMessageManager getDirectMessageManager();
 
     /**
-     * Get the staff chat service.
-     *
-     * @return {@link StaffChatManager}
-     */
-    @NotNull StaffChatManager getStaffChatManager();
-
-    /**
      * Retrieve the nickname manager.
      *
      * @return The {@link NicknameProvider}
@@ -83,10 +76,9 @@ public interface StickyChat {
     /**
      * Get the formatter for the target player.
      *
-     * @param player The target player
      * @return The {@link Formatter} for the target player
      */
-    @NotNull Formatter getFormatter(Player player);
+    @NotNull Formatter getFormatter();
 
     /**
      * Get the broadcast service.
@@ -100,7 +92,7 @@ public interface StickyChat {
      *
      * @return The {@link DeathMessageProvider}
      */
-    @NotNull DeathMessageProvider getDeathMessageManager();
+    @NotNull DeathMessageProvider getDeathMessageProvider();
 
     /**
      * Get the integration manager.
