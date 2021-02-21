@@ -27,6 +27,7 @@ dependencies {
     implementation("org.jetbrains.exposed", "exposed-jdbc", "0.28.1")
     implementation("org.postgresql", "postgresql", "42.2.18")
     implementation("com.zaxxer", "HikariCP", "3.4.5")
+    implementation("com.google.code.gson", "gson", "2.8.6")
 
     // server dependencies
     compileOnly(paper("1.16.4-R0.1-SNAPSHOT"))

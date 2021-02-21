@@ -11,15 +11,12 @@ import org.jetbrains.annotations.Nullable;
 /**
  * An event that fires when a player is sending a direct message.
  */
-public final class DirectMessageEvent extends Event implements Cancellable {
-    private static final HandlerList handlers = new HandlerList();
-
+public final class DirectMessageEvent extends ChatEvent {
     private final Player sender;
     private Player recipient;
     private final String recipientName;
     private final String content;
 
-    private boolean cancelled = false;
     private String cancelReason;
 
     /**
@@ -78,31 +75,6 @@ public final class DirectMessageEvent extends Event implements Cancellable {
             return this.recipient;
         }
         return Bukkit.getPlayerExact(this.recipientName);
-    }
-
-    public @NotNull HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    /**
-     * @return True if this event is cancelled.
-     */
-    @Override
-    public boolean isCancelled() {
-        return this.cancelled;
-    }
-
-    /**
-     * Change the cancelled state of this event.
-     * @param cancel The new state
-     */
-    @Override
-    public void setCancelled(boolean cancel) {
-        this.cancelled = cancel;
     }
 
     public void setCancelReason(String cancel) {

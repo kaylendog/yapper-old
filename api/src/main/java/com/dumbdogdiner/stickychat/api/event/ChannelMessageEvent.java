@@ -13,15 +13,11 @@ import java.util.List;
 /**
  * An event fired when a player sends a message in a channel.
  */
-public class ChannelMessageEvent extends Event implements Cancellable {
-    private static final HandlerList handlers = new HandlerList();
-
+public class ChannelMessageEvent extends ChatEvent {
     private final Channel channel;
     private final Player sender;
     private final List<Player> recipients;
     private final TextComponent content;
-
-    private boolean cancelled;
 
     public ChannelMessageEvent(
             @NotNull Channel channel,
@@ -66,25 +62,5 @@ public class ChannelMessageEvent extends Event implements Cancellable {
      */
     public TextComponent getContent() {
         return this.content;
-    }
-
-    /**
-     * @return True if this event is cancelled.
-     */
-    public @Override boolean isCancelled() {
-        return this.cancelled;
-    }
-
-    /**
-     * Change the cancelled state of this event.
-     * @param cancel The new state
-     */
-    public @Override void setCancelled(boolean cancel) {
-        this.cancelled = cancel;
-    }
-
-
-    public @NotNull @Override HandlerList getHandlers() {
-        return handlers;
     }
 }
