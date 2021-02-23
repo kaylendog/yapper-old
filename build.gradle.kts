@@ -1,11 +1,14 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    id("net.nemerosa.versioning") version "2.8.2"
     kotlin("jvm") version "1.4.10"
     java
 }
 
 allprojects {
+    version = versioning.info.full
+
     repositories {
         jcenter()
         mavenCentral()
