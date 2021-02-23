@@ -2,10 +2,7 @@ package com.dumbdogdiner.stickychat.bukkit.broadcast
 
 import com.dumbdogdiner.stickychat.api.broadcast.DeathMessageProvider
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin
-import java.io.File
 import java.util.HashMap
-import org.bukkit.configuration.file.FileConfiguration
-import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.event.entity.EntityDamageEvent
 
 <<<<<<< HEAD:bukkit/src/main/kotlin/com/dumbdogdiner/stickychat/bukkit/misc/StickyDeathMessageService.kt

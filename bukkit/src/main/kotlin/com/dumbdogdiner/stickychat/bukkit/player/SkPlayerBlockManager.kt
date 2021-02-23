@@ -2,13 +2,13 @@ package com.dumbdogdiner.stickychat.bukkit.player
 
 import com.dumbdogdiner.stickychat.api.player.PlayerBlockManager
 import com.dumbdogdiner.stickychat.bukkit.models.Blocks
+import java.util.HashMap
+import java.util.UUID
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
-import java.util.HashMap
-import java.util.UUID
 
 /**
  * Handles block data.

@@ -3,10 +3,10 @@ package com.dumbdogdiner.stickychat.bukkit.channel
 import com.dumbdogdiner.stickychat.api.channel.Channel
 import com.dumbdogdiner.stickychat.api.channel.ChannelManager
 import com.dumbdogdiner.stickychat.api.channel.ChannelType
-import org.bukkit.configuration.ConfigurationSection
-import org.bukkit.entity.Player
 import java.util.UUID
 import kotlin.collections.HashMap
+import org.bukkit.configuration.ConfigurationSection
+import org.bukkit.entity.Player
 
 class SkChannelManager : ChannelManager {
     private val channels = HashMap<UUID, SkChannel>()

@@ -41,7 +41,7 @@ class SkDirectMessageManager : WithPlugin, DirectMessageManager {
         val ev = DirectMessageEvent(from, to, message)
         this.callBukkitEvent(ev)
         if (ev.isCancelled) {
-            return DirectMessageResult.withErrorMessage(ev.cancelReason);
+            return DirectMessageResult.withErrorMessage(ev.cancelReason)
         }
         // send formatted message
         to.spigot().sendMessage(SkFormatter.formatIncomingDM(to, from, message))

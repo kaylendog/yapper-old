@@ -1,12 +1,12 @@
 package com.dumbdogdiner.stickychat.bukkit
 
-import com.dumbdogdiner.stickychat.api.messaging.Formatter
 import com.dumbdogdiner.stickychat.api.StickyChat
 import com.dumbdogdiner.stickychat.api.broadcast.BroadcastManager
 import com.dumbdogdiner.stickychat.api.broadcast.DeathMessageProvider
 import com.dumbdogdiner.stickychat.api.channel.ChannelManager
 import com.dumbdogdiner.stickychat.api.integration.IntegrationManager
 import com.dumbdogdiner.stickychat.api.messaging.DirectMessageManager
+import com.dumbdogdiner.stickychat.api.messaging.Formatter
 import com.dumbdogdiner.stickychat.api.player.NicknameProvider
 import com.dumbdogdiner.stickychat.api.player.PlayerBlockManager
 import com.dumbdogdiner.stickychat.api.player.PriorityManager

@@ -3,6 +3,7 @@ package com.dumbdogdiner.stickychat.bukkit
 import com.dumbdogdiner.stickychat.api.StickyChat
 import com.dumbdogdiner.stickychat.api.integration.Integration
 import com.dumbdogdiner.stickychat.api.util.Placeholders
+import com.dumbdogdiner.stickychat.bukkit.broadcast.SkDeathMessageProvider
 import com.dumbdogdiner.stickychat.bukkit.channel.SkChannelManager
 import com.dumbdogdiner.stickychat.bukkit.commands.ChannelCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.ChatCommand
@@ -14,7 +15,6 @@ import com.dumbdogdiner.stickychat.bukkit.integration.SkIntegrationManager
 import com.dumbdogdiner.stickychat.bukkit.listeners.DeathListener
 import com.dumbdogdiner.stickychat.bukkit.listeners.MessageListener
 import com.dumbdogdiner.stickychat.bukkit.listeners.PlayerJoinQuitListener
-import com.dumbdogdiner.stickychat.bukkit.broadcast.SkDeathMessageProvider
 import com.dumbdogdiner.stickychat.bukkit.messaging.SkDirectMessageManager
 import com.dumbdogdiner.stickychat.bukkit.models.Nicknames
 <<<<<<< HEAD
@@ -35,8 +35,11 @@ import com.dumbdogdiner.stickychat.bukkit.util.ExposedLogger
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import java.lang.Exception
+<<<<<<< HEAD
 >>>>>>> 55f7cd5... v4 :sparkles: major refactor :eyes:
 import org.bukkit.plugin.Plugin
+=======
+>>>>>>> 7bbd84b... v4 :sparkles: not sure what these changes are
 import org.bukkit.plugin.java.JavaPlugin
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils

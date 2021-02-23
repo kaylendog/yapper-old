@@ -9,7 +9,7 @@ import java.util.UUID;
 /**
  * Packet for cross-server messaging.
  */
-public interface SendMessage extends Packet {
+interface SendMessage extends Packet {
     @Override @NotNull
     default PacketType getType() {
         return PacketType.SEND_MESSAGE;

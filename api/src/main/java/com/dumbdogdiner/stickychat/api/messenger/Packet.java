@@ -13,10 +13,14 @@ public interface Packet {
     @NotNull PacketType getType();
 
     /**
-     * Get the remote server this packet was received from.
-     * @return A {@link RemoteServer}
+     * @return The {@link RemoteServer} this packet was received from.
      */
-    @NotNull RemoteServer getRemoteServer();
+    @NotNull RemoteServer getDestination();
+
+    /**
+     * @return The {@link RemoteServer} this packet was sent from.
+     */
+    @NotNull RemoteServer getOrigin();
 
     /**
      * Convert this packet into an encoded string.

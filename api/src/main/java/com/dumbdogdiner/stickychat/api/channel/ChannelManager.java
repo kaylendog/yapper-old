@@ -1,6 +1,5 @@
 package com.dumbdogdiner.stickychat.api.channel;
 
-import com.dumbdogdiner.stickychat.api.StickyChat;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -72,7 +71,7 @@ public interface ChannelManager {
      * @param player The target player
      * @return The current {@link Channel} the player is in.
      */
-    @NotNull Channel getPlayerChannel(@NotNull Player player);
+    @NotNull List<Channel> getPlayerChannels(@NotNull Player player);
 
     /**
      * Get a list of all channels.
