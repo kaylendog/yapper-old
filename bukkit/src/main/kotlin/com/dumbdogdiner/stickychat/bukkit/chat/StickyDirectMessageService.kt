@@ -33,7 +33,7 @@ class StickyDirectMessageService private constructor(private val player: Player)
     }
 
     override fun sendTo(target: Player, message: String): DirectMessageResult {
-        if (target == this.player) {
+        if (target == this.player && !this.config.getBoolean("debug.enable-self-message", false)) {
             this.integration.sendSystemError(this.player, "You cannot message yourself, dork!")
             SoundUtil.sendError(this.player)
             return DirectMessageResult.FAIL_SELF

@@ -118,7 +118,9 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
         this.deathManager.initialize()
 
         // check for PlaceholderAPI.
-        if (!Placeholders.hasPlaceholderApiEnabled()) {
+        if (Placeholders.hasPlaceholderApiEnabled()) {
+            PapiExtension().register()
+        } else {
             this.logger.warning("[PAPI] PlaceholderAPI not found - placeholders have been disabled")
         }
 

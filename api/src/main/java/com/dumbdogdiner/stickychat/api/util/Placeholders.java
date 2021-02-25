@@ -28,6 +28,7 @@ public class Placeholders {
                 .getMethod("setPlaceholders", Player.class, String.class)
                 .invoke(Class.forName("me.clip.placeholderapi.PlaceholderAPI"), player, content);
         } catch(Exception e) {
+
             return content;
         }
     }

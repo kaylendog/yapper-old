@@ -7,7 +7,7 @@ plugins {
 
 allprojects {
     group = "com.dumbdogdiner.stickychat"
-    version = "3.0.1-hotfix"
+    version = "3.0.2-hotfix"
 
     repositories {
         jcenter()

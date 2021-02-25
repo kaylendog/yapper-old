@@ -50,7 +50,7 @@ class StickyFormatter private constructor(private val player: Player) : WithPlug
      * from the cached configuration and interpolates placeholders as required.
      */
     override fun formatStaffChatMessage(message: String): TextComponent {
-        val interp = StringModifier(this.config.getString("chat.staff-chat-format", "[SC] %player_name%: message"))
+        val interp = StringModifier(this.config.getString("chat.staff-chat-format", "[SC] %player_name%: %message%"))
                 .replace("%player_name%", this.player.name)
                 .replace("%message%", message)
                 .apply { Placeholders.setPlaceholdersSafe(this.player, it) }
