@@ -121,6 +121,9 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
         server.pluginManager.registerEvents(PlayerJoinQuitListener(), this)
         server.pluginManager.registerEvents(DeathListener(), this)
 
+        // initialize the death message service
+        this.deathManager.initialize()
+
         // check for PlaceholderAPI.
         if (!Placeholders.hasPlaceholderApiEnabled()) {
             this.logger.warning("[PAPI] PlaceholderAPI not found - placeholders have been disabled")

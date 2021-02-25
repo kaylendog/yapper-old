@@ -19,8 +19,8 @@ class MessageListener : WithPlugin, Listener {
 
         // staff chat prefix mode
         if (
-            ev.message.startsWith(this.config.getString("chat.staff-chat-prefix", "+")!!)
-            && ev.player.hasPermission("stickychat.staff-chat")
+            ev.message.startsWith(this.config.getString("chat.staff-chat-prefix", "+")!!) &&
+            ev.player.hasPermission("stickychat.staff-chat")
         ) {
             this.plugin.getStaffChatService(ev.player).sendStaffChatMessage(ev.message.substring(1))
             return
