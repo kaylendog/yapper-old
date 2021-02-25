@@ -19,6 +19,13 @@ class ChatCommand : WithPlugin, TabExecutor {
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
+
+        if (args.getOrNull(0) == "reload") {
+            this.plugin.reloadConfig()
+            this.integration.sendSystemMessage(sender, "Reloaded configuration!")
+            return true
+        }
+
         this.integration.sendSystemMessage(sender, "Running version &av&l${this.plugin.description.version}")
         SoundUtil.send(sender, NotificationType.SUCCESS)
         return true
