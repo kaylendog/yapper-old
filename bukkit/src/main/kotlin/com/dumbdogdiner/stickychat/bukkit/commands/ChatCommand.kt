@@ -21,6 +21,10 @@ class ChatCommand : WithPlugin, TabExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
 
         if (args.getOrNull(0) == "reload") {
+            if (!sender.hasPermission("stickychat.reload")) {
+                this.integration.sendSystemError(sender, "You do not have permission to run this command!")
+                return true
+            }
             this.plugin.reloadConfig()
             this.integration.sendSystemMessage(sender, "Reloaded configuration!")
             SoundUtil.send(sender, NotificationType.INFO)
