@@ -17,29 +17,12 @@ import com.dumbdogdiner.stickychat.bukkit.listeners.MessageListener
 import com.dumbdogdiner.stickychat.bukkit.listeners.PlayerJoinQuitListener
 import com.dumbdogdiner.stickychat.bukkit.messaging.SkDirectMessageManager
 import com.dumbdogdiner.stickychat.bukkit.models.Nicknames
-<<<<<<< HEAD
-<<<<<<< HEAD
-import com.dumbdogdiner.stickychat.bukkit.util.ExposedLogger
-import com.zaxxer.hikari.HikariConfig
-import com.zaxxer.hikari.HikariDataSource
-import org.bukkit.Bukkit
-import org.bukkit.entity.Player
-=======
-import com.dumbdogdiner.stickychat.bukkit.messenger.RedisMessenger
-=======
->>>>>>> ed29404... idek anymore
 import com.dumbdogdiner.stickychat.bukkit.player.SkNicknameProvider
 import com.dumbdogdiner.stickychat.bukkit.player.SkPlayerBlockManager
 import com.dumbdogdiner.stickychat.bukkit.player.SkPriorityManager
 import com.dumbdogdiner.stickychat.bukkit.util.ExposedLogger
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import java.lang.Exception
-<<<<<<< HEAD
->>>>>>> 55f7cd5... v4 :sparkles: major refactor :eyes:
-import org.bukkit.plugin.Plugin
-=======
->>>>>>> 7bbd84b... v4 :sparkles: not sure what these changes are
 import org.bukkit.plugin.java.JavaPlugin
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -52,26 +35,10 @@ class StickyChatPlugin : JavaPlugin() {
         lateinit var plugin: StickyChatPlugin
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    val integrationManager = StickyIntegrationManager()
-    val channelManager = StickyChannelManager()
-    val deathManager = StickyDeathMessageService()
-=======
-=======
     // managers
->>>>>>> d8d0ad7... v4 :sparkles: improvements to everything tbh
     val integrationManager = SkIntegrationManager()
     val channelManager = SkChannelManager()
-<<<<<<< HEAD
-    val deathManager = SkDeathMessageProvider()
-<<<<<<< HEAD
->>>>>>> 55f7cd5... v4 :sparkles: major refactor :eyes:
-=======
-=======
->>>>>>> d8d0ad7... v4 :sparkles: improvements to everything tbh
     val directMessageManager = SkDirectMessageManager()
->>>>>>> 9dc7aa2... v4 :sparkles: rewrite NicknameProvider
 
     // data stores
     val deathMessageProvider = SkDeathMessageProvider()
@@ -102,16 +69,10 @@ class StickyChatPlugin : JavaPlugin() {
         getCommand("channel")?.setExecutor(ChannelCommand())
         getCommand("staffchat")?.setExecutor(StaffChatCommand())
 
-<<<<<<< HEAD
-        val integration = this.integrationManager.getIntegration(this)
-        integration.prefix = this.config.getString("chat.prefix", "&b&lStickyChat &r&8» &r")!!
-
-=======
         this.integration = this.integrationManager.getIntegration(this)
         this.integration.prefix = this.config.getString("chat.prefix", "&b&lStickyChat &r&8» &r")!!
 
         // check if sql database has been enabled
->>>>>>> d8d0ad7... v4 :sparkles: improvements to everything tbh
         if (this.config.getBoolean("data.enable", true)) {
             this.logger.info("[SQL] Checking SQL database has been set up correctly...")
 
@@ -153,7 +114,7 @@ class StickyChatPlugin : JavaPlugin() {
         this.server.pluginManager.registerEvents(DeathListener(), this)
 
         // initialize the death message service
-        this.deathManager.initialize()
+        this.deathMessageProvider.initialize()
 
         // check for PlaceholderAPI.
         if (Placeholders.hasPlaceholderApiEnabled()) {
@@ -164,11 +125,4 @@ class StickyChatPlugin : JavaPlugin() {
 
         logger.info("Done")
     }
-<<<<<<< HEAD
-
-    override fun getProvider(): Plugin {
-        return this
-    }
-=======
->>>>>>> d8d0ad7... v4 :sparkles: improvements to everything tbh
 }

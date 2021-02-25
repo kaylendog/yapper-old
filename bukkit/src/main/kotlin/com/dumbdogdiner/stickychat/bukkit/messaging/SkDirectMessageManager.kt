@@ -6,6 +6,7 @@ import com.dumbdogdiner.stickychat.api.messaging.DirectMessageResult
 import com.dumbdogdiner.stickychat.bukkit.SkFormatter
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin
 import net.md_5.bungee.api.chat.BaseComponent
+import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
@@ -49,6 +50,10 @@ class SkDirectMessageManager : WithPlugin, DirectMessageManager {
         return DirectMessageResult.OK
     }
 
+    override fun sendRawMessage(player: Player, message: TextComponent): DirectMessageResult {
+        TODO("Not yet implemented")
+    }
+
     /**
      * Gets the name of the last player the target player messaged.
      */
@@ -65,11 +70,6 @@ class SkDirectMessageManager : WithPlugin, DirectMessageManager {
             return DirectMessageResult.FAIL_DISABLED
         }
         return this.sendMessage(player, this.getLast(player)!!, message)
-    }
-
-    override fun sendSystemMessage(player: Player, message: BaseComponent): DirectMessageResult {
-        player.spigot().sendMessage(message)
-        return DirectMessageResult.OK
     }
 
     override fun getDisabledPlayers(): Collection<Player> {

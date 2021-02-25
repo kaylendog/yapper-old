@@ -27,15 +27,9 @@ object SkFormatter : WithPlugin, Formatter {
      * Format a staff chat message for this player. Fetches the SC format
      * from the cached configuration and interpolates placeholders as required.
      */
-<<<<<<< HEAD
-    override fun formatStaffChatMessage(message: String): TextComponent {
-        val interp = StringModifier(this.config.getString("chat.staff-chat-format", "[SC] %player_name%: %message%"))
-                .replace("%player_name%", this.player.name)
-=======
     override fun formatStaffChatMessage(player: Player, message: String): TextComponent {
-        val interp = StringModifier(this.config.getString("chat.staff-chat-format", "[SC] %player_name%: message"))
+        val interp = StringModifier(this.config.getString("chat.staff-chat-format", "[SC] %player_name%: %message%"))
                 .replace("%player_name%", player.name)
->>>>>>> d8d0ad7... v4 :sparkles: improvements to everything tbh
                 .replace("%message%", message)
                 .apply { Placeholders.setPlaceholdersSafe(player, it) }
                 .get()

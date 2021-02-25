@@ -22,7 +22,7 @@ class PapiExtension : WithPlugin, PlaceholderExpansion() {
         }
 
         if (params == "displayname") {
-            return this.plugin.getNicknameService(player).displayname
+            return this.plugin.nicknameProvider.getDisplayname(player)
         }
         return ""
     }

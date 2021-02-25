@@ -13,7 +13,7 @@ import org.bukkit.event.player.PlayerQuitEvent
 class PlayerJoinQuitListener : WithPlugin, Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     fun onPlayerJoin(e: PlayerJoinEvent) {
-        this.plugin.getNicknameService(e.player).loadNickname()
+        this.plugin.nicknameProvider.loadNickname(e.player)
         // disable message hotfix
         if (this.plugin.config.getBoolean("chat.disable-join-messages", false)) {
             e.joinMessage = null

@@ -2,26 +2,19 @@ package com.dumbdogdiner.stickychat.bukkit.broadcast
 
 import com.dumbdogdiner.stickychat.api.broadcast.DeathMessageProvider
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin
+import org.bukkit.configuration.file.FileConfiguration
+import org.bukkit.configuration.file.YamlConfiguration
 import java.util.HashMap
 import org.bukkit.event.entity.EntityDamageEvent
+import java.io.File
 
-<<<<<<< HEAD:bukkit/src/main/kotlin/com/dumbdogdiner/stickychat/bukkit/misc/StickyDeathMessageService.kt
-<<<<<<< HEAD
-class StickyDeathMessageService : WithPlugin, DeathMessageService {
-    private lateinit var deathConfiguration: FileConfiguration
-=======
-class StickyDeathMessageService : WithPlugin, DeathMessageManager {
-=======
 class SkDeathMessageProvider : WithPlugin, DeathMessageProvider {
-<<<<<<< HEAD
->>>>>>> 55f7cd5... v4 :sparkles: major refactor :eyes::bukkit/src/main/kotlin/com/dumbdogdiner/stickychat/bukkit/broadcast/SkDeathMessageProvider.kt
-    private var deathConfiguration: FileConfiguration
->>>>>>> c993afb... v4 :sparkles: api rewrite
+    private lateinit var deathConfiguration: FileConfiguration
     private var enabled = false
 
     private val messages = hashMapOf<EntityDamageEvent.DamageCause, Array<String>>()
 
-    public fun initialize() {
+    fun initialize() {
         val path = File(plugin.dataFolder, "deaths.yml")
 
         // save default config if it doesn't exist
@@ -48,11 +41,7 @@ class SkDeathMessageProvider : WithPlugin, DeathMessageProvider {
         }
     }
 
-    override fun getAllDeathMessages(): HashMap<EntityDamageEvent.DamageCause, Array<String>> {
-        return this.messages
-=======
     override fun getDeathMessages(): HashMap<EntityDamageEvent.DamageCause, Array<String>> {
-        TODO("Not yet implemented")
->>>>>>> ed29404... idek anymore
+        return HashMap(this.messages)
     }
 }
