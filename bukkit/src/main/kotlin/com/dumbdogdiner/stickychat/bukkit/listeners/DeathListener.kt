@@ -1,6 +1,7 @@
 package com.dumbdogdiner.stickychat.bukkit.listeners
 
 import com.dumbdogdiner.stickychat.api.StickyChat
+import com.dumbdogdiner.stickychat.api.util.Placeholders
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -18,6 +19,6 @@ class DeathListener : WithPlugin, Listener {
             return
         }
         val message = StickyChat.getService().deathMessageService.getRandomOfType(cause.cause)
-        e.deathMessage = message
+        e.deathMessage = Placeholders.setPlaceholdersSafe(e.entity, message)
     }
 }

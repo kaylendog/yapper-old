@@ -2,7 +2,7 @@
 # Custom Death Message Configuration
 #
 # Available Formats:
-# %name% - the name of the player
+# %player_name% - the name of the player
 # %displayname% - the displayname of the player
 # %attacker% - the attacker who caused the player to die (player or mob)
 #
@@ -11,105 +11,105 @@
 
 # For TNT or End Crystals
 block-explosion:
-  - "%name% blew up"
+  - "%player_name% blew up"
 
 # Don't actually know what this one is for
 contact:
-  - "%name% grew too gay and died"
+  - "%player_name% grew too gay and died"
 
 # Entity cramming
 cramming:
-  - "%name% was cuddled too hard"
+  - "%player_name% was cuddled too hard"
 
 # Don't actually know what this one is for
 custom:
-  - "%name% grew too gay and died"
+  - "%player_name% grew too gay and died"
 
 # Death due to dragon breath
 dragon-breath:
-  - "%name% got too friendly with the Ender Dragon"
+  - "%player_name% got too friendly with the Ender Dragon"
 
 # Drowning
 drowning:
-  - "%name% forgot water isn't breathable"
+  - "%player_name% forgot water isn't breathable"
 
 # Don't actually know what this one is for
 dryout:
-  - "%name% shriveled up with dehydration"
+  - "%player_name% shriveled up with dehydration"
 
 entity-attack:
-  - "%name% was pWned by %attacker%"
+  - "%player_name% was pWned by %attacker%"
 
 entity-explosion:
-  - "%name% was blown up by %attacker%"
+  - "%player_name% was blown up by %attacker%"
 
 entity-sweep-attack:
-  - "%name% was swiped by %attacker%"
+  - "%player_name% was swiped by %attacker%"
 
 # Death due to fall damage
 fall:
-  - "%name% forgot gravity exists"
+  - "%player_name% forgot gravity exists"
 
 # Death due to anvils
 falling-block:
-  - "%name% got snuggled by an anvil"
+  - "%player_name% got snuggled by an anvil"
 
 # Death due to burning
 fire:
-  - "%name% got a little too warm"
+  - "%player_name% got a little too warm"
 
 # Don't actually know what this one is for
 fire-tick:
-  - "%name% got a little too warm"
+  - "%player_name% got a little too warm"
 
 # Elytra
 fly-into-wall:
-  - "%name% experienced kinetic energy"
+  - "%player_name% experienced kinetic energy"
 
 # Magma blocks
 hot-floor:
-  - "%name% didn't know how to play the floor is lava"
+  - "%player_name% didn't know how to play the floor is lava"
 
 # For deaths explicitly due to lava (not burning after having escaped)
 lava:
-  - "%name% likes melted cheese"
+  - "%player_name% likes melted cheese"
 
 # For lightning strikes
 lightning:
-  - "%name% experienced static electricity"
+  - "%player_name% experienced static electricity"
 
 # Death due to splash potions of damage or eq.
 magic:
-  - "You're not a wizard, %name%"
+  - "You're not a wizard, %player_name%"
 
 # Death due to poison
 poison:
-  - "%name% couldn't handle the toxins"
+  - "%player_name% couldn't handle the toxins"
 
 # Death due to arrows or eq.
 projectile:
-  - "%name% got shot"
+  - "%player_name% got shot"
 
 # Death due to hunger
 starvation:
-  - "%name% got too hungry"
+  - "%player_name% got too hungry"
 
 # Death due to suffocation, usually by gravel/sand
 suffocation:
-  - "%name% got snuzzled too hard"
+  - "%player_name% got snuzzled too hard"
 
 # Death using /kill
 suicide:
-  - "%name% committed suicide ;w; ily dont pls"
+  - "%player_name% committed suicide ;w; ily dont pls"
 
 # Death due to the thorns enchantment
 thorns:
-  - "%name% got prickled"
+  - "%player_name% got prickled"
 
 # Death due to falling out of the world
 void:
-  - "%name% was consumed by the eternal darkness"
+  - "%player_name% was consumed by the eternal darkness"
 
 # Wither effect
 wither:
-  - "%name% withered away"
+  - "%player_name% withered away"
