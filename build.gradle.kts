@@ -6,22 +6,16 @@ plugins {
 }
 
 allprojects {
+    group = "com.dumbdogdiner.stickychat"
+    version = "3.0.2-hotfix"
+
     repositories {
         jcenter()
         mavenCentral()
     }
-}
-
-subprojects {
-    group = "com.dumbdogdiner.stickychat"
 
     apply(plugin = "java")
     apply(plugin = "kotlin")
-
-    repositories {
-        jcenter()
-        mavenCentral()
-    }
 
     tasks.withType<JavaCompile> {
         targetCompatibility = JavaVersion.VERSION_14.toString()

@@ -8,8 +8,6 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
 }
 
-version = "3.0.0"
-
 repositories {
     papermc()
     maven {

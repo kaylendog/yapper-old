@@ -37,7 +37,11 @@ class NicknameCommand : WithPlugin, TabExecutor {
 
         if (args.isEmpty()) {
             val nick = this.plugin.getNicknameService(sender).nickname
-            this.integration.sendSystemMessage(sender, "Your nickname is $nick")
+            if (nick == null) {
+                this.integration.sendSystemMessage(sender, "You do not have a nickname set!")
+            } else {
+                this.integration.sendSystemMessage(sender, "Your nickname is &a$nick")
+            }
             SoundUtil.send(sender, NotificationType.QUIET)
             return true
         }
@@ -49,14 +53,18 @@ class NicknameCommand : WithPlugin, TabExecutor {
                 val newNickname = args[1]
                 if (newNickname == "off") {
                     this.plugin.getNicknameService(target).removeNickname()
-                    this.integration.sendSystemMessage(sender, "Removed ${target.name}'s nickname.")
+                    this.integration.sendSystemMessage(sender, "Removed ${target.name}'s nickname")
                 } else {
                     this.plugin.getNicknameService(target).setNickname(newNickname)
-                    this.integration.sendSystemMessage(sender, "Set ${target.name}'s nickname to $newNickname.")
+                    this.integration.sendSystemMessage(sender, "Set &a${target.name}&r's nickname to &a$newNickname")
                 }
             } else {
                 val nick = this.plugin.getNicknameService(target).nickname
-                this.integration.sendSystemMessage(sender, "${target.name}'s nickname is $nick")
+                if (nick == null) {
+                    this.integration.sendSystemMessage(sender, "&a${target.name}&r does not have a nickname set!")
+                } else {
+                    this.integration.sendSystemMessage(sender, "&a${target.name}&r's nickname is &a$nick")
+                }
             }
             SoundUtil.send(sender, NotificationType.QUIET)
             return true
@@ -66,10 +74,10 @@ class NicknameCommand : WithPlugin, TabExecutor {
         val newNickname = args[0]
         if (newNickname == "off") {
             this.plugin.getNicknameService(sender).removeNickname()
-            this.integration.sendSystemMessage(sender, "Removed ${sender.name}'s nickname.")
+            this.integration.sendSystemMessage(sender, "Removed &a${sender.name}&r's nickname")
         } else {
             this.plugin.getNicknameService(sender).setNickname(newNickname)
-            this.integration.sendSystemMessage(sender, "Set ${sender.name}'s nickname to $newNickname.")
+            this.integration.sendSystemMessage(sender, "Set &a${sender.name}&r's nickname to &a$newNickname&r")
         }
         SoundUtil.send(sender, NotificationType.QUIET)
         return true

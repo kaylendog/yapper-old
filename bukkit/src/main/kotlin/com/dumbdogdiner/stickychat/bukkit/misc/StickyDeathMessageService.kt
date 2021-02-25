@@ -9,13 +9,19 @@ import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.event.entity.EntityDamageEvent
 
 class StickyDeathMessageService : WithPlugin, DeathMessageService {
-    private var deathConfiguration: FileConfiguration
+    private lateinit var deathConfiguration: FileConfiguration
     private var enabled = false
 
     private val messages = hashMapOf<EntityDamageEvent.DamageCause, Array<String>>()
 
-    init {
+    public fun initialize() {
         val path = File(plugin.dataFolder, "deaths.yml")
+
+        // save default config if it doesn't exist
+        if (!path.exists()) {
+            this.plugin.saveResource("deaths.yml", false)
+        }
+
         deathConfiguration = YamlConfiguration()
         try {
             deathConfiguration.load(path)
@@ -29,8 +35,7 @@ class StickyDeathMessageService : WithPlugin, DeathMessageService {
                     messages[type] = deathConfiguration.getStringList(it).toTypedArray()
                 }
             }
-
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             this.logger.warning("Failed to load death message configuration - perhaps the config file is malformed?")
             e.printStackTrace()
         }

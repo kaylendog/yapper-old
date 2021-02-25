@@ -6,7 +6,6 @@ import com.dumbdogdiner.stickychat.api.chat.MessageService
 import com.dumbdogdiner.stickychat.api.result.MessageResult
 import com.dumbdogdiner.stickychat.api.result.MuteReason
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin
-import com.dumbdogdiner.stickychat.bukkit.redis.PacketBuilder
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
@@ -56,7 +55,6 @@ class StickyMessageService private constructor(private val player: Player) : Wit
 
         recipients.forEach { it.spigot().sendMessage(formattedMessage) }
         Bukkit.getConsoleSender().sendMessage(formattedMessage)
-        this.plugin.redisMessenger.sendRaw("stickychat", PacketBuilder(PacketBuilder.Type.MESSAGE).sender(this.player.name).content(message).build())
 
         return MessageResult.OK
     }

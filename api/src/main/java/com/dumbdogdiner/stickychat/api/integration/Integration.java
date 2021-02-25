@@ -69,7 +69,8 @@ public interface Integration {
      * @param component The component to send them
      * @return {@link DirectMessageResult}
      */
-    default DirectMessageResult sendSystemMessage(CommandSender sender, TextComponent component) {
+    default DirectMessageResult sendSystemMessage(CommandSender sender, TextComponent component) { ;
+        // check if is player
         if (sender instanceof Player) {
             return this.sendSystemMessage((Player) sender, component);
         }
@@ -85,7 +86,7 @@ public interface Integration {
      * @return {@link DirectMessageResult}
      */
     default DirectMessageResult sendSystemMessage(CommandSender sender, String message) {
-        return this.sendSystemMessage(sender, new TextComponent(message));
+        return this.sendSystemMessage(sender, new TextComponent(this.getPrefix() + message));
     }
 
     /**
@@ -96,7 +97,7 @@ public interface Integration {
      * @return {@link DirectMessageResult}
      */
     default DirectMessageResult sendSystemMessage(Player player, String message) {
-        return this.sendSystemMessage(player, new TextComponent(message));
+        return this.sendSystemMessage(player, new TextComponent(this.getPrefix() + message));
     }
 
     /**
@@ -108,7 +109,7 @@ public interface Integration {
      */
     default DirectMessageResult sendSystemError(CommandSender sender, String error) {
         SoundUtil.send(sender, NotificationType.ERROR);
-        return this.sendSystemMessage(sender, Formatter.formatHexCodes("&c" + error));
+        return this.sendSystemMessage(sender,"&c" + error);
     }
 
 }

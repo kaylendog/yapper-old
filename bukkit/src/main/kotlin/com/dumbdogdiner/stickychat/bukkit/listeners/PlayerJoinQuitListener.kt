@@ -13,10 +13,18 @@ class PlayerJoinQuitListener : WithPlugin, Listener {
     @EventHandler
     fun onPlayerJoin(e: PlayerJoinEvent) {
         this.plugin.getNicknameService(e.player).loadNickname()
+        // disable message hotfix
+        if (this.plugin.config.getBoolean("chat.disable-join-messages", false)) {
+            e.joinMessage = null
+        }
     }
 
     @EventHandler
     fun onPlayerLeave(e: PlayerQuitEvent) {
         logger.info("Saving settings for ${e.player} (${e.player.uniqueId})...")
+        // disable message hotfix
+        if (this.plugin.config.getBoolean("chat.disable-quit-messages", false)) {
+            e.quitMessage = null
+        }
     }
 }

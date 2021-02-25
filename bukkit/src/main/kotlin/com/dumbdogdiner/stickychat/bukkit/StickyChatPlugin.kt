@@ -18,10 +18,10 @@ import com.dumbdogdiner.stickychat.bukkit.chat.StickyMessageService
 import com.dumbdogdiner.stickychat.bukkit.chat.StickyNicknameService
 import com.dumbdogdiner.stickychat.bukkit.chat.StickyStaffChatService
 import com.dumbdogdiner.stickychat.bukkit.commands.ChannelCommand
+import com.dumbdogdiner.stickychat.bukkit.commands.ChatCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.MessageCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.NicknameCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.ReplyCommand
-import com.dumbdogdiner.stickychat.bukkit.commands.ChatCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.StaffChatCommand
 import com.dumbdogdiner.stickychat.bukkit.integration.StickyIntegrationManager
 import com.dumbdogdiner.stickychat.bukkit.listeners.DeathListener
@@ -29,11 +29,9 @@ import com.dumbdogdiner.stickychat.bukkit.listeners.MessageListener
 import com.dumbdogdiner.stickychat.bukkit.listeners.PlayerJoinQuitListener
 import com.dumbdogdiner.stickychat.bukkit.misc.StickyDeathMessageService
 import com.dumbdogdiner.stickychat.bukkit.models.Nicknames
-import com.dumbdogdiner.stickychat.bukkit.redis.RedisMessenger
 import com.dumbdogdiner.stickychat.bukkit.util.ExposedLogger
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import java.lang.Exception
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
@@ -50,7 +48,6 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
     }
 
     val integrationManager = StickyIntegrationManager()
-    val redisMessenger = RedisMessenger()
     val channelManager = StickyChannelManager()
     val deathManager = StickyDeathMessageService()
 
@@ -77,10 +74,6 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
 
         val integration = this.integrationManager.getIntegration(this)
         integration.prefix = this.config.getString("chat.prefix", "&b&lStickyChat &r&8» &r")!!
-
-        if (this.config.getBoolean("redis.enable", false)) {
-            redisMessenger.init()
-        }
 
         if (this.config.getBoolean("data.enable", true)) {
             this.logger.info("[SQL] Checking SQL database has been set up correctly...")
@@ -121,16 +114,17 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
         server.pluginManager.registerEvents(PlayerJoinQuitListener(), this)
         server.pluginManager.registerEvents(DeathListener(), this)
 
+        // initialize the death message service
+        this.deathManager.initialize()
+
         // check for PlaceholderAPI.
-        if (!Placeholders.hasPlaceholderApiEnabled()) {
+        if (Placeholders.hasPlaceholderApiEnabled()) {
+            PapiExtension().register()
+        } else {
             this.logger.warning("[PAPI] PlaceholderAPI not found - placeholders have been disabled")
         }
 
         logger.info("Done")
-    }
-
-    override fun onDisable() {
-        redisMessenger.close()
     }
 
     override fun getProvider(): Plugin {
