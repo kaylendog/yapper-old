@@ -19,7 +19,7 @@ class StickyDeathMessageService : WithPlugin, DeathMessageService {
 
         // save default config if it doesn't exist
         if (!path.exists()) {
-            this.plugin.saveResource("deaths.yml")
+            this.plugin.saveResource("deaths.yml", false)
         }
 
         deathConfiguration = YamlConfiguration()
