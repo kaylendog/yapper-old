@@ -55,12 +55,12 @@ class StickyStaffChatService private constructor(private val player: Player) : W
     }
 
     override fun sendStaffChatMessage(message: String): Boolean {
-        if (!this.hasStaffChatEnabled()) {
-            return false
-        }
-
+//        if (!this.hasStaffChatEnabled()) {
+//            return false
+//        }
+        // send to all recipients
         getRecipients().forEach { it.spigot().sendMessage(this.formatter.formatStaffChatMessage(message)) }
-
+        this.logger.info("[SC] ${this.player.name} $message")
         return true
     }
 }

@@ -33,15 +33,10 @@ chat:
 
   # Whether StickyChat should format death messages.
   format-death-messages: true
-  death-message-format: "{content}"
-
-  # Enable cross-server communication.
-  incoming-cross-server-messaging: true
-  outgoing-cross-server-messaging: true
-  cross-server-format: "&8[&a{server} &8- &b{name}&8] &7{message}"
+  death-message-format: "%message%"
 
   # Configuration for staff chat
-  staff-chat-format: "&d[SC]&7{name} &8» &7{message}"
+  staff-chat-format: "&d[SC]&7%player_name% &8» &7%message%"
   staff-chat-prefix: +
 
 # Configuration for private messages.
@@ -57,9 +52,9 @@ chat:
 dms:
   incoming:
     enable-sound: true
-    format: "&8[&e&lPM&r&8] &a{from_name} &8» &r{message}"
+    format: "&8[&e&lPM&r&8] &a%from_name% &8» &r%message%"
   outgoing:
-    format: "&8[&e&lPM&r&8] &a{from_name} &8» &r{message}"
+    format: "&8[&e&lPM&r&8] &a%from_name% &8» &r%message%"
 
 # Configuration options for SignSpy
 # This feature is WIP!

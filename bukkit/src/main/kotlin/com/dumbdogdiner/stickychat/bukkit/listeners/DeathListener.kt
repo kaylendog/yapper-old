@@ -1,8 +1,11 @@
 package com.dumbdogdiner.stickychat.bukkit.listeners
 
+import com.dumbdogdiner.stickychat.api.Formatter
 import com.dumbdogdiner.stickychat.api.StickyChat
 import com.dumbdogdiner.stickychat.api.util.Placeholders
+import com.dumbdogdiner.stickychat.api.util.StringModifier
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin
+import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.PlayerDeathEvent
@@ -19,6 +22,15 @@ class DeathListener : WithPlugin, Listener {
             return
         }
         val message = StickyChat.getService().deathMessageService.getRandomOfType(cause.cause)
-        e.deathMessage = Placeholders.setPlaceholdersSafe(e.entity, message.replace("%player_name%", e.entity.name))
+        val interp = Formatter.formatHexCodes(
+                StringModifier(this.config.getString("chat.death-message-format", "%message%")!!)
+                    .replace("%message%", message)
+                    .replace("%player_name%", e.entity.name)
+                    .apply { Placeholders.setPlaceholdersSafe(e.entity, it) }
+                    .get()
+        )
+        // broadcast and disable default
+        e.deathMessage = null
+        Bukkit.getOnlinePlayers().forEach { it.spigot().sendMessage(interp) }
     }
 }
