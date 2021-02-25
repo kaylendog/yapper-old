@@ -42,6 +42,24 @@ public interface DirectMessageManager {
      */
     @NotNull DirectMessageResult sendInternalMessage(@NotNull Player from, @NotNull Player to, @NotNull String message);
 
+    /**
+     * Send the target player a raw message
+     * @param player The target player
+     * @param message The text component message to send
+     * @return A {@link DirectMessageResult} determining the outcome of this operation.
+     */
+    @NotNull DirectMessageResult sendRawMessage(@NotNull Player player, @NotNull TextComponent message);
+
+    /**
+     * Send the target player a raw message.
+     *
+     * @param player The target player
+     * @param message The message to send
+     * @return A {@link DirectMessageResult} determining the outcome of this operation.
+     */
+    default @NotNull DirectMessageResult sendRawMessage(@NotNull Player player, @NotNull String message) {
+        return this.sendRawMessage(player, new TextComponent(message));
+    }
 
     /**
      * Gets the last player the target player sent a message to.
@@ -69,26 +87,6 @@ public interface DirectMessageManager {
      * @return {@link Boolean}
      */
     @NotNull DirectMessageResult reply(@NotNull Player player, @NotNull String message);
-
-    /**
-     * Send the target player a system message.
-     *
-     * @param player The target player
-     * @param message The message to send
-     * @return {@link DirectMessageResult}
-     */
-    default @NotNull DirectMessageResult sendSystemMessage(@NotNull Player player, @NotNull String message) {
-        return this.sendSystemMessage(player, new TextComponent(message));
-    }
-
-    /**
-     * Send the target player a system message.
-     *
-     * @param player The target player
-     * @param message The message to send
-     * @return {@link DirectMessageResult}
-     */
-    @NotNull DirectMessageResult sendSystemMessage(@NotNull Player player, @NotNull BaseComponent message);
 
     /**
      * @return A {@link Collection} of {@link Player}s who have direct messages disabled.

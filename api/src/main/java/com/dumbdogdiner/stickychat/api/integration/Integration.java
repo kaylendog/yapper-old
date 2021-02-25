@@ -6,7 +6,9 @@ import com.dumbdogdiner.stickychat.api.messaging.DirectMessageResult;
 import com.dumbdogdiner.stickychat.api.util.NotificationType;
 import com.dumbdogdiner.stickychat.api.util.SoundUtil;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -48,66 +50,138 @@ public interface Integration {
         return StickyChat.getService();
     }
 
-
     /**
-     * Send the target player a system message.
+     * Send the target player a message from your plugin.
      *
-     * @param player The player to send the message to
+     * @param player The target player
      * @param message The message to send
-     * @return {@link DirectMessageResult}
+     * @return A {@link DirectMessageResult} determining the success of this action.
      */
-    default DirectMessageResult sendSystemMessage(Player player, TextComponent message) {
-        return StickyChat.getService().getDirectMessageManager().sendSystemMessage(player, Formatter.formatHexCodes(message));
+    default DirectMessageResult sendMessage(Player player, TextComponent message) {
+        return this.getApi().getDirectMessageManager().sendRawMessage(player, Formatter.formatHexCodes(message));
     }
 
     /**
-     * Send the target a system message.
+     * Send the target player a message from your plugin.
      *
-     * @param sender The target to send the message to
-     * @param component The component to send them
-     * @return {@link DirectMessageResult}
+     * @param player The target player
+     * @param message The message to send
+     * @return A {@link DirectMessageResult} determining the success of this action.
      */
-    default DirectMessageResult sendSystemMessage(CommandSender sender, TextComponent component) { ;
-        // check if is player
-        if (sender instanceof Player) {
-            return this.sendSystemMessage((Player) sender, component);
-        }
-        sender.spigot().sendMessage(component);
+    default DirectMessageResult sendMessage(Player player, String message) {
+        return this.getApi().getDirectMessageManager().sendRawMessage(player, Formatter.formatHexCodes(this.getPrefix() + message));
+    }
+
+    /**
+     * Send the target console command sender a message from your plugin.
+     *
+     * @param sender The target sender
+     * @param message The message to send
+     * @return A {@link DirectMessageResult} determining the success of this action.
+     */
+    default DirectMessageResult sendMessage(ConsoleCommandSender sender, TextComponent message) {
+        sender.spigot().sendMessage(message);
+        return DirectMessageResult.OK;
+    }
+
+    default DirectMessageResult sendMessage(ConsoleCommandSender sender, String message) {
+        sender.spigot().sendMessage(Formatter.formatHexCodes(this.getPrefix() + message));
         return DirectMessageResult.OK;
     }
 
     /**
-     * Send the target a system message.
+     * Send the target command sender a message.
      *
-     * @param sender The target to send the message to - can be the ConsoleSender
+     * @param sender The target command sender
      * @param message The message to send
-     * @return {@link DirectMessageResult}
+     * @return A {@link DirectMessageResult} determining the success of this action.
      */
+<<<<<<< HEAD
+    default DirectMessageResult sendSystemMessage(CommandSender sender, TextComponent component) { ;
+        // check if is player
+=======
+    default DirectMessageResult sendMessage(CommandSender sender, String message) {
+>>>>>>> bbf6be5... v4 :sparkles: improvements to integration
+        if (sender instanceof Player) {
+            return this.sendMessage((Player) sender, message);
+        }
+        return this.sendMessage((ConsoleCommandSender) sender, message);
+    }
+
+    /**
+     * Send the target sender a message with a notification sound.
+     *
+     * @param sender The target sender
+     * @param notificationType The type of notification to send
+     * @param message The message to send
+     * @return A {@link DirectMessageResult} determining the success of this action.
+     */
+<<<<<<< HEAD
     default DirectMessageResult sendSystemMessage(CommandSender sender, String message) {
         return this.sendSystemMessage(sender, new TextComponent(this.getPrefix() + message));
+=======
+    default DirectMessageResult sendMessageWithNotification(CommandSender sender, NotificationType notificationType, String message) {
+        DirectMessageResult result = this.sendMessage(sender, message);
+        // don't send the notification if it didn't work lol
+        if (result == DirectMessageResult.OK) {
+            SoundUtil.send(sender, notificationType);
+        }
+        return result;
+>>>>>>> bbf6be5... v4 :sparkles: improvements to integration
     }
 
     /**
-     * Send the target player a system message.
+     * Send the target sender a message with an `INFO` notification sound.
      *
-     * @param player The player to send the message to
+     * @param sender The target sender
      * @param message The message to send
-     * @return {@link DirectMessageResult}
+     * @return A {@link DirectMessageResult} determining the success of this action.
      */
+<<<<<<< HEAD
     default DirectMessageResult sendSystemMessage(Player player, String message) {
         return this.sendSystemMessage(player, new TextComponent(this.getPrefix() + message));
+=======
+    default DirectMessageResult sendWithInfo(CommandSender sender, String message) {
+        return this.sendMessageWithNotification(sender, NotificationType.INFO, message);
+>>>>>>> bbf6be5... v4 :sparkles: improvements to integration
     }
 
     /**
-     * Send the target a system error.
+     * Send the target sender a message with an `QUIET` notification sound.
      *
-     * @param sender The target to send the error to
-     * @param error The error to send
-     * @return {@link DirectMessageResult}
+     * @param sender The target sender
+     * @param message The message to send
+     * @return A {@link DirectMessageResult} determining the success of this action.
      */
+<<<<<<< HEAD
     default DirectMessageResult sendSystemError(CommandSender sender, String error) {
         SoundUtil.send(sender, NotificationType.ERROR);
         return this.sendSystemMessage(sender,"&c" + error);
+=======
+    default DirectMessageResult sendWithQuiet(CommandSender sender, String message) {
+        return this.sendMessageWithNotification(sender, NotificationType.QUIET, message);
+>>>>>>> bbf6be5... v4 :sparkles: improvements to integration
     }
 
+    /**
+     * Send the target sender a message with an `SUCCESS` notification sound.
+     *
+     * @param sender The target sender
+     * @param message The message to send
+     * @return A {@link DirectMessageResult} determining the success of this action.
+     */
+    default DirectMessageResult sendWithSuccess(CommandSender sender, String message) {
+        return this.sendMessageWithNotification(sender, NotificationType.SUCCESS, message);
+    }
+
+    /**
+     * Send the target sender a message with an `ERROR` notification sound.
+     *
+     * @param sender The target sender
+     * @param message The message to send
+     * @return A {@link DirectMessageResult} determining the success of this action.
+     */
+    default DirectMessageResult sendWithError(CommandSender sender, String message) {
+        return this.sendMessageWithNotification(sender, NotificationType.ERROR, "&c" + message);
+    }
 }
