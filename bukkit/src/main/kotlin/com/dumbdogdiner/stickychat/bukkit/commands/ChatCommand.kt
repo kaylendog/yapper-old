@@ -23,6 +23,7 @@ class ChatCommand : WithPlugin, TabExecutor {
         if (args.getOrNull(0) == "reload") {
             this.plugin.reloadConfig()
             this.integration.sendSystemMessage(sender, "Reloaded configuration!")
+            SoundUtil.send(sender, NotificationType.INFO)
             return true
         }
 

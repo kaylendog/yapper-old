@@ -70,10 +70,14 @@ public interface Integration {
      * @return {@link DirectMessageResult}
      */
     default DirectMessageResult sendSystemMessage(CommandSender sender, TextComponent component) {
+        TextComponent base = new TextComponent();
+        base.addExtra(this.getPrefix());
+        base.addExtra(component);
+        // check if is player
         if (sender instanceof Player) {
-            return this.sendSystemMessage((Player) sender, component);
+            return this.sendSystemMessage((Player) sender, base);
         }
-        sender.spigot().sendMessage(component);
+        sender.spigot().sendMessage(base);
         return DirectMessageResult.OK;
     }
 
