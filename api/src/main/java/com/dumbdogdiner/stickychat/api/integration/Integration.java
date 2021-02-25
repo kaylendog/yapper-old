@@ -109,7 +109,7 @@ public interface Integration {
      */
     default DirectMessageResult sendSystemError(CommandSender sender, String error) {
         SoundUtil.send(sender, NotificationType.ERROR);
-        return this.sendSystemMessage(sender,this.getPrefix() + "&c" + error);
+        return this.sendSystemMessage(sender,"&c" + error);
     }
 
 }
