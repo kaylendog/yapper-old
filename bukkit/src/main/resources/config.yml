@@ -15,13 +15,6 @@ data:
   username: postgres
   password: password
 
-# Configure redis settings for pub/sub.
-redis:
-  enable: true
-  host: localhost
-  port: 6379
-  password: password
-
 # Configure the name of this server
 server: "server"
 

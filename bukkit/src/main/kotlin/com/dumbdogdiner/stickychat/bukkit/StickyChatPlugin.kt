@@ -29,11 +29,9 @@ import com.dumbdogdiner.stickychat.bukkit.listeners.MessageListener
 import com.dumbdogdiner.stickychat.bukkit.listeners.PlayerJoinQuitListener
 import com.dumbdogdiner.stickychat.bukkit.misc.StickyDeathMessageService
 import com.dumbdogdiner.stickychat.bukkit.models.Nicknames
-import com.dumbdogdiner.stickychat.bukkit.redis.RedisMessenger
 import com.dumbdogdiner.stickychat.bukkit.util.ExposedLogger
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import java.lang.Exception
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
@@ -50,7 +48,6 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
     }
 
     val integrationManager = StickyIntegrationManager()
-    val redisMessenger = RedisMessenger()
     val channelManager = StickyChannelManager()
     val deathManager = StickyDeathMessageService()
 
@@ -77,10 +74,6 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
 
         val integration = this.integrationManager.getIntegration(this)
         integration.prefix = this.config.getString("chat.prefix", "&b&lStickyChat &r&8» &r")!!
-
-        if (this.config.getBoolean("redis.enable", false)) {
-            redisMessenger.init()
-        }
 
         if (this.config.getBoolean("data.enable", true)) {
             this.logger.info("[SQL] Checking SQL database has been set up correctly...")
@@ -130,10 +123,6 @@ class StickyChatPlugin : StickyChat, JavaPlugin() {
         }
 
         logger.info("Done")
-    }
-
-    override fun onDisable() {
-        redisMessenger.close()
     }
 
     override fun getProvider(): Plugin {
