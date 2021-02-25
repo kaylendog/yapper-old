@@ -19,6 +19,6 @@ class DeathListener : WithPlugin, Listener {
             return
         }
         val message = StickyChat.getService().deathMessageService.getRandomOfType(cause.cause)
-        e.deathMessage = Placeholders.setPlaceholdersSafe(e.entity, message)
+        e.deathMessage = Placeholders.setPlaceholdersSafe(e.entity, message.replace("%player_name%", e.entity.name))
     }
 }
