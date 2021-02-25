@@ -1,5 +1,6 @@
 package com.dumbdogdiner.stickychat.bukkit.commands
 
+import com.dumbdogdiner.stickychat.api.util.SoundUtil
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -27,16 +28,13 @@ class StaffChatCommand : WithPlugin, TabExecutor {
         // toggle chat on
         if (args.isEmpty()) {
             if (sc.hasStaffChatEnabled()) {
-                sc.enableStaffChat()
-                this.integration.sendSystemMessage(sender, "Enabled staff chat!")
-            } else {
                 sc.disableStaffChat()
                 this.integration.sendSystemMessage(sender, "Disabled staff chat!")
+            } else {
+                sc.enableStaffChat()
+                this.integration.sendSystemMessage(sender, "Enabled staff chat!")
             }
-        }
-
-        // don't send anything if not enabled
-        if (!sc.hasStaffChatEnabled()) {
+            SoundUtil.sendQuiet(sender)
             return true
         }
 

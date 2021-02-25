@@ -36,7 +36,7 @@ chat:
   death-message-format: "%message%"
 
   # Configuration for staff chat
-  staff-chat-format: "&d[SC]&7%player_name% &8» &7%message%"
+  staff-chat-format: "&d[SC] &7%player_name% &8» &7%message%"
   staff-chat-prefix: +
 
 # Configuration for private messages.

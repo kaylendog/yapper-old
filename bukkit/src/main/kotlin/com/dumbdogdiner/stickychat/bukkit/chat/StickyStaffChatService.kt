@@ -2,6 +2,7 @@ package com.dumbdogdiner.stickychat.bukkit.chat
 
 import com.dumbdogdiner.stickychat.api.Priority
 import com.dumbdogdiner.stickychat.api.chat.StaffChatService
+import com.dumbdogdiner.stickychat.api.util.SoundUtil
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -32,14 +33,12 @@ class StickyStaffChatService private constructor(private val player: Player) : W
         }
     }
 
-    private val staffChatEnabled = false
-
     override fun getPlayer(): Player {
         return player
     }
 
     override fun enableStaffChat(): Boolean {
-        if (this.staffChatEnabled) {
+        if (this.dataService.staffChatEnabled) {
             return false
         }
         this.dataService.staffChatEnabled = true
@@ -47,7 +46,7 @@ class StickyStaffChatService private constructor(private val player: Player) : W
     }
 
     override fun disableStaffChat(): Boolean {
-        if (!this.staffChatEnabled) {
+        if (!this.dataService.staffChatEnabled) {
             return false
         }
         this.dataService.staffChatEnabled = false
@@ -59,7 +58,10 @@ class StickyStaffChatService private constructor(private val player: Player) : W
 //            return false
 //        }
         // send to all recipients
-        getRecipients().forEach { it.spigot().sendMessage(this.formatter.formatStaffChatMessage(message)) }
+        getRecipients().forEach {
+            it.spigot().sendMessage(this.formatter.formatStaffChatMessage(message))
+            SoundUtil.sendQuiet(it)
+        }
         this.logger.info("[SC] ${this.player.name} $message")
         return true
     }

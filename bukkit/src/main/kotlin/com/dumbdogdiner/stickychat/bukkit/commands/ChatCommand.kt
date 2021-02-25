@@ -31,7 +31,7 @@ class ChatCommand : WithPlugin, TabExecutor {
             return true
         }
 
-        this.integration.sendSystemMessage(sender, "Running version &av&l${this.plugin.description.version}")
+        this.integration.sendSystemMessage(sender, "Running version &a&lv${this.plugin.description.version}")
         SoundUtil.send(sender, NotificationType.SUCCESS)
         return true
     }
