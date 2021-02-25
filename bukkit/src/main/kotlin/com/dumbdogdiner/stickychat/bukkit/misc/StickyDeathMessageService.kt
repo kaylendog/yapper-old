@@ -29,8 +29,7 @@ class StickyDeathMessageService : WithPlugin, DeathMessageService {
                     messages[type] = deathConfiguration.getStringList(it).toTypedArray()
                 }
             }
-
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             this.logger.warning("Failed to load death message configuration - perhaps the config file is malformed?")
             e.printStackTrace()
         }

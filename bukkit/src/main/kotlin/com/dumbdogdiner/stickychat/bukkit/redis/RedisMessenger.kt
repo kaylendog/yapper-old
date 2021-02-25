@@ -1,10 +1,10 @@
 package com.dumbdogdiner.stickychat.bukkit.redis
 
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin
-import net.md_5.bungee.api.chat.TextComponent
-import org.bukkit.entity.Player
 import java.util.Base64
 import kotlin.concurrent.thread
+import net.md_5.bungee.api.chat.TextComponent
+import org.bukkit.entity.Player
 import redis.clients.jedis.JedisPool
 import redis.clients.jedis.JedisPoolConfig
 import redis.clients.jedis.JedisPubSub
@@ -74,7 +74,7 @@ class RedisMessenger : WithPlugin, JedisPubSub() {
     override fun onMessage(channel: String, message: String) {
         if (channel != CHANNEL_NAME) {
             return
-        }   
+        }
 
         val packet = PacketBuilder.decodePacket(Base64.getDecoder().decode(message))
         this.logger.info("[REDIS] Received packet '${packet.uniqueId}' from '${packet.sender}' - type=${packet.type.name}")

@@ -18,10 +18,10 @@ import com.dumbdogdiner.stickychat.bukkit.chat.StickyMessageService
 import com.dumbdogdiner.stickychat.bukkit.chat.StickyNicknameService
 import com.dumbdogdiner.stickychat.bukkit.chat.StickyStaffChatService
 import com.dumbdogdiner.stickychat.bukkit.commands.ChannelCommand
+import com.dumbdogdiner.stickychat.bukkit.commands.ChatCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.MessageCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.NicknameCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.ReplyCommand
-import com.dumbdogdiner.stickychat.bukkit.commands.ChatCommand
 import com.dumbdogdiner.stickychat.bukkit.commands.StaffChatCommand
 import com.dumbdogdiner.stickychat.bukkit.integration.StickyIntegrationManager
 import com.dumbdogdiner.stickychat.bukkit.listeners.DeathListener
