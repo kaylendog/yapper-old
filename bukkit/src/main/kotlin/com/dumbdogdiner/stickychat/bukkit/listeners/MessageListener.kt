@@ -17,6 +17,15 @@ class MessageListener : WithPlugin, Listener {
             return
         }
 
+        // staff chat prefix mode
+        if (
+            ev.message.startsWith(this.config.getString("chat.staff-chat-prefix", "+")!!)
+            && ev.player.hasPermission("stickychat.staff-chat")
+        ) {
+            this.plugin.getStaffChatService(ev.player).sendStaffChatMessage(ev.message.substring(1))
+            return
+        }
+
         this.plugin.getMessageService(ev.player).broadcast(ev.message)
     }
 }
