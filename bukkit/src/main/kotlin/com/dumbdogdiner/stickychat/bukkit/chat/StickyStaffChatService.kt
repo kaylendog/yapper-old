@@ -27,7 +27,7 @@ class StickyStaffChatService private constructor(private val player: Player) : W
          */
         fun getRecipients(): List<Player> {
             return Bukkit.getOnlinePlayers().filter {
-                it.hasPermission("stickychat.staffchat") && this.plugin.getDataService(it).priority.isGreaterThanOrEqualTo(Priority.IMPORTANT)
+                it.hasPermission("stickychat.staffchat") && !this.plugin.getDataService(it).priority.isGreaterThanOrEqualTo(Priority.IMPORTANT)
             }
         }
     }
