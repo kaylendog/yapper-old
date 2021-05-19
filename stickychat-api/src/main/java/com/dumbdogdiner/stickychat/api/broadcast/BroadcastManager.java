@@ -8,14 +8,6 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface BroadcastManager {
     /**
-     * Load all the timers from plugin configuration. Return the
-     * number of timers that were loaded.
-     *
-     * @return {@link Integer}
-     */
-    Integer loadTimers();
-
-    /**
      * Register a new {@link BroadcastTimer}. Returns the ID of the
      * registered timer.
      *
