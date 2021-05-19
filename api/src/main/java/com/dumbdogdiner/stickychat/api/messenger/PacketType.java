@@ -20,22 +20,27 @@ public enum PacketType {
     DIRECT_MESSAGE_ACK,
 
     /**
-     * Packet type for players who have joined the network.
-     */
-    PLAYER_JOIN_NETWORK,
-
-    /**
      * Packet type for players who have changed servers.
      */
     PLAYER_CHANGE_SERVER,
 
     /**
+     * Packet type for players who have joined the network.
+     */
+    PLAYER_JOIN_NETWORK,
+
+    /**
+     * Packet type for players who have left the network.
+     */
+    PLAYER_LEAVE_NETWORK,
+
+    /**
      * Packet type for channel creation.
      */
-    CREATE_CHANNEL,
+    CHANNEL_CREATE,
 
     /**
      * Packet type for channel deletion.
      */
-    DELETE_CHANNEL
+    CHANNEL_DELETE
 }

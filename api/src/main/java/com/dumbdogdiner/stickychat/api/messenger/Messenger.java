@@ -1,5 +1,9 @@
 package com.dumbdogdiner.stickychat.api.messenger;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+
 /**
  * Implements methods for sending packets between servers.
  */
@@ -17,4 +21,19 @@ public interface Messenger {
      * @param sender The remote server it came from
      */
     void receivePacket(Packet packet, RemoteServer sender);
+
+    /**
+     * Broadcast a packet to all remote servers.
+     * @param packet The packet to send
+     */
+    default void broadcastPacket(Packet packet) {
+        for (RemoteServer server : this.getRemoteServers()) {
+            this.sendPacket(packet, server);
+        }
+    }
+
+    /**
+     * @return A list of available remote servers.
+     */
+    @NotNull List<RemoteServer> getRemoteServers();
 }
