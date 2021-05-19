@@ -5,8 +5,18 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-public class ChatEvent extends Event implements Cancellable {
+/**
+ * Represents a generic event for StickyChat.
+ */
+class ChatEvent extends Event implements Cancellable {
+    /**
+     * An array of handlers that are listening for this event.
+     */
     private static final HandlerList handlers = new HandlerList();
+
+    /**
+     * Whether this event has been cancelled.a
+     */
     private boolean cancelled = false;
 
     /**
@@ -26,10 +36,16 @@ public class ChatEvent extends Event implements Cancellable {
         this.cancelled = cancel;
     }
 
+    /**
+     * @return A list of handlers for this event.
+     */
     public @NotNull HandlerList getHandlers() {
         return handlers;
     }
 
+    /**
+     * @return A list of handlers for this event.
+     */
     public static HandlerList getHandlerList() {
         return handlers;
     }

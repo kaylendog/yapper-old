@@ -7,10 +7,10 @@ import org.bukkit.entity.Player;
  */
 public class JoinLeaveBroadcastEvent extends ChatEvent {
     public enum Type {
+        JOIN_NETWORK,
+        LEAVE_NETWORK,
         JOIN,
-        LEAVE,
-        JOIN_TRANSFER,
-        LEAVE_TRANSFER
+        LEAVE
     }
 
     private final Player player;

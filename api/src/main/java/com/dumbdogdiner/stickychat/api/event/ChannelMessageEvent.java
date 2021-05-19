@@ -2,9 +2,6 @@ package com.dumbdogdiner.stickychat.api.event;
 
 import com.dumbdogdiner.stickychat.api.channel.Channel;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.TextComponent;
