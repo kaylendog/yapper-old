@@ -2,6 +2,7 @@ package com.dumbdogdiner.stickychat.api.mail;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 
 import java.util.UUID;
 
@@ -37,4 +38,15 @@ public interface Letter {
     String getContent();
 
     // TODO: convert to book
+    BookMeta getMetadata();
+
+    /**
+     * Convert this letter into a book.
+     * @return An {@link ItemStack} of type book.
+     */
+    default ItemStack toItemStack() {
+        ItemStack item = new ItemStack(Material.WRITTEN_BOOK);
+        item.setItemMeta(this.getMetadata());
+        return item;
+    }
 }

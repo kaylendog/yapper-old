@@ -9,7 +9,7 @@ import java.util.UUID;
 /**
  * Packet for channel deletion.
  */
-public interface ChannelDelete extends Packet {
+public interface ChannelDelete extends Packet, ActorEvent {
 	@Override
 	@NotNull default PacketType getType() {
 		return PacketType.CHANNEL_DELETE;
@@ -24,14 +24,4 @@ public interface ChannelDelete extends Packet {
 	 * @return A reason for channel deletion.
 	 */
 	String getReason();
-
-	/**
-	 * @return The unique ID of the actor that performed this action.
-	 */
-	UUID getActorUniqueId();
-
-	/**
-	 * @return The name of the actor that performed this action.
-	 */
-	String getActorName();
 }

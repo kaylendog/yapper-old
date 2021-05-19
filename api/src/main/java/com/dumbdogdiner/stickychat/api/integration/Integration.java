@@ -96,12 +96,7 @@ public interface Integration {
      * @param message The message to send
      * @return A {@link DirectMessageResult} determining the success of this action.
      */
-<<<<<<< HEAD
-    default DirectMessageResult sendSystemMessage(CommandSender sender, TextComponent component) { ;
-        // check if is player
-=======
     default DirectMessageResult sendMessage(CommandSender sender, String message) {
->>>>>>> bbf6be5... v4 :sparkles: improvements to integration
         if (sender instanceof Player) {
             return this.sendMessage((Player) sender, message);
         }
@@ -116,10 +111,6 @@ public interface Integration {
      * @param message The message to send
      * @return A {@link DirectMessageResult} determining the success of this action.
      */
-<<<<<<< HEAD
-    default DirectMessageResult sendSystemMessage(CommandSender sender, String message) {
-        return this.sendSystemMessage(sender, new TextComponent(this.getPrefix() + message));
-=======
     default DirectMessageResult sendMessageWithNotification(CommandSender sender, NotificationType notificationType, String message) {
         DirectMessageResult result = this.sendMessage(sender, message);
         // don't send the notification if it didn't work lol
@@ -127,7 +118,6 @@ public interface Integration {
             SoundUtil.send(sender, notificationType);
         }
         return result;
->>>>>>> bbf6be5... v4 :sparkles: improvements to integration
     }
 
     /**
@@ -137,13 +127,8 @@ public interface Integration {
      * @param message The message to send
      * @return A {@link DirectMessageResult} determining the success of this action.
      */
-<<<<<<< HEAD
-    default DirectMessageResult sendSystemMessage(Player player, String message) {
-        return this.sendSystemMessage(player, new TextComponent(this.getPrefix() + message));
-=======
     default DirectMessageResult sendWithInfo(CommandSender sender, String message) {
         return this.sendMessageWithNotification(sender, NotificationType.INFO, message);
->>>>>>> bbf6be5... v4 :sparkles: improvements to integration
     }
 
     /**
@@ -153,14 +138,8 @@ public interface Integration {
      * @param message The message to send
      * @return A {@link DirectMessageResult} determining the success of this action.
      */
-<<<<<<< HEAD
-    default DirectMessageResult sendSystemError(CommandSender sender, String error) {
-        SoundUtil.send(sender, NotificationType.ERROR);
-        return this.sendSystemMessage(sender,"&c" + error);
-=======
     default DirectMessageResult sendWithQuiet(CommandSender sender, String message) {
         return this.sendMessageWithNotification(sender, NotificationType.QUIET, message);
->>>>>>> bbf6be5... v4 :sparkles: improvements to integration
     }
 
     /**

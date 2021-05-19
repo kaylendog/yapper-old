@@ -3,11 +3,8 @@ plugins {
     id("java")
 }
 
-<<<<<<< HEAD
-=======
 version = "4.0.0"
 
->>>>>>> d88674d... v4 :sparkles: package refactor
 repositories {
     mavenCentral()
     jcenter()
@@ -15,7 +12,9 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.16.3-R0.1-SNAPSHOT")
+    implementation("org.projectlombok:lombok:1.18.18")
+    annotationProcessor("org.projectlombok:lombok:1.18.18")
+	compileOnly("org.spigotmc:spigot-api:1.16.3-R0.1-SNAPSHOT")
     implementation("org.jetbrains:annotations:16.0.2")
 
     testImplementation(kotlin("stdlib"))
@@ -24,7 +23,7 @@ dependencies {
 }
 
 tasks {
-        test {
+    test {
         dependsOn("compileTestKotlin")
         useJUnitPlatform()
         testLogging {

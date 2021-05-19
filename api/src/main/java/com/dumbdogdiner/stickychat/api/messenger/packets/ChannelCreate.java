@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Packet for channel creation.
  */
-public interface ChannelCreate extends Packet {
+public interface ChannelCreate extends Packet, ActorEvent {
 	@Override
 	@NotNull default PacketType getType() {
 		return PacketType.CHANNEL_CREATE;

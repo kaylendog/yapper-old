@@ -22,25 +22,6 @@ public interface ChannelManager {
     @NotNull Channel createChannel(@NotNull ChannelType type, @NotNull String name);
 
     /**
-     * Restore a channel.
-     *
-     * @param uuid The unique id of this channel
-     * @param type The type of this channel
-     * @param name The name of this channel
-     * @return The restored {@link Channel}
-     */
-    @NotNull Channel restoreChannel(@NotNull UUID uuid, @NotNull ChannelType type, @NotNull String name);
-
-    /**
-     * Deserialize a configuration section into a channel object.
-     *
-     * @param key The key of the config section
-     * @param section The section to deserialize
-     * @return The deserialized {@link Channel}
-     */
-    @NotNull Channel deserialize(@NotNull String key, @NotNull ConfigurationSection section);
-
-    /**
      * @return The global channel all players can talk in.
      */
     default @NotNull Channel getGlobalChannel() {

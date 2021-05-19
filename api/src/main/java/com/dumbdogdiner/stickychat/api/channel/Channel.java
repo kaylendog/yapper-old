@@ -79,12 +79,4 @@ public interface Channel {
      * Close this channel and move all players to global.
      */
     void close();
-
-    /**
-     * Serialize this channel into a YAML configuration section.
-     *
-     * @param config The configuration this channel is being serialized into
-     * @return The modified {@link ConfigurationSection}
-     */
-    @NotNull ConfigurationSection serialize(@NotNull Configuration config);
 }
