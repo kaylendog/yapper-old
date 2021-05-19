@@ -1,13 +1,9 @@
-package com.dumbdogdiner.stickychat.ext
-
-import com.dumbdogdiner.stickychat.api.StickyChat
+import com.dumbdogdiner.stickychat.api.channel.Channel
 import com.dumbdogdiner.stickychat.api.messaging.Formatter
 import com.dumbdogdiner.stickychat.api.util.NotificationType
 import com.dumbdogdiner.stickychat.api.util.SoundUtil
 import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.entity.Player
-
-val chat = StickyChat.getService()
 
 /**
  * Send a regular string message to a player.
@@ -55,3 +51,33 @@ var Player.displayName
 	set(value) = run {
 		chat.nicknameManager.setNickname(this, value)
 	}
+
+/**
+ * The current channels this player is in.
+ */
+val Player.currentChannels
+	get() = chat.channelManager.getPlayerChannels(this)
+
+/**
+ * Join this player to the target channel.
+ * @param channel The channel to join
+ */
+fun Player.joinChannel(channel: Channel) {
+	channel.addPlayer(this)
+}
+
+/**
+ * Leave the target channel.
+ * @param channel The target channel
+ */
+fun Player.leaveChannel(channel: Channel) {
+	channel.removePlayer(this)
+}
+
+/**
+ * Block the target player.
+ * @param player The target player
+ */
+fun Player.block(player: Player) {
+	chat.playerBlockManager.block(this, player)
+}

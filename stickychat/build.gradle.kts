@@ -19,6 +19,7 @@ dependencies {
     // jvm and kotlin dependencies
     implementation(kotlin("stdlib"))
     implementation(project(":stickychat-api"))
+    implementation(project(":stickychat-ext"))
 
     // shaded dependencies
     implementation("redis.clients", "jedis", "3.3.0")
