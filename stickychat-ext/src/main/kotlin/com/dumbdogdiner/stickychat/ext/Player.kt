@@ -81,3 +81,11 @@ fun Player.leaveChannel(channel: Channel) {
 fun Player.block(player: Player) {
 	chat.playerBlockManager.block(this, player)
 }
+
+/**
+ * Unblock the target player.
+ * @param player The target player
+ */
+fun Player.unblock(player: Player) {
+	chat.playerBlockManager.unblock(this, player)
+}
