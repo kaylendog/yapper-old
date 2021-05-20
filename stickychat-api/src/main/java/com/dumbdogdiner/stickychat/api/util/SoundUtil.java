@@ -76,8 +76,7 @@ public class SoundUtil {
     }
 
     /**
-     * Send a CommandSender the specified notification, if you can. Returns true if
-     * the sound was played.
+     * Send a CommandSender the specified notification, if you can. Returns true if the sound was played.
      *
      * @param sender {@link org.bukkit.command.CommandSender} The sender
      * @param type {@link NotificationType} The type of sound

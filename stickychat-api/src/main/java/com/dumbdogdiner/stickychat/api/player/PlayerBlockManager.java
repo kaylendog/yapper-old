@@ -57,8 +57,7 @@ public interface PlayerBlockManager {
      *
      * @param player The uuid of the player who is unblocking the target
      * @param target The uuid of the target to unblock
-     * @return True if the player was unblocked, false if they were not blocked to
-     *         begin with.
+     * @return True if the player was unblocked, false if they were not blocked to begin with.
      */
     @NotNull
     Boolean unblock(@NotNull UUID player, @NotNull UUID target);
@@ -68,8 +67,7 @@ public interface PlayerBlockManager {
      *
      * @param player The uuid of the player who is unblocking the target
      * @param target The uuid of the target to unblock
-     * @return True if the player was unblocked, false if they were not blocked to
-     *         begin with.
+     * @return True if the player was unblocked, false if they were not blocked to begin with.
      */
     default @NotNull Boolean unblock(@NotNull OfflinePlayer player, @NotNull OfflinePlayer target) {
         return this.unblock(player.getUniqueId(), target.getUniqueId());
@@ -80,8 +78,7 @@ public interface PlayerBlockManager {
      *
      * @param player The uuid of the player who is unblocking the target
      * @param target The uuid of the target to unblock
-     * @return True if the player was unblocked, false if they were not blocked to
-     *         begin with.
+     * @return True if the player was unblocked, false if they were not blocked to begin with.
      */
     default @NotNull Boolean unblock(@NotNull Player player, @NotNull Player target) {
         return this.unblock(player.getUniqueId(), target.getUniqueId());

@@ -47,8 +47,7 @@ public interface SignSpyManager {
     Boolean disableSignSpy(Player player);
 
     /**
-     * Broadcast a SignSpy notification to all players on the server who have it
-     * enabled.
+     * Broadcast a SignSpy notification to all players on the server who have it enabled.
      *
      * @param notification The notification to send.
      */

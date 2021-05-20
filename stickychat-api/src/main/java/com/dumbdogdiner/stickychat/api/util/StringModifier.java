@@ -140,8 +140,7 @@ public class StringModifier implements Cloneable {
     }
 
     /**
-     * Replace a substring of the string with another, using the indexing bounds of
-     * the substring.
+     * Replace a substring of the string with another, using the indexing bounds of the substring.
      *
      * @param start The start index
      * @param end The end index

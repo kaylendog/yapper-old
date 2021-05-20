@@ -31,8 +31,7 @@ public interface SignNotification {
     }
 
     /**
-     * Destroy the placed sign, specifying if the block should be destroyed
-     * silently.
+     * Destroy the placed sign, specifying if the block should be destroyed silently.
      *
      * @param silent Whether the block should be destroyed silently.
      */

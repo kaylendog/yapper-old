@@ -12,8 +12,7 @@ public enum Priority {
     LOW,
 
     /**
-     * Reserved for messages with high priority, such as staff announcements,
-     * warnings etc.
+     * Reserved for messages with high priority, such as staff announcements, warnings etc.
      */
     IMPORTANT,
 
@@ -21,8 +20,7 @@ public enum Priority {
     DIRECT,
 
     /**
-     * Reserved for system messages sent via the server or plugins implementing the
-     * chat API.
+     * Reserved for system messages sent via the server or plugins implementing the chat API.
      */
     SYSTEM;
 

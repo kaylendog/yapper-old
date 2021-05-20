@@ -11,8 +11,7 @@ import org.jetbrains.annotations.Nullable;
 /** Manages direct messages. */
 public interface DirectMessageManager {
     /**
-     * Send a message to the player with the target name. They many not necessarily
-     * be on the same server.
+     * Send a message to the player with the target name. They many not necessarily be on the same server.
      *
      * @param from The player this message is from
      * @param to The name of the target plyaer
@@ -23,8 +22,7 @@ public interface DirectMessageManager {
     DirectMessageResult sendMessage(@NotNull Player from, @NotNull String to, @NotNull String message);
 
     /**
-     * Send a message to the player with the target name. The two players are not on
-     * the same server.
+     * Send a message to the player with the target name. The two players are not on the same server.
      *
      * @param from The player this message is from
      * @param to The name of the target player
@@ -35,8 +33,7 @@ public interface DirectMessageManager {
     DirectMessageResult sendExternalMessage(@NotNull Player from, @NotNull String to, @NotNull String message);
 
     /**
-     * Send a message to the player with the target name. They are on the same
-     * server.
+     * Send a message to the player with the target name. They are on the same server.
      *
      * @param from The player who is sending a message
      * @param to The player receiving the message
@@ -51,8 +48,7 @@ public interface DirectMessageManager {
      *
      * @param player The target player
      * @param message The text component message to send
-     * @return A {@link DirectMessageResult} determining the outcome of this
-     *         operation.
+     * @return A {@link DirectMessageResult} determining the outcome of this operation.
      */
     @NotNull
     DirectMessageResult sendRawMessage(@NotNull Player player, @NotNull TextComponent message);
@@ -62,8 +58,7 @@ public interface DirectMessageManager {
      *
      * @param player The target player
      * @param message The message to send
-     * @return A {@link DirectMessageResult} determining the outcome of this
-     *         operation.
+     * @return A {@link DirectMessageResult} determining the outcome of this operation.
      */
     default @NotNull DirectMessageResult sendRawMessage(@NotNull Player player, @NotNull String message) {
         return this.sendRawMessage(player, new TextComponent(message));
@@ -73,8 +68,7 @@ public interface DirectMessageManager {
      * Gets the last player the target player sent a message to.
      *
      * @param player The target player
-     * @return A {@link String} containing the name of the player they last
-     *         successfuly messaged.
+     * @return A {@link String} containing the name of the player they last successfuly messaged.
      */
     @Nullable
     String getLast(@NotNull Player player);
@@ -90,8 +84,8 @@ public interface DirectMessageManager {
     }
 
     /**
-     * Send a DM to the last player who this player sent a message to, or received a
-     * message from. Returns true if the message was sent successfully.
+     * Send a DM to the last player who this player sent a message to, or received a message from. Returns true if the
+     * message was sent successfully.
      *
      * @param player The player sending the message
      * @param message The message to send
@@ -101,8 +95,7 @@ public interface DirectMessageManager {
     DirectMessageResult reply(@NotNull Player player, @NotNull String message);
 
     /**
-     * @return A {@link Collection} of {@link Player}s who have direct messages
-     *         disabled.
+     * @return A {@link Collection} of {@link Player}s who have direct messages disabled.
      */
     @NotNull
     Collection<Player> getDisabledPlayers();

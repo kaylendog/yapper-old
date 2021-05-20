@@ -6,14 +6,13 @@ public enum ChannelType {
     DEFAULT,
 
     /**
-     * The global channel, which receives messages from other servers - there should
-     * only be one of these channels.
+     * The global channel, which receives messages from other servers - there should only be one of these channels.
      */
     GLOBAL,
 
     /**
-     * The server channel, isolated to the specific server instance the plugin is
-     * running on - there should only be one of these channels.
+     * The server channel, isolated to the specific server instance the plugin is running on - there should only be one
+     * of these channels.
      */
     SERVER,
 

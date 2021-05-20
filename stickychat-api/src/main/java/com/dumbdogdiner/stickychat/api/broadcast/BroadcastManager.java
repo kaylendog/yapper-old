@@ -7,8 +7,7 @@ import org.jetbrains.annotations.NotNull;
 /** Manages timed broadcasts and MOTDs. */
 public interface BroadcastManager {
     /**
-     * Register a new {@link BroadcastTimer}. Returns the ID of the registered
-     * timer.
+     * Register a new {@link BroadcastTimer}. Returns the ID of the registered timer.
      *
      * @param timer The timer to register
      * @return {@link Integer}

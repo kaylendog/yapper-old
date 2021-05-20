@@ -28,8 +28,7 @@ public interface ChannelManager {
     }
 
     /**
-     * Remove the channel with the target UUID. Returns true if the target channel
-     * was removed.
+     * Remove the channel with the target UUID. Returns true if the target channel was removed.
      *
      * @param id The UUID of the
      * @return {@link Boolean}

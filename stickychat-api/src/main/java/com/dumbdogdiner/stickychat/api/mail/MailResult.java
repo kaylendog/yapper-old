@@ -12,8 +12,7 @@ public enum MailResult {
     FAIL_BLOCK,
 
     /**
-     * Could not send the message, as the target player has their priority set above
-     * {@link Priority#DEFAULT}.
+     * Could not send the message, as the target player has their priority set above {@link Priority#DEFAULT}.
      */
     FAIL_PRIORITY,
 

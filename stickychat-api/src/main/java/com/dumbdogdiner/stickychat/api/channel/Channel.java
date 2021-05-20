@@ -51,12 +51,10 @@ public interface Channel {
     List<Player> getPlayers();
 
     /**
-     * Add a player to this channel. Implementations should also update the data
-     * service.
+     * Add a player to this channel. Implementations should also update the data service.
      *
      * @param player The player to add
-     * @return True if the player was added, false if they are already in this
-     *         channel.
+     * @return True if the player was added, false if they are already in this channel.
      */
     @NotNull
     Boolean addPlayer(@NotNull Player player);

@@ -42,11 +42,9 @@ public class ChannelMessageEvent extends ChatEvent {
     }
 
     /**
-     * Get a list of players who received the message. This is not necessarily the
-     * list of players in this channel.
+     * Get a list of players who received the message. This is not necessarily the list of players in this channel.
      *
-     * @return A {@link List} of {@link Player}s who are the recipients of this
-     *         message.
+     * @return A {@link List} of {@link Player}s who are the recipients of this message.
      */
     public List<Player> getRecipients() {
         return this.recipients;

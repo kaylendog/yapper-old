@@ -5,8 +5,7 @@ package com.dumbdogdiner.stickychat.api.event;
 import org.bukkit.entity.Player;
 
 /**
- * An event that fires when a player joins. leaves, or arrives from another
- * server on the network.
+ * An event that fires when a player joins. leaves, or arrives from another server on the network.
  */
 public class JoinLeaveBroadcastEvent extends ChatEvent {
     public enum Type {

@@ -6,8 +6,7 @@ public enum PacketType {
     SEND_MESSAGE,
 
     /**
-     * Packet type for direct messages sent to players not found on the sender's
-     * server.
+     * Packet type for direct messages sent to players not found on the sender's server.
      */
     DIRECT_MESSAGE,
 
