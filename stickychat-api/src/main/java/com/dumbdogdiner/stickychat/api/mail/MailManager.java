@@ -1,13 +1,12 @@
 package com.dumbdogdiner.stickychat.api.mail;
 
+
+
+import java.util.List;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
-/**
- * Handles mail sending and receiving.
- */
+/** Handles mail sending and receiving. */
 public interface MailManager {
     /**
      * Return an array containing previous letters.
@@ -16,7 +15,7 @@ public interface MailManager {
      * @return A {@link List} of {@link Letter}s
      */
     default @NotNull List<Letter> getLetters(@NotNull Player player) {
-        return this.getLetters(player,5);
+        return this.getLetters(player, 5);
     }
 
     /**

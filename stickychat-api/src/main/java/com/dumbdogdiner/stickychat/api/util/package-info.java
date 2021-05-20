@@ -1,4 +1,2 @@
-/**
- * Utility methods and types.
- */
+/** Utility methods and types. */
 package com.dumbdogdiner.stickychat.api.util;

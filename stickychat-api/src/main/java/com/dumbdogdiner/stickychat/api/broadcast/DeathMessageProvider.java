@@ -1,14 +1,13 @@
 package com.dumbdogdiner.stickychat.api.broadcast;
 
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
+
 
 import java.util.HashMap;
 import java.util.Random;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 
-/**
- * Handles the registration and distribution of death messages.
- */
+/** Handles the registration and distribution of death messages. */
 public interface DeathMessageProvider {
     /**
      * Fetch a HashMap of all death messages.

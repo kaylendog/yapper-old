@@ -1,17 +1,18 @@
 package com.dumbdogdiner.stickychat.api.util;
 
+
+
 import com.dumbdogdiner.stickychat.api.StickyChat;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-/**
- * Handles the playing of cute fox noises for notification purposes.
- */
+/** Handles the playing of cute fox noises for notification purposes. */
 public class SoundUtil {
     /**
      * Check if the parsed sender can receive sounds. Returns true if valid.
+     *
      * @param sender {@link org.bukkit.command.CommandSender} The sender to validate
      * @return {@link java.lang.Boolean}
      */
@@ -21,6 +22,7 @@ public class SoundUtil {
 
     /**
      * Queue a specific sound to be run at a later date.
+     *
      * @param player The player to play the sound to
      * @param sound The sound to play
      * @param volume The volume of the sound
@@ -28,13 +30,13 @@ public class SoundUtil {
      * @param delay T
      */
     public static void queueSound(Player player, Sound sound, float volume, float pitch, Long delay) {
-        Bukkit
-            .getScheduler()
-            .scheduleSyncDelayedTask(StickyChat.getService().getProvider(), () -> player.playSound(player.getLocation(), sound, volume, pitch), delay * 20 / 1000);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(StickyChat.getService().getProvider(),
+                () -> player.playSound(player.getLocation(), sound, volume, pitch), delay * 20 / 1000);
     }
 
     /**
      * Send an info notification to the target player.
+     *
      * @param player {@link org.bukkit.entity.Player} The target player
      */
     public static void sendInfo(Player player) {
@@ -44,25 +46,28 @@ public class SoundUtil {
 
     /**
      * Send a quiet notification to the target player.
+     *
      * @param player {@link org.bukkit.entity.Player} The target player
      */
     public static void sendQuiet(Player player) {
-        queueSound(player, Sound.BLOCK_NOTE_BLOCK_HARP, 0.5f,1.5f,0L);
-         queueSound(player, Sound.ENTITY_FOX_SLEEP, 0.5f, 1f, 500L);
+        queueSound(player, Sound.BLOCK_NOTE_BLOCK_HARP, 0.5f, 1.5f, 0L);
+        queueSound(player, Sound.ENTITY_FOX_SLEEP, 0.5f, 1f, 500L);
     }
 
     /**
      * Send an error notification to the target player.
+     *
      * @param player {@link org.bukkit.entity.Player} The target player
      */
     public static void sendError(Player player) {
-        queueSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1f,  0.944f, 0L);
+        queueSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1f, 0.944f, 0L);
         queueSound(player, Sound.ENTITY_ITEM_BREAK, 1f, 1f, 0L);
         queueSound(player, Sound.ENTITY_FOX_HURT, 1f, 1f, 0L);
     }
 
     /**
      * Send a success notification to the target player.
+     *
      * @param player {@link org.bukkit.entity.Player} The target player
      */
     public static void sendSuccess(Player player) {
@@ -71,7 +76,9 @@ public class SoundUtil {
     }
 
     /**
-     * Send a CommandSender the specified notification, if you can. Returns true if the sound was played.
+     * Send a CommandSender the specified notification, if you can. Returns true if
+     * the sound was played.
+     *
      * @param sender {@link org.bukkit.command.CommandSender} The sender
      * @param type {@link NotificationType} The type of sound
      * @return {@link java.lang.Boolean}

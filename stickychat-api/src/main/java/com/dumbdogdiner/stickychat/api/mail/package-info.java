@@ -1,4 +1,2 @@
-/**
- * Interfaces for dealing with mail and letters.
- */
+/** Interfaces for dealing with mail and letters. */
 package com.dumbdogdiner.stickychat.api.mail;

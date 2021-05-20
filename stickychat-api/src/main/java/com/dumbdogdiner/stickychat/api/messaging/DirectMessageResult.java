@@ -1,16 +1,13 @@
 package com.dumbdogdiner.stickychat.api.messaging;
 
+
+
 import com.dumbdogdiner.stickychat.api.Priority;
-import com.dumbdogdiner.stickychat.api.messenger.packets.DirectMessage;
 import org.jetbrains.annotations.Nullable;
 
-/**
- * An enum of possible return types from the {@link DirectMessageManager}.
- */
+/** An enum of possible return types from the {@link DirectMessageManager}. */
 public enum DirectMessageResult {
-    /**
-     * The message was sent and received successfully!
-     */
+    /** The message was sent and received successfully! */
     OK,
 
     /**
@@ -18,45 +15,35 @@ public enum DirectMessageResult {
      */
     FAIL_DISABLED,
 
-    /**
-     * Could not send the message, as the target player has blocked the sender.
-     */
+    /** Could not send the message, as the target player has blocked the sender. */
     FAIL_BLOCK,
 
     /**
-     * Could not send the message, as the target player has their priority set above {@link Priority#DEFAULT}.
+     * Could not send the message, as the target player has their priority set above
+     * {@link Priority#DEFAULT}.
      */
     FAIL_PRIORITY,
 
-    /**
-     * Could not send the message, as the target player does not exist.
-     */
+    /** Could not send the message, as the target player does not exist. */
     FAIL_NON_EXISTENT,
 
-    /**
-     * Could not send the message, as the player tried to message themself.
-     */
+    /** Could not send the message, as the player tried to message themself. */
     FAIL_SELF,
 
-    /**
-     * Could not send the message, as the sender is muted.
-     */
+    /** Could not send the message, as the sender is muted. */
     FAIL_MUTED,
 
-    /**
-     * Could not send the message, as the sender is on cooldown.
-     */
+    /** Could not send the message, as the sender is on cooldown. */
     FAIL_COOLDOWN,
 
-    /**
-     * Could not send the message as the event was cancelled.
-     */
+    /** Could not send the message as the event was cancelled. */
     FAIL_EVENT_CANCELLED;
 
     private String message;
 
     /**
      * Get the custom message of this result.
+     *
      * @return A {@link String} containing the message.
      */
     @Nullable
@@ -66,6 +53,7 @@ public enum DirectMessageResult {
 
     /**
      * Create a direct message result with the target message.
+     *
      * @param message The target message
      * @return A {@link DirectMessageResult} with an error message
      */

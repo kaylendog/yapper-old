@@ -1,25 +1,25 @@
 package com.dumbdogdiner.stickychat.api.messaging;
 
+
+
 import com.dumbdogdiner.stickychat.api.signspy.SignNotification;
+import java.util.regex.Pattern;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.regex.Pattern;
-
-/**
- * An interface for chat formatting.
- */
+/** An interface for chat formatting. */
 public interface Formatter {
-    /**
-     * Regular expression used for formatting hexadecimal color codes.
-     */
-    Pattern COLOR_FORMATTING_REGEX = Pattern.compile("(?<formatting>&&?(?:#[a-f0-9]{6}|[a-f0-9k-or]))?(?<content>.*?)(?=(&&?(?:#[a-f0-9]{6}|[a-f0-9k-or]))|$)", Pattern.MULTILINE);
+    /** Regular expression used for formatting hexadecimal color codes. */
+    Pattern COLOR_FORMATTING_REGEX = Pattern.compile(
+            "(?<formatting>&&?(?:#[a-f0-9]{6}|[a-f0-9k-or]))?(?<content>.*?)(?=(&&?(?:#[a-f0-9]{6}|[a-f0-9k-or]))|$)",
+            Pattern.MULTILINE);
 
     /**
      * Colorize a text component using Minecraft hex codes.
+     *
      * @param component The component to colorize
      * @return {@link TextComponent}
      */
@@ -29,6 +29,7 @@ public interface Formatter {
 
     /**
      * Colorize a string using Minecraft hex codes.
+     *
      * @param message The message to colorize
      * @return {@link TextComponent}
      */
@@ -106,7 +107,8 @@ public interface Formatter {
      * @param message The message
      * @return {@link BaseComponent}
      */
-    @NotNull BaseComponent formatMessage(Player player, @NotNull String message);
+    @NotNull
+    BaseComponent formatMessage(Player player, @NotNull String message);
 
     /**
      * Format a message sent in staff chat.
@@ -115,7 +117,8 @@ public interface Formatter {
      * @param message The message
      * @return {@link BaseComponent}
      */
-    @NotNull BaseComponent formatStaffChatMessage(Player player, @NotNull String message);
+    @NotNull
+    BaseComponent formatStaffChatMessage(Player player, @NotNull String message);
 
     /**
      * Format an incoming direct message sent between two players.
@@ -125,7 +128,8 @@ public interface Formatter {
      * @param message The message
      * @return {@link BaseComponent}
      */
-    @NotNull BaseComponent formatOutgoingDM(@NotNull Player from, @NotNull Player to, @NotNull String message);
+    @NotNull
+    BaseComponent formatOutgoingDM(@NotNull Player from, @NotNull Player to, @NotNull String message);
 
     /**
      * Format a direct message sent between two players.
@@ -135,7 +139,8 @@ public interface Formatter {
      * @param message The message
      * @return {@link BaseComponent}
      */
-    @NotNull BaseComponent formatIncomingDM(@NotNull Player from, @NotNull Player to, @NotNull String message);
+    @NotNull
+    BaseComponent formatIncomingDM(@NotNull Player from, @NotNull Player to, @NotNull String message);
 
     /**
      * Format a SignSpy notification.
@@ -143,5 +148,6 @@ public interface Formatter {
      * @param notification - The notification to format
      * @return {@link BaseComponent}
      */
-    @NotNull BaseComponent formatSignSpyNotification(@NotNull SignNotification notification);
+    @NotNull
+    BaseComponent formatSignSpyNotification(@NotNull SignNotification notification);
 }

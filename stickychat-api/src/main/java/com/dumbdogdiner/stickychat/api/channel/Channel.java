@@ -1,17 +1,14 @@
 package com.dumbdogdiner.stickychat.api.channel;
 
+
+
 import com.dumbdogdiner.stickychat.api.StickyChat;
-import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.ConfigurationSection;
+import java.awt.TextComponent;
+import java.util.List;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.TextComponent;
-import java.util.List;
-
-/**
- * Represents a channel in which players can send messages.
- */
+/** Represents a channel in which players can send messages. */
 public interface Channel {
     /**
      * Get the channel manager this channel belongs to.
@@ -27,14 +24,16 @@ public interface Channel {
      *
      * @return {@link ChannelType}
      */
-    @NotNull ChannelType getType();
+    @NotNull
+    ChannelType getType();
 
     /**
      * Get the name of this channel.
      *
      * @return {@link String}
      */
-    @NotNull String getName();
+    @NotNull
+    String getName();
 
     /**
      * Set the name of this channel.
@@ -48,15 +47,19 @@ public interface Channel {
      *
      * @return A {@link List} of {@link Player}s in the channel
      */
-    @NotNull List<Player> getPlayers();
+    @NotNull
+    List<Player> getPlayers();
 
     /**
-     * Add a player to this channel. Implementations should also update the data service.
+     * Add a player to this channel. Implementations should also update the data
+     * service.
      *
      * @param player The player to add
-     * @return True if the player was added, false if they are already in this channel.
+     * @return True if the player was added, false if they are already in this
+     *         channel.
      */
-    @NotNull Boolean addPlayer(@NotNull Player player);
+    @NotNull
+    Boolean addPlayer(@NotNull Player player);
 
     /**
      * Remove a player from this channel.
@@ -64,7 +67,8 @@ public interface Channel {
      * @param player The player to remove
      * @return True if the player was removed, false if they aren't in the channel
      */
-    @NotNull Boolean removePlayer(@NotNull Player player);
+    @NotNull
+    Boolean removePlayer(@NotNull Player player);
 
     /**
      * Send a message to this channel.
@@ -73,10 +77,9 @@ public interface Channel {
      * @param message The message to send
      * @return A {@link MessageResult}
      */
-    @NotNull MessageResult send(Player from, TextComponent message);
+    @NotNull
+    MessageResult send(Player from, TextComponent message);
 
-    /**
-     * Close this channel and move all players to global.
-     */
+    /** Close this channel and move all players to global. */
     void close();
 }

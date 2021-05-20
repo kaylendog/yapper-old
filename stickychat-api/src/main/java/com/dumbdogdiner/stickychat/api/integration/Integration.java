@@ -1,21 +1,20 @@
 package com.dumbdogdiner.stickychat.api.integration;
 
-import com.dumbdogdiner.stickychat.api.messaging.Formatter;
+
+
 import com.dumbdogdiner.stickychat.api.StickyChat;
 import com.dumbdogdiner.stickychat.api.messaging.DirectMessageResult;
+import com.dumbdogdiner.stickychat.api.messaging.Formatter;
 import com.dumbdogdiner.stickychat.api.util.NotificationType;
 import com.dumbdogdiner.stickychat.api.util.SoundUtil;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Represents an integration with StickyChat.
- */
+/** Represents an integration with StickyChat. */
 public interface Integration {
     /**
      * Get the plugin this integration was created by.
@@ -37,13 +36,14 @@ public interface Integration {
     /**
      * Return the current prefix for this integration.
      *
-     * @return {@link  String}
+     * @return {@link String}
      */
     @NotNull
     String getPrefix();
 
     /**
      * Return the chat API service.
+     *
      * @return {@link StickyChat}
      */
     default StickyChat getApi() {
@@ -69,7 +69,8 @@ public interface Integration {
      * @return A {@link DirectMessageResult} determining the success of this action.
      */
     default DirectMessageResult sendMessage(Player player, String message) {
-        return this.getApi().getDirectMessageManager().sendRawMessage(player, Formatter.formatHexCodes(this.getPrefix() + message));
+        return this.getApi().getDirectMessageManager().sendRawMessage(player,
+                Formatter.formatHexCodes(this.getPrefix() + message));
     }
 
     /**
@@ -111,7 +112,8 @@ public interface Integration {
      * @param message The message to send
      * @return A {@link DirectMessageResult} determining the success of this action.
      */
-    default DirectMessageResult sendMessageWithNotification(CommandSender sender, NotificationType notificationType, String message) {
+    default DirectMessageResult sendMessageWithNotification(CommandSender sender, NotificationType notificationType,
+            String message) {
         DirectMessageResult result = this.sendMessage(sender, message);
         // don't send the notification if it didn't work lol
         if (result == DirectMessageResult.OK) {

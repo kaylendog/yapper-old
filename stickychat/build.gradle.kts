@@ -1,23 +1,22 @@
-import kr.entree.spigradle.kotlin.paper
-import kr.entree.spigradle.kotlin.papermc
+import kr.entree.spigradle.kotlin.jitpack
 
 plugins {
     kotlin("jvm")
     id("com.github.johnrengelman.shadow") version "6.1.0"
-    id("kr.entree.spigradle") version "2.2.3"
-    id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
+    id("kr.entree.spigradle")
 }
 
 repositories {
-    papermc()
-    maven {
-        url = uri("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-    }
+    // placeholder api repository
+    maven {  url = uri("https://repo.extendedclip.com/content/repositories/placeholderapi/") }
+    // codemc for nbt api - dep of command api
+    maven { url = uri("https://repo.codemc.org/repository/maven-public/") }
+    // jitpack for command api
+    jitpack()
 }
 
 dependencies {
-    // jvm and kotlin dependencies
-    implementation(kotlin("stdlib"))
+    // plugin apis
     implementation(project(":stickychat-api"))
     implementation(project(":stickychat-ext"))
 
@@ -30,32 +29,18 @@ dependencies {
     implementation("com.zaxxer", "HikariCP", "3.4.5")
     implementation("com.google.code.gson", "gson", "2.8.6")
 
-    // server dependencies
-    compileOnly(paper("1.16.4-R0.1-SNAPSHOT"))
+    // plugin dependencies dependencies
     compileOnly("me.clip:placeholderapi:2.10.9")
-
-    // testing dependencies
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
-    testImplementation("com.google.guava:guava:30.0-jre")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    // command api
+    implementation("dev.jorel.CommandAPI:commandapi-shade:5.12")
+    compileOnly("dev.jorel.CommandAPI:commandapi-core:5.12")
+    compileOnly("dev.jorel.CommandAPI:commandapi-annotations:5.12")
+    annotationProcessor("dev.jorel.CommandAPI:commandapi-annotations:5.12")
 }
 
 tasks {
-
-    check {
-        dependsOn("ktlintFormat")
-    }
-
     build {
         dependsOn("shadowJar")
-    }
-
-    test {
-        dependsOn("compileTestKotlin")
-        useJUnitPlatform()
-        testLogging {
-            events("passed", "skipped", "failed")
-        }
     }
 
     shadowJar {
@@ -78,32 +63,6 @@ tasks {
         authors = mutableListOf("SkyezerFox")
         apiVersion = "1.16"
         softDepends = mutableListOf("PlaceholderAPI")
-
-        commands {
-            create("stickychat") {
-                aliases = mutableListOf("chat", "sc")
-            }
-            create("message") {
-                aliases = mutableListOf("tell", "msg", "whisper")
-                usage = "/message <player> <message>"
-            }
-            create("reply") {
-                aliases = mutableListOf("r")
-                usage = "/reply <message>"
-            }
-            create("nickname") {
-                aliases = mutableListOf("nick")
-                usage = "/nickname <get|set> [value|player] [nick]"
-            }
-            create("channel") {
-                aliases = mutableListOf("ch")
-                usage = "/channel [name]"
-            }
-            create("staffchat") {
-                aliases = mutableListOf("sc")
-                usage = "/staffchat [message]"
-            }
-        }
 
         permissions {
             create("stickychat.message") {}

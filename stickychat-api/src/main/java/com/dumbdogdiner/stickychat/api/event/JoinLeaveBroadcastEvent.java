@@ -1,16 +1,16 @@
 package com.dumbdogdiner.stickychat.api.event;
 
+
+
 import org.bukkit.entity.Player;
 
 /**
- * An event that fires when a player joins. leaves, or arrives from another server on the network.
+ * An event that fires when a player joins. leaves, or arrives from another
+ * server on the network.
  */
 public class JoinLeaveBroadcastEvent extends ChatEvent {
     public enum Type {
-        JOIN_NETWORK,
-        LEAVE_NETWORK,
-        JOIN,
-        LEAVE
+        JOIN_NETWORK, LEAVE_NETWORK, JOIN, LEAVE
     }
 
     private final Player player;
@@ -30,23 +30,17 @@ public class JoinLeaveBroadcastEvent extends ChatEvent {
         this.content = content;
     }
 
-    /**
-     * @return The player who joined/left/transferred.
-     */
+    /** @return The player who joined/left/transferred. */
     public Player getPlayer() {
         return this.player;
     }
 
-    /**
-     * @return The {@link Type} of this event.
-     */
+    /** @return The {@link Type} of this event. */
     public Type getType() {
         return this.type;
     }
 
-    /**
-     * @return A {@link String} containing the pre-formatted message content.
-     */
+    /** @return A {@link String} containing the pre-formatted message content. */
     public String getContent() {
         return this.content;
     }

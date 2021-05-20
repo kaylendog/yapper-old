@@ -1,31 +1,31 @@
 package com.dumbdogdiner.stickychat.api.signspy;
 
+
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Represents a SignSpy notification.
- */
+/** Represents a SignSpy notification. */
 public interface SignNotification {
     /**
      * Get the player who placed the sign.
      *
      * @return {@link Player}
      */
-    @NotNull Player getPlayer();
+    @NotNull
+    Player getPlayer();
 
     /**
      * Get the location of the sign.
      *
      * @return {@link Location}
      */
-    @NotNull Location getLocation();
+    @NotNull
+    Location getLocation();
 
-    /**
-     * Destroy the placed sign.
-     */
+    /** Destroy the placed sign. */
     default void destroy() {
         destroy(false);
     }

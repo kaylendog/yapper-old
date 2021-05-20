@@ -1,15 +1,16 @@
 package com.dumbdogdiner.stickychat.api.messenger.packets;
 
+
+
 import com.dumbdogdiner.stickychat.api.messenger.Packet;
 import com.dumbdogdiner.stickychat.api.messenger.PacketType;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Packet for channel creation.
- */
+/** Packet for channel creation. */
 public interface ChannelCreate extends Packet, ActorEvent {
-	@Override
-	@NotNull default PacketType getType() {
-		return PacketType.CHANNEL_CREATE;
-	}
+    @Override
+    @NotNull
+    default PacketType getType() {
+        return PacketType.CHANNEL_CREATE;
+    }
 }

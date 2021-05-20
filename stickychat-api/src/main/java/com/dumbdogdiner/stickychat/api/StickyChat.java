@@ -1,11 +1,13 @@
 package com.dumbdogdiner.stickychat.api;
 
-import com.dumbdogdiner.stickychat.api.channel.ChannelManager;
+
+
+import com.dumbdogdiner.stickychat.api.broadcast.BroadcastManager;
 import com.dumbdogdiner.stickychat.api.broadcast.DeathMessageProvider;
-import com.dumbdogdiner.stickychat.api.messaging.DirectMessageManager;
+import com.dumbdogdiner.stickychat.api.channel.ChannelManager;
 import com.dumbdogdiner.stickychat.api.integration.Integration;
 import com.dumbdogdiner.stickychat.api.integration.IntegrationManager;
-import com.dumbdogdiner.stickychat.api.broadcast.BroadcastManager;
+import com.dumbdogdiner.stickychat.api.messaging.DirectMessageManager;
 import com.dumbdogdiner.stickychat.api.messaging.Formatter;
 import com.dumbdogdiner.stickychat.api.player.NicknameProvider;
 import com.dumbdogdiner.stickychat.api.player.PlayerBlockManager;
@@ -17,9 +19,7 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Represents a generic implementation of a chat system.
- */
+/** Represents a generic implementation of a chat system. */
 public interface StickyChat {
     /**
      * Register the chat service.
@@ -50,55 +50,64 @@ public interface StickyChat {
      *
      * @return The {@link Plugin} implementing StickyChat.
      */
-    @NotNull Plugin getProvider();
+    @NotNull
+    Plugin getProvider();
 
     /**
      * Fetch the direct message manager.
      *
      * @return {@link DirectMessageManager}
      */
-    @NotNull DirectMessageManager getDirectMessageManager();
+    @NotNull
+    DirectMessageManager getDirectMessageManager();
 
     /**
      * Retrieve the nickname manager.
      *
      * @return The {@link NicknameProvider}
      */
-    @NotNull NicknameProvider getNicknameManager();
+    @NotNull
+    NicknameProvider getNicknameManager();
 
     /**
      * Get the channel manager.
      *
      * @return The {@link ChannelManager}
      */
-    @NotNull ChannelManager getChannelManager();
+    @NotNull
+    ChannelManager getChannelManager();
 
     /**
      * Get the formatter for the target player.
      *
      * @return The {@link Formatter} for the target player
      */
-    @NotNull Formatter getFormatter();
+    @NotNull
+    Formatter getFormatter();
 
     /**
      * Get the broadcast service.
      *
      * @return The {@link BroadcastManager}
      */
-    @NotNull BroadcastManager getBroadcastService();
+    @NotNull
+    BroadcastManager getBroadcastService();
 
     /**
      * Get the death message service.
      *
      * @return The {@link DeathMessageProvider}
      */
-    @NotNull DeathMessageProvider getDeathMessageProvider();
+    @NotNull
+    DeathMessageProvider getDeathMessageProvider();
 
     /**
      * Get the integration manager.
+     *
      * @return The {@link IntegrationManager}
      */
-    @NotNull IntegrationManager getIntegrationManager();
+    @NotNull
+    IntegrationManager getIntegrationManager();
 
     /**
      * Get the integration for the target plugin.
@@ -110,10 +119,9 @@ public interface StickyChat {
         return this.getIntegrationManager().getIntegration(plugin);
     }
 
-    /**
-     * @return The priority manager for this API implementation.
-     */
-    @NotNull PriorityManager getPriorityManager();
+    /** @return The priority manager for this API implementation. */
+    @NotNull
+    PriorityManager getPriorityManager();
 
     /**
      * Fetch the priority level of the target player.
@@ -125,8 +133,7 @@ public interface StickyChat {
         return this.getPriorityManager().getPriority(target);
     }
 
-    /**
-     * @return The player blocking manager for this API implementation.
-     */
-    @NotNull PlayerBlockManager getPlayerBlockManager();
+    /** @return The player blocking manager for this API implementation. */
+    @NotNull
+    PlayerBlockManager getPlayerBlockManager();
 }
