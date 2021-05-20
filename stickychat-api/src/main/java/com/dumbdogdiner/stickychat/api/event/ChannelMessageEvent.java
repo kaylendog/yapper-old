@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api.event;
 
-
-
 import com.dumbdogdiner.stickychat.api.channel.Channel;
 import java.awt.TextComponent;
 import java.util.List;

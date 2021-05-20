@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api.event;
 
-
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
@@ -12,7 +10,6 @@ public final class DirectMessageEvent extends ChatEvent {
     private Player recipient;
     private final String recipientName;
     private final String content;
-
     private String cancelReason;
 
     /**

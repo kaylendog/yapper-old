@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api.messenger;
 
-
-
 import org.jetbrains.annotations.NotNull;
 
 /** Represents a remote server. */

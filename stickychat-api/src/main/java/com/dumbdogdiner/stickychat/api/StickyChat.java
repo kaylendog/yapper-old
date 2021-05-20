@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api;
 
-
-
 import com.dumbdogdiner.stickychat.api.broadcast.BroadcastManager;
 import com.dumbdogdiner.stickychat.api.broadcast.DeathMessageProvider;
 import com.dumbdogdiner.stickychat.api.channel.ChannelManager;

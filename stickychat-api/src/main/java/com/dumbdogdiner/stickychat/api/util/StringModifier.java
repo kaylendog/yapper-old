@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api.util;
 
-
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,7 +8,6 @@ import java.util.function.Function;
 /** Takes a base string and modifies it with lambda expressions. */
 public class StringModifier implements Cloneable {
     private String content;
-
     private final List<Function<String, String>> modifiers = new ArrayList<>();
 
     /** Construct a new string modifier without parsing in a string to modify. */
@@ -165,11 +162,9 @@ public class StringModifier implements Cloneable {
      */
     public StringModifier map(Predicate modifier) {
         StringBuilder out = new StringBuilder();
-
         for (int i = 0; i < this.content.length(); i++) {
             out.append(modifier.modify(String.valueOf(this.content.charAt(i)), i));
         }
-
         this.content = out.toString();
         return this;
     }

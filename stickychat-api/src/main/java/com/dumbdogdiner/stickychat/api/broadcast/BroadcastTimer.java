@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api.broadcast;
 
-
-
 import net.md_5.bungee.api.chat.TextComponent;
 import org.jetbrains.annotations.NotNull;
 

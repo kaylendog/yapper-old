@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api.event;
 
-
-
 import com.dumbdogdiner.stickychat.api.broadcast.BroadcastTimer;
 import lombok.Getter;
 

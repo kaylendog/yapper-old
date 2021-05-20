@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api.broadcast;
 
-
-
 import com.dumbdogdiner.stickychat.api.messenger.RemoteServer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;

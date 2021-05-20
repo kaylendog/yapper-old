@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api.broadcast;
 
-
-
 import org.jetbrains.annotations.NotNull;
 
 /** Manages timed broadcasts and MOTDs. */

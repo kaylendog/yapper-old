@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api.event;
 
-
-
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -11,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 class ChatEvent extends Event implements Cancellable {
     /** An array of handlers that are listening for this event. */
     private static final HandlerList handlers = new HandlerList();
-
     /** Whether this event has been cancelled.a */
     private boolean cancelled = false;
 

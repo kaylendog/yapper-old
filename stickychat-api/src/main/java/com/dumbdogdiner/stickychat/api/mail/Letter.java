@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api.mail;
 
-
-
 import java.util.UUID;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

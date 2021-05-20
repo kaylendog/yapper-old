@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api.messenger.packets;
 
-
-
 import com.dumbdogdiner.stickychat.api.messenger.PacketType;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;

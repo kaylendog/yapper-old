@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api.mail;
 
-
-
 import java.util.List;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;

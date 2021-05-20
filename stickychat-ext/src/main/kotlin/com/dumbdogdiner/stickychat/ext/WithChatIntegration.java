@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.ext;
 
-
-
 import com.dumbdogdiner.stickychat.api.StickyChat;
 import com.dumbdogdiner.stickychat.api.integration.Integration;
 import org.bukkit.plugin.Plugin;

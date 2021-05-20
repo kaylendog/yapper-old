@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api.broadcast;
 
-
-
 import java.util.HashMap;
 import java.util.Random;
 import org.bukkit.event.entity.EntityDamageEvent;

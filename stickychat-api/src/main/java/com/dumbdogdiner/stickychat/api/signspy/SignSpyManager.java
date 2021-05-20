@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api.signspy;
 
-
-
 import java.util.List;
 import java.util.stream.Collectors;
 import org.bukkit.Bukkit;

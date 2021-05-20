@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api.messaging;
 
-
-
 import com.dumbdogdiner.stickychat.api.signspy.SignNotification;
 import java.util.regex.Pattern;
 import net.md_5.bungee.api.ChatColor;
@@ -35,20 +33,16 @@ public interface Formatter {
      */
     static @NotNull TextComponent formatHexCodes(String message) {
         var matcher = COLOR_FORMATTING_REGEX.matcher(message);
-
         var magic = false;
         var bold = false;
         var strike = false;
         var underline = false;
         var italic = false;
         ChatColor color = null;
-
         var rootComponent = new TextComponent();
         var nextComponent = new TextComponent();
-
         while (matcher.find()) {
             boolean escaped = false;
-
             if (matcher.group("formatting") != null) {
                 var format = matcher.group("formatting");
                 if (format.startsWith("&&")) {
@@ -74,11 +68,9 @@ public interface Formatter {
                     }
                 }
             }
-
             if (matcher.group("content") == null) {
                 continue;
             }
-
             nextComponent.setText((escaped ? matcher.group("formatting").substring(1) : "") + matcher.group("content"));
             nextComponent.setObfuscated(magic);
             nextComponent.setBold(bold);
@@ -87,7 +79,6 @@ public interface Formatter {
             nextComponent.setItalic(italic);
             nextComponent.setColor(color);
             rootComponent.addExtra(nextComponent);
-
             // reset component
             nextComponent = new TextComponent();
             magic = false;
@@ -96,7 +87,6 @@ public interface Formatter {
             underline = false;
             italic = false;
         }
-
         return rootComponent;
     }
 

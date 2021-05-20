@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api.messenger.packets;
 
-
-
 import com.dumbdogdiner.stickychat.api.Actor;
 import org.jetbrains.annotations.NotNull;
 

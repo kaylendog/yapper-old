@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api.util;
 
-
-
 import org.bukkit.entity.Player;
 
 public class Placeholders {
@@ -34,7 +32,6 @@ public class Placeholders {
             return (String) Class.forName(PAPI_CLASS).getMethod("setPlaceholders", Player.class, String.class)
                     .invoke(Class.forName(PAPI_CLASS), player, content);
         } catch (Exception e) {
-
             return content;
         }
     }

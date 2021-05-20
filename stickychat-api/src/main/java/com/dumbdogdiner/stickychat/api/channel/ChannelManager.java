@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api.channel;
 
-
-
 import java.util.List;
 import java.util.UUID;
 import org.bukkit.entity.Player;

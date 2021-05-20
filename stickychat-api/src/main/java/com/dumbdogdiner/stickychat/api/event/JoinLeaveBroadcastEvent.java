@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api.event;
 
-
-
 import org.bukkit.entity.Player;
 
 /**

@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api.player;
 
-
-
 import com.dumbdogdiner.stickychat.api.Priority;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;

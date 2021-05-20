@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api;
 
-
-
 import java.util.UUID;
 import lombok.Getter;
 import org.bukkit.Bukkit;

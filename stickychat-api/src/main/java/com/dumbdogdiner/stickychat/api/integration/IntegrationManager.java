@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api.integration;
 
-
-
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 

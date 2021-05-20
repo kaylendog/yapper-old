@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api.util;
 
-
-
 import com.dumbdogdiner.stickychat.api.StickyChat;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;

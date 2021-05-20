@@ -1,7 +1,5 @@
 package com.dumbdogdiner.stickychat.api.signspy;
 
-
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
