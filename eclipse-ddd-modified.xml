@@ -349,7 +349,7 @@
         <setting id="org.eclipse.jdt.core.formatter.insert_space_before_closing_brace_in_array_initializer" value="insert"/>
 
         <!-- the rules that make skye purr -->
-        <setting id="org.eclipse.jdt.core.formatter.blank_lines_between_import_groups" value="0"/>
+        <setting id="org.eclipse.jdt.core.formatter.blank_lines_between_import_groups" value="1"/>
         <setting id="org.eclipse.jdt.core.formatter.blank_lines_after_package" value="0"/>
         <setting id="org.eclipse.jdt.core.formatter.line_length" value="120"/>
         <setting id="org.eclipse.jdt.core.formatter.comment.line_length" value="120"/>
