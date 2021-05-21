@@ -4,7 +4,7 @@ set -euo pipefail
 echo + ./gradlew --console=plain -w spotlessApply spotlessCheck
 ./gradlew --console=plain -w spotlessApply spotlessCheck
 # iterate over already staged files and re-add
-for file in $(git diff --name-only --cached)
+for file in $(git diff --name-only --cached --diff-filter=ACMRT)
 do
   echo + git add $file
   git add $file
