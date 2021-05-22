@@ -37,6 +37,27 @@ fun Player.sendMessage(notificationType: NotificationType, component: TextCompon
 }
 
 /**
+ * Send a message to this player with a notification.
+ */
+fun Player.sendMessage(notificationType: NotificationType, message: String) {
+    this.sendMessage(notificationType, TextComponent(message))
+}
+
+/**
+ * Send an error message to this player.
+ */
+fun Player.sendError(textComponent: TextComponent) {
+    this.sendMessage(NotificationType.ERROR, textComponent)
+}
+
+/**
+ * Send an error message to this player.
+ */
+fun Player.sendError(message: String) {
+    this.sendError(TextComponent(message))
+}
+
+/**
  * The nickname of this player.
  */
 var Player.nickname
