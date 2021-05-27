@@ -12,8 +12,15 @@ import org.jetbrains.annotations.Nullable;
  * Represents a console or human-like entity that triggered an event or packet.
  */
 public class Actor {
+    /**
+     * The unique ID of this actor.
+     */
     @Getter
     private final UUID uniqueId;
+
+    /**
+     * The name of this actor.
+     */
     @Getter
     private final String name;
 

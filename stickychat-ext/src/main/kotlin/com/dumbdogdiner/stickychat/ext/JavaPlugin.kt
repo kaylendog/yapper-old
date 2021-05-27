@@ -4,6 +4,8 @@
  */
 package com.dumbdogdiner.stickychat.ext
 
+import org.bukkit.Bukkit
+import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
@@ -11,3 +13,12 @@ import org.bukkit.plugin.java.JavaPlugin
  */
 val JavaPlugin.chatIntegration
     get() = chat.getIntegration(this)
+
+/**
+ * Register an event listener
+ */
+fun JavaPlugin.registerListener(vararg listeners: Listener) {
+    listeners.forEach {
+        Bukkit.getPluginManager().registerEvents(it, this)
+    }
+}

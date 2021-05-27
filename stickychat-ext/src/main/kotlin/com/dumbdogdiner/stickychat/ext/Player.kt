@@ -10,14 +10,13 @@ import com.dumbdogdiner.stickychat.api.util.NotificationType
 import com.dumbdogdiner.stickychat.api.util.SoundUtil
 import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.entity.Player
+import org.jetbrains.annotations.NotNull
 
 /**
  * Send a regular string message to a player.
  */
 fun Player.sendMessage(message: String) {
-    val component = TextComponent()
-    component.text = message
-    return this.sendMessage(component)
+    return this.sendMessage(message.asComponent())
 }
 
 /**
@@ -62,7 +61,7 @@ fun Player.sendError(message: String) {
  */
 var Player.nickname
     get() = chat.nicknameManager.getNickname(this)
-    set(value: String?) = run {
+    set(value) = run {
         if (value == null) {
             chat.nicknameManager.clearNickname(this)
         } else {
@@ -78,6 +77,12 @@ var Player.displayName
     set(value) = run {
         chat.nicknameManager.setNickname(this, value)
     }
+
+/**
+ * The priority of this player.
+ */
+val Player.priority
+    get() = chat.priorityManager.getPriority(this)
 
 /**
  * The current channels this player is in.
@@ -115,4 +120,12 @@ fun Player.block(player: Player) {
  */
 fun Player.unblock(player: Player) {
     chat.playerBlockManager.unblock(this, player)
+}
+
+/**
+ * Test if this player has the target player blocked.
+ * @param player The target player
+ */
+fun Player.hasBlocked(player: Player): @NotNull Boolean {
+    return chat.playerBlockManager.hasBlocked(this, player)
 }

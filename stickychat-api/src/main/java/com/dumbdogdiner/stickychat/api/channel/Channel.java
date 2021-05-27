@@ -1,8 +1,8 @@
 package com.dumbdogdiner.stickychat.api.channel;
 
 import com.dumbdogdiner.stickychat.api.StickyChat;
-import java.awt.TextComponent;
 import java.util.List;
+import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -74,7 +74,25 @@ public interface Channel {
      * @return A {@link MessageResult}
      */
     @NotNull
-    MessageResult send(Player from, TextComponent message);
+    MessageResult send(@NotNull Player from, @NotNull BaseComponent message);
+
+    /**
+     * Fetch a list of muted players in this channel.
+     *
+     * @return A {@link List} of muted players.
+     */
+    @NotNull
+    List<Player> getMutedPlayers();
+
+    /**
+     * Test if the target player is muted.
+     *
+     * @param player The target player
+     * @return True if the player is muted.
+     */
+    default boolean isMuted(Player player) {
+        return this.getMutedPlayers().contains(player);
+    }
 
     /** Close this channel and move all players to global. */
     void close();
