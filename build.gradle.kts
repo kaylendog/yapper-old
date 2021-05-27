@@ -68,6 +68,7 @@ subprojects {
             importOrder()
             removeUnusedImports()
             eclipse().configFile(rootProject.file("eclipse-ddd-modified.xml"))
+            licenseHeaderFile(rootProject.file("LICENSE_HEADER"))
         }
     }
 }
