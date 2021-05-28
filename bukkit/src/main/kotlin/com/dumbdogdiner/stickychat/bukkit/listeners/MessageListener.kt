@@ -9,6 +9,9 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 class MessageListener : WithPlugin, Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     fun onAsyncPlayerChatEvent(ev: AsyncPlayerChatEvent) {
+        // don't do this if another plugin cancelled this event already
+        if (ev.isCancelled) return
+
         ev.isCancelled = true
 
         // send staff chat if they have it enabled.
