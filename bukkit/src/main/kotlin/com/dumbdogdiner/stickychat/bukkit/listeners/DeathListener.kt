@@ -8,6 +8,7 @@ import com.dumbdogdiner.stickychat.bukkit.WithPlugin
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.PlayerDeathEvent
@@ -16,8 +17,12 @@ import org.bukkit.event.entity.PlayerDeathEvent
  * Listens for player deaths and calls the DeathMessage API.
  */
 class DeathListener : WithPlugin, Listener {
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     fun onPlayerDeath(e: PlayerDeathEvent) {
+        if (e.isCancelled) {
+            return
+        }
+
         val cause = e.entity.lastDamageCause
         if (cause == null) {
             this.logger.warning("Player ${e.entity.name} (${e.entity.uniqueId}) died without having a damage cause - cannot send death message")
