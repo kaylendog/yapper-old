@@ -10,7 +10,9 @@ class MessageListener : WithPlugin, Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     fun onAsyncPlayerChatEvent(ev: AsyncPlayerChatEvent) {
         // don't do this if another plugin cancelled this event already
-        if (ev.isCancelled) { return }
+        if (ev.isCancelled) {
+            return
+        }
 
         ev.isCancelled = true
 
