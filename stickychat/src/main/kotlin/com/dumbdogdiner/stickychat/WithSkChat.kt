@@ -4,10 +4,18 @@
  */
 package com.dumbdogdiner.stickychat
 
+import java.util.logging.Logger
+
 interface WithSkChat {
     /**
 	 * Reference to the SkChat plugin instance.
 	 */
     val instance: SkChat
         get() = SkChat.instance
+
+    /**
+	 * Reference to the SkChat logger.
+	 */
+    val logger: Logger
+        get() = this.instance.logger
 }

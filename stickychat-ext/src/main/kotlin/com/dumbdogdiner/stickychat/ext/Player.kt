@@ -4,8 +4,8 @@
  */
 package com.dumbdogdiner.stickychat.ext
 
+import com.dumbdogdiner.stickychat.Formatter
 import com.dumbdogdiner.stickychat.api.channel.Channel
-import com.dumbdogdiner.stickychat.api.messaging.Formatter
 import com.dumbdogdiner.stickychat.api.util.NotificationType
 import com.dumbdogdiner.stickychat.api.util.SoundUtil
 import net.md_5.bungee.api.chat.TextComponent
@@ -23,7 +23,7 @@ fun Player.sendMessage(message: String) {
  * Send a text component to a player without having to call Player.spigot()
  */
 fun Player.sendMessage(component: TextComponent) {
-    val formatted = Formatter.formatHexCodes(component)
+    val formatted = com.dumbdogdiner.stickychat.Formatter.formatHexCodes(component)
     chat.directMessageManager.sendRawMessage(this, formatted)
 }
 

@@ -4,6 +4,7 @@
  */
 package com.dumbdogdiner.stickychat.ext
 
+import java.util.UUID
 import net.md_5.bungee.api.chat.TextComponent
 
 /**
@@ -11,4 +12,11 @@ import net.md_5.bungee.api.chat.TextComponent
  */
 fun String.asComponent(): TextComponent {
     return TextComponent(this)
+}
+
+/**
+ * Quickly cast this string to a UUID.
+ */
+fun String.toUuid(): UUID {
+    return UUID.fromString(this)
 }

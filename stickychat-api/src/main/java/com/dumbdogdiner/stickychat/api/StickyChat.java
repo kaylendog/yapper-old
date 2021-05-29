@@ -10,7 +10,6 @@ import com.dumbdogdiner.stickychat.api.channel.ChannelManager;
 import com.dumbdogdiner.stickychat.api.integration.Integration;
 import com.dumbdogdiner.stickychat.api.integration.IntegrationManager;
 import com.dumbdogdiner.stickychat.api.messaging.DirectMessageManager;
-import com.dumbdogdiner.stickychat.api.messaging.Formatter;
 import com.dumbdogdiner.stickychat.api.player.NicknameProvider;
 import com.dumbdogdiner.stickychat.api.player.PlayerBlockManager;
 import com.dumbdogdiner.stickychat.api.player.PriorityManager;
@@ -78,14 +77,6 @@ public interface StickyChat {
      */
     @NotNull
     ChannelManager getChannelManager();
-
-    /**
-     * Get the formatter for the target player.
-     *
-     * @return The {@link Formatter} for the target player
-     */
-    @NotNull
-    Formatter getFormatter();
 
     /**
      * Get the broadcast service.

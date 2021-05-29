@@ -4,4 +4,22 @@
  */
 package com.dumbdogdiner.stickychat.database
 
-interface DataProvider
+import com.dumbdogdiner.stickychat.database.model.Nickname
+import java.util.UUID
+
+interface DataProvider {
+    /**
+	 * Initialize this data provider.
+	 */
+    fun initialize()
+
+    /**
+	 * Get the target player's nickname.
+	 */
+    fun getNickname(uuid: UUID): Nickname?
+
+    /**
+	 * Set this player's nickname.
+	 */
+    fun setNickname(uuid: UUID, value: String?): Boolean
+}
