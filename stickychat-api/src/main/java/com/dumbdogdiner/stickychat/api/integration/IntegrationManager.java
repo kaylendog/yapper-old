@@ -1,0 +1,20 @@
+/*
+ * Copyright (c) 2020-2021 Skye Elliot. All rights reserved.
+ * Licensed under the GNU General Public License v3, see LICENSE for more information...
+ */
+package com.dumbdogdiner.stickychat.api.integration;
+
+import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
+
+/** Manages integrations of StickyChat with other plugins. */
+public interface IntegrationManager {
+    /**
+     * Get the integration for the target plugin.
+     *
+     * @param plugin The plugin who's integration is being retrieved
+     * @return {@link Integration}
+     */
+    @NotNull
+    Integration getIntegration(@NotNull Plugin plugin);
+}

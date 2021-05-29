@@ -1,0 +1,175 @@
+/*
+ * Copyright (c) 2020-2021 Skye Elliot. All rights reserved.
+ * Licensed under the GNU General Public License v3, see LICENSE for more information...
+ */
+package com.dumbdogdiner.stickychat.api.util;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+
+/** Takes a base string and modifies it with lambda expressions. */
+public class StringModifier implements Cloneable {
+    private String content;
+    private final List<Function<String, String>> modifiers = new ArrayList<>();
+
+    /** Construct a new string modifier without parsing in a string to modify. */
+    public StringModifier() {}
+
+    /**
+     * Clone this string modifier.
+     *
+     * @return A new {@link StringModifier} with the current string value.
+     */
+    public StringModifier clone() {
+        return new StringModifier(this.get());
+    }
+
+    /**
+     * Construct a new StringModifier, providing default modifiers.
+     *
+     * @param modifiers Default modifiers to add to this StringModifier.
+     */
+    @SafeVarargs
+    public StringModifier(Function<String, String>... modifiers) {
+        this.modifiers.addAll(Arrays.asList(modifiers));
+    }
+
+    /**
+     * Construct a new StringModifier, providing the initial content.
+     *
+     * @param content The initial content of the modifier
+     */
+    public StringModifier(String content) {
+        this.content = content;
+    }
+
+    /**
+     * Get the modified string.
+     *
+     * @return {@link String}
+     */
+    public final String get() {
+        return this.content;
+    }
+
+    /**
+     * Apply the given modifier to this string.
+     *
+     * @param modifier The modifier to apply
+     * @return {@link StringModifier}
+     */
+    public final StringModifier apply(Function<String, String> modifier) {
+        this.content = modifier.apply(this.content);
+        return this;
+    }
+
+    /**
+     * Apply the given modifiers to this string.
+     *
+     * @param modifiers The modifiers to apply
+     * @return {@link StringModifier}
+     */
+    @SafeVarargs
+    public final StringModifier apply(Function<String, String>[]... modifiers) {
+        for (var modifier : modifiers) {
+            this.apply(modifier);
+        }
+        return this;
+    }
+
+    /**
+     * Add the given modifier to this object.
+     *
+     * @param modifier Thie modifier to apply
+     * @return {@link StringModifier}
+     */
+    public final StringModifier add(Function<String, String> modifier) {
+        this.modifiers.add(modifier);
+        return this;
+    }
+
+    /**
+     * Add the given modifiers to this object.
+     *
+     * @param modifiers The modifiers to apply
+     * @return {@link StringModifier}
+     */
+    @SafeVarargs
+    public final StringModifier add(Function<String, String>... modifiers) {
+        this.modifiers.addAll(Arrays.asList(modifiers));
+        return this;
+    }
+
+    /**
+     * Apply all modifiers on this object to the target string.
+     *
+     * @param content The content to evaluate the modifiers on
+     * @return {@link String}
+     */
+    public String applyAll(String content) {
+        this.content = content;
+        for (var modifier : this.modifiers) {
+            this.apply(modifier);
+        }
+        return this.content;
+    }
+
+    /**
+     * Apply all modifiers to the current content.
+     *
+     * @return {@link String}
+     */
+    public String applyAll() {
+        if (this.content == null) {
+            throw new RuntimeException("Cannot invoke StringModifier.applyAll() when no content was specified");
+        }
+        return this.applyAll(this.content);
+    }
+
+    /**
+     * Replace the target content with the specified string.
+     *
+     * @param before The content to match
+     * @param after The content to replace the match with
+     * @return {@link StringModifier}
+     */
+    public StringModifier replace(String before, String after) {
+        this.content = this.content.replace(before, after);
+        return this;
+    }
+
+    /**
+     * Replace a substring of the string with another, using the indexing bounds of the substring.
+     *
+     * @param start The start index
+     * @param end The end index
+     * @param patch The string patch
+     * @return {@link StringModifier}
+     */
+    public StringModifier patch(int start, int end, String patch) {
+        this.replace(this.content.substring(start, end), patch);
+        return this;
+    }
+
+    @FunctionalInterface
+    public interface Predicate {
+        String modify(String character, Integer index);
+    }
+
+    /**
+     * For each character of a string, perform the target action.
+     *
+     * @param modifier The action to perform on each char
+     * @return {@link StringModifier}
+     */
+    public StringModifier map(Predicate modifier) {
+        StringBuilder out = new StringBuilder();
+        for (int i = 0; i < this.content.length(); i++) {
+            out.append(modifier.modify(String.valueOf(this.content.charAt(i)), i));
+        }
+        this.content = out.toString();
+        return this;
+    }
+}
