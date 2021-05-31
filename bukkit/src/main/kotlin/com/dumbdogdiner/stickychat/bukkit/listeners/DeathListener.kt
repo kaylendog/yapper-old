@@ -7,7 +7,6 @@ import com.dumbdogdiner.stickychat.api.util.StringModifier
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin
 import org.bukkit.Bukkit
 import org.bukkit.entity.Entity
-import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
