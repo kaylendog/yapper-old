@@ -6,6 +6,7 @@ import com.dumbdogdiner.stickychat.api.util.Placeholders
 import com.dumbdogdiner.stickychat.api.util.StringModifier
 import com.dumbdogdiner.stickychat.bukkit.WithPlugin
 import org.bukkit.Bukkit
+import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -30,9 +31,9 @@ class DeathListener : WithPlugin, Listener {
         }
 
         // fetch attacker
-        var attacker: Player? = null
-        if (e.entity.lastDamageCause is EntityDamageByEntityEvent && (e.entity.lastDamageCause as EntityDamageByEntityEvent).damager is Player) {
-            attacker = (e.entity.lastDamageCause as EntityDamageByEntityEvent).damager as Player
+        var attacker: Entity? = null
+        if (e.entity.lastDamageCause is EntityDamageByEntityEvent) {
+            attacker = (e.entity.lastDamageCause as EntityDamageByEntityEvent).damager
         }
 
         val message = StickyChat.getService().deathMessageService.getRandomOfType(cause.cause)
