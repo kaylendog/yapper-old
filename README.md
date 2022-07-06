@@ -85,6 +85,8 @@ debug:
   enable-self-message: false
 ```
 
-## License
+## License & Copyright
 
-StickyChat is licensed under the GNU General Public License v3.
+Yapper is licensed under the GNU General Public License v3. See the [LICENSE](./LICENSE) for more information.
+
+Copyright (c) 2022 Kaylen Dart and contributors.
